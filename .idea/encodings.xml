@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$MAVEN_REPOSITORY$/org/chenile/chenile-parent/2.0.13/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/artisan/artisan-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/artisan/artisan-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/artisan/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/artisan/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/build/build-package/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/build/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/build/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cart/cart-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cart/cart-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cart/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cart/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/core/core-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/core/core-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/core/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/customer/customer-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/customer/customer-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/customer/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/customer/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/database/database-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/database/database-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/database/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/database/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/order/order-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/order/order-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/order/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/order/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/payment/payment-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/payment/payment-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/payment/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/payment/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/product/product-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/product/product-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/product/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/product/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/read/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/return/return-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/return/return-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/return/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/return/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/shipping/shipping-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/shipping/shipping-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/shipping/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/shipping/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+  </component>
+</project>

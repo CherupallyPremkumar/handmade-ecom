@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog 
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="04.03.2024/01:22" author="prem">
+        <createTable tableName="hm_cart">
+            <column name="id" type="varchar(255)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="created_time" type="timestamp"/>
+            <column name="last_modified_time" type="timestamp"/>
+            <column name="last_modified_by" type="varchar(255)"/>
+            <column name="tenant" type="varchar(255)"/>
+            <column name="created_by" type="varchar(255)"/>
+            <column name="version" type="bigint"/>
+            <column name="sla_yellow_date" type="timestamp"/>
+            <column name="SLA_RED_DATE" type="timestamp"/>
+            <column name="state_entry_time" type="timestamp"/>
+            <column name="sla_tending_late" type="int"/>
+            <column name="sla_late" type="int"/>
+            <column name="flow_id" type="varchar(255)"/>
+            <column name="state_id" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="premkumar (generated)">
+        <addColumn tableName="hm_cart">
+            <column name="customer_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        </addColumn>
+
+        <addForeignKeyConstraint 
+            baseTableName="hm_cart"
+            baseColumnNames="customer_id"
+            referencedTableName="hm_customer"
+            referencedColumnNames="id"
+            constraintName="fk_cart_customer"/>
+
+        <rollback>
+            <dropTable tableName="hm_cart"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

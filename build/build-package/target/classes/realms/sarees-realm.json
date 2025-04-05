@@ -1,0 +1,45 @@
+{
+  "realm": "sarees",
+  "enabled": true,
+  "displayName": "Sarees Tenant",
+  "users": [
+    {
+      "username": "artisan1",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["offline_access", "uma_authorization", "test.premium"]
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "authz-servlet",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "clientAuthenticatorType": "client-secret",
+      "secret": "secret",
+      "redirectUris": ["*"],
+      "standardFlowEnabled": true,
+      "serviceAccountsEnabled": true,
+      "publicClient": false,
+      "directAccessGrantsEnabled": true,
+      "authorizationServicesEnabled": true
+    }
+  ],
+  "roles": {
+    "realm": [
+      {
+        "name": "test.premium"
+      },
+      {
+        "name": "test.normal"
+      }
+    ]
+  }
+}

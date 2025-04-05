@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- An example states xml file that demonstrates the following features:
+ 1. The progression of Order from OPENED to CLOSED 
+ 2. How to define and use a custom DSL to define the workflow.
+     This also demonstrates how to attach security permissions (not roles) to a state event so that
+     these perms would be checked before the action is allowed.
+-->
+<states>
+	<default-transition-action componentName="orderBaseTransitionAction"/>
+    <add-state-tag tag="status" manualState="true"/>
+    <add-transition-tag tag="on-action" eventIdTag="id" newStateIdTag="move-to"
+                    meta-acls="test.premium"/>
+
+	<flow id='OrderFlow' default='true'>
+		<entry-action componentName="orderEntryAction"/>
+		<exit-action componentName="orderExitAction"/>
+        <security-strategy componentName="stmSecurityStrategy"/>
+		<status id='OPENED' initialState='true'>
+			<on-action id='assign'  move-to='ASSIGNED'/>
+		</status>
+
+		<status id='ASSIGNED'>
+			<on-action id='resolve' move-to='RESOLVED' />
+		</status>
+
+        <status id='RESOLVED'>
+			<on-action id='close' move-to='CLOSED'/>
+        </status>
+        <status id='CLOSED' />
+
+
+	</flow>
+	
+</states>

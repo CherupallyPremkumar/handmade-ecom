@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<states>
+	<default-transition-action componentName="artisanBaseTransitionAction" />
+	<add-state-tag tag="status" manualState="true" />
+	<add-transition-tag tag="on-action" eventIdTag="id" newStateIdTag="move-to"
+						meta-acls="test.premium" />
+
+	<flow id="ArtisanFlow" default="true">
+		<entry-action componentName="artisanEntryAction" />
+		<exit-action componentName="artisanExitAction" />
+		<security-strategy componentName="stmSecurityStrategy" />
+
+		<status id="REGISTERED" initialState="true">
+			<on-action id="verify" move-to="VERIFIED" />
+		</status>
+
+		<status id="VERIFIED">
+			<on-action id="activate" move-to="ACTIVE" />
+		</status>
+
+		<status id="ACTIVE">
+			<on-action id="suspend" move-to="SUSPENDED" />
+		</status>
+
+		<status id="SUSPENDED">
+			<on-action id="reactivate" move-to="ACTIVE" />
+			<on-action id="deactivate" move-to="INACTIVE" />
+		</status>
+
+		<status id="INACTIVE" />
+	</flow>
+</states>

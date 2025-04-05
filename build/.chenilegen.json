@@ -1,0 +1,20 @@
+{
+	"template": "newmonolith",
+	"artifactType": "monolith",
+	"data":
+
+{
+"monolith": "build",
+"monolithVersion": "0.0.1-SNAPSHOT",
+"com": "com",
+"org": "flow",
+"company": "handmade",
+"chenilePackage": "org.chenile",
+"chenileVersion": "2.0.11",
+"Monolith": "Build",
+"service": "build",
+"serviceTemplate": "service",
+"serviceVersion": "0.0.1-SNAPSHOT",
+"services": [ "build-service" ]
+}
+}

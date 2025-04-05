@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- An example states xml file that demonstrates the following features:
+ 1. The progression of Product from OPENED to CLOSED 
+ 2. How to define and use a custom DSL to define the workflow.
+     This also demonstrates how to attach security permissions (not roles) to a state event so that
+     these perms would be checked before the action is allowed.
+-->
+<states>
+	<event-information eventId="submit"
+					   meta-acls="product.editor,product.manager"
+					   meta-bodyType="com.handmade.ecommerce.product.payload.SubmitProductPayload"/>
+
+	<event-information eventId="approve"
+					   meta-acls="product.reviewer"
+					   meta-bodyType="com.handmade.ecommerce.product.payload.ApproveProductPayload"/>
+
+	<event-information eventId="reject"
+					   meta-acls="product.reviewer"
+					   meta-bodyType="com.handmade.ecommerce.product.payload.RejectProductPayload"/>
+
+	<event-information eventId="edit"
+					   meta-acls="product.editor"
+					   meta-bodyType="com.handmade.ecommerce.product.payload.EditProductPayload"/>
+
+	<event-information eventId="outOfStock"
+					   meta-acls="product.manager"
+					   meta-bodyType="com.handmade.ecommerce.product.payload.MarkOutOfStockPayload"/>
+
+	<event-information eventId="restock"
+					   meta-acls="product.manager"
+					   meta-bodyType="com.handmade.ecommerce.product.payload.RestockProductPayload"/>
+
+	<event-information eventId="discontinue"
+					   meta-acls="product.admin"
+					   meta-bodyType="com.handmade.ecommerce.product.payload.DiscontinueProductPayload"/>
+	<default-transition-action componentName="productBaseTransitionAction"/>
+    <add-state-tag tag="status" manualState="true"/>
+    <add-transition-tag tag="on-action" eventIdTag="id" newStateIdTag="move-to"
+                    meta-acls="test.premium"/>
+
+	<flow id="ProductFlow" default="true">
+		<entry-action componentName="productEntryAction"/>
+		<exit-action componentName="productExitAction"/>
+		<security-strategy componentName="stmSecurityStrategy"/>
+
+		<status id="DRAFT" initialState="true">
+			<on-action id="submit" move-to="REVIEW"/>
+		</status>
+
+		<status id="REVIEW">
+			<on-action id="approve" move-to="ACTIVE"/>
+			<on-action id="reject" move-to="REJECTED"/>
+		</status>
+
+		<status id="ACTIVE">
+			<on-action id="outOfStock" move-to="OUT_OF_STOCK"/>
+			<on-action id="discontinue" move-to="DISCONTINUED"/>
+		</status>
+
+		<status id="OUT_OF_STOCK">
+			<on-action id="restock" move-to="ACTIVE"/>
+		</status>
+
+		<status id="REJECTED">
+			<on-action id="edit" move-to="DRAFT"/>
+		</status>
+
+		<status id="DISCONTINUED"/>
+	</flow>
+	
+</states>
