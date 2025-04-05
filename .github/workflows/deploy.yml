@@ -20,12 +20,15 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
-      - name: SSH and Deploy
+      - name: Deploy to EC2
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
-            cd handmade-ecom || git clone git@github.com:CherupallyPremkumar/handmade-ecom.git
+            set -e  # Fail the script on any error
+            if [ ! -d handmade-ecom ]; then
+              git clone git@github.com:CherupallyPremkumar/handmade-ecom.git
+            fi
             cd handmade-ecom
             git pull origin main
-            docker compose down
+            docker compose down || true
             docker compose up --build -d
           EOF
