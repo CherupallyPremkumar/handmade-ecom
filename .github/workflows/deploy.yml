@@ -3,32 +3,41 @@ name: Deploy to EC2
 on:
   push:
     branches:
-      - main  # Change if your default branch is different
+      - main  # Or your primary branch
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repo (just to start workflow)
         uses: actions/checkout@v3
 
-      - name: Set up SSH
+      - name: Set up SSH access to EC2
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Deploy to EC2
+      - name: SSH into EC2 and Deploy
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
-            set -e  # Fail the script on any error
-            if [ ! -d handmade-ecom ]; then
+            set -e  # Exit on any failure
+
+            # Clean up previous folder if needed (optional)
+            # rm -rf handmade-ecom
+
+            # Pull or clone repo
+            if [ -d "handmade-ecom" ]; then
+              cd handmade-ecom
+              git pull origin main
+            else
               git clone git@github.com:CherupallyPremkumar/handmade-ecom.git
+              cd handmade-ecom
             fi
-            cd handmade-ecom
-            git pull origin main
+
+            # Start containers
             docker compose down || true
             docker compose up --build -d
           EOF
