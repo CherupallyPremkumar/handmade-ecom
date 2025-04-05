@@ -7,5 +7,5 @@ RUN mvn clean package -DskipTests -Dplantuml.skip=true
 # 🚀 Stage 2: Run the JAR
 FROM eclipse-temurin:17-jdk
 WORKDIR /app
-COPY --from=builder /app/target/*.jar app.jar
+COPY --from=builder /app/build/build-package/target/*.jar app.jar
 ENTRYPOINT ["java", "-jar", "app.jar"]
