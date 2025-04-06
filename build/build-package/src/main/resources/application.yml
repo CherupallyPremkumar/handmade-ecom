@@ -2,6 +2,7 @@ chenile:
   security:
     ignore: false
 
+
     client:
       id: "authz-servlet"
       secret: "secret"
@@ -62,5 +63,6 @@ logging:
       chenile:
         security: DEBUG
 
-
+cors:
+  allowedOrigin: http://localhost:3000
 

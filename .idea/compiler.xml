@@ -7,7 +7,6 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="read-query-service" />
-        <module name="database-service" />
         <module name="cart-service" />
         <module name="customer-service" />
         <module name="product-service" />
@@ -16,15 +15,14 @@
         <module name="build-package" />
         <module name="core" />
         <module name="artisan-service" />
-        <module name="database" />
         <module name="payment-service" />
         <module name="customer-api" />
         <module name="shipping-api" />
         <module name="return-service" />
         <module name="artisan-api" />
         <module name="product-api" />
+        <module name="read-query-service (1)" />
         <module name="order-service" />
-        <module name="database-api" />
         <module name="cart-api" />
         <module name="return-api" />
         <module name="shipping-service" />
@@ -34,7 +32,11 @@
       <module name="core-api" target="17" />
       <module name="core-parent" target="17" />
       <module name="core-service" target="17" />
+      <module name="database" target="17" />
+      <module name="database-api" target="17" />
+      <module name="database-parent" target="17" />
       <module name="database-parent (1) (com.handmade.ecommerce.database)" target="17" />
+      <module name="database-service" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -69,6 +71,8 @@
       <module name="product-api" options="-parameters" />
       <module name="product-parent" options="-parameters" />
       <module name="product-service" options="-parameters" />
+      <module name="read-query-service" options="-parameters" />
+      <module name="read-query-service (1)" options="-parameters" />
       <module name="return-api" options="-parameters" />
       <module name="return-parent" options="-parameters" />
       <module name="return-service" options="-parameters" />

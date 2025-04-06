@@ -1,0 +1,37 @@
+@startuml
+<style>
+     diamond {
+     BackgroundColor #palegreen
+     LineColor #green
+     LineThickness 2.5
+     }
+  </style>
+  skinparam state  {
+   BorderThickness<<MAIN_PATH>> 4
+   BorderColor<<MAIN_PATH>> Peru
+   BackgroundColor<<MAIN_PATH>> Bisque
+   BackgroundColor<<orphaned>> OrangeRed
+  }
+state ACTIVE
+state DRAFT
+state REVIEW
+state OUT_OF_STOCK
+state DISCONTINUED
+state REJECTED
+ACTIVE --> DISCONTINUED : discontinue
+ACTIVE --> OUT_OF_STOCK : outOfStock
+[*] --> DRAFT
+DRAFT --> REVIEW : submit
+REVIEW --> ACTIVE : approve
+REVIEW --> REJECTED : reject
+OUT_OF_STOCK --> ACTIVE : restock
+DISCONTINUED --> [*]
+REJECTED --> DRAFT : edit
+legend right
+<#GhostWhite,#GhostWhite>|        |= __Legend__ |
+|<#OrangeRed>   | Orphaned State|
+|<#Peru>   | Main Path|
+|<#LightBlue> |Transitions without state change|
+|<#PaleGreen> |Automatic State Computations|
+endlegend
+@enduml

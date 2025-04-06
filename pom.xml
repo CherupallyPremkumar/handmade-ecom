@@ -16,8 +16,13 @@
 <!--        <module>payment</module>-->
 <!--        <module>return</module>-->
 <!--        <module>shipping</module>-->
+<<<<<<< HEAD
      <module>artisan</module>
 <!--        <module>read</module>-->
+=======
+        <module>artisan</module>
+       <module>read</module>
+>>>>>>> 6464ec5 (added read query service)
         <module>build</module>
     </modules>
 
