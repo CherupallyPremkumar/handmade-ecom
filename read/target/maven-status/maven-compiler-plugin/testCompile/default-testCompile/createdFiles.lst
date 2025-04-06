@@ -1,0 +1,3 @@
+com/handmade/ecommerce/read/query/service/bdd/SpringTestConfig.class
+com/handmade/ecommerce/read/query/service/bdd/RestQueryCukesSteps.class
+com/handmade/ecommerce/read/query/service/bdd/CukesRestTest.class

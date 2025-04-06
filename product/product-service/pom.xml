@@ -74,7 +74,7 @@
                             <goal>generate-puml</goal>
                         </goals>
                         <configuration>
-                            <stylingPropertiesFile>com/handmade/flow/product/styling.json</stylingPropertiesFile>
+                            <stylingPropertiesFile>com/handmade/ecommerce/product/styling.json</stylingPropertiesFile>
                         </configuration>
                     </execution>
                 </executions>

@@ -19,13 +19,8 @@
   </licenses>
   <modules>
     <module>cart</module>
-    <module>order</module>
     <module>product</module>
     <module>core</module>
-    <module>customer</module>
-    <module>payment</module>
-    <module>return</module>
-    <module>shipping</module>
     <module>artisan</module>
     <module>read</module>
     <module>build</module>

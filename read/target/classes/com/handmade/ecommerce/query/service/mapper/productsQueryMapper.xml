@@ -1,0 +1,43 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "Read">
+
+<resultMap id="HomepageProductResultMap" type="com.handmade.ecommerce.dto.HomepageProductDTO">
+    <id property="id" column="product_id"/>
+    <result property="name" column="product_name"/>
+    <result property="price" column="price"/>
+    <result property="color" column="color"/>
+    <result property="imageUrl" column="image_url"/>
+    <result property="artisanName" column="artisan_name"/>
+    <result property="categoryName" column="category_name"/>
+</resultMap>
+
+<select id="productsQueryMapper" resultMap="HomepageProductResultMap">
+    SELECT
+    p.id AS product_id,
+    p.name AS product_name,
+    p.price,
+    p.color,
+    p.image_url,
+    a.name AS artisan_name,
+    c.name AS category_name
+
+    FROM hm_product p
+    LEFT JOIN hm_artisan a ON p.artisan_id = a.id
+    LEFT JOIN hm_category c ON p.category_id = c.id
+
+    <where>
+        <if test="categoryId != null and categoryId != ''">
+            p.category_id = #{categoryId}
+        </if>
+        <if test="artisanId != null and artisanId != ''">
+            AND p.artisan_id = #{artisanId}
+        </if>
+        <if test="search != null and search != ''">
+            AND LOWER(p.name) LIKE CONCAT('%', LOWER(#{search}), '%')
+        </if>
+    </where>
+
+    ORDER BY p.created_time DESC
+    LIMIT #{limit}
+</select>

@@ -8,6 +8,7 @@
 		<artifactId>ecommerce-parent</artifactId>
 		<groupId>com.handmade.ecommerce</groupId>
 		<version>${revision}</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 	
 	<modelVersion>4.0.0</modelVersion>
@@ -41,7 +42,11 @@
     		<artifactId>chenile-query-controller</artifactId>
     		<scope>test</scope>
 		</dependency>
-		
+		<dependency>
+			<groupId>com.handmade.ecommerce</groupId>
+			<artifactId>core</artifactId>
+			<version>${revision}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.chenile</groupId>
 			<artifactId>cucumber-utils</artifactId>
