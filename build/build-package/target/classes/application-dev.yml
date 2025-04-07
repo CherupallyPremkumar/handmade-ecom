@@ -3,7 +3,7 @@ chenile:
     ignore: false
 
 spring:
-   # or prod, if you're using MySQL profile
+  # or prod, if you're using MySQL profile
 
   datasource:
     url: jdbc:mysql://localhost:3306/handmade_db?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
@@ -36,4 +36,3 @@ server:
       org:
         chenile:
           security: DEBUG
-

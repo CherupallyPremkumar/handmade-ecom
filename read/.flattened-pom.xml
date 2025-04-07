@@ -23,6 +23,11 @@
   </properties>
   <dependencies>
     <dependency>
+      <groupId>com.handmade.ecommerce</groupId>
+      <artifactId>core</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
+    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
@@ -39,22 +44,21 @@
     </dependency>
     <dependency>
       <groupId>org.chenile</groupId>
-      <artifactId>chenile-query-controller</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.handmade.ecommerce</groupId>
-      <artifactId>core</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <artifactId>chenile-query-service</artifactId>
     </dependency>
     <dependency>
       <groupId>org.chenile</groupId>
-      <artifactId>cucumber-utils</artifactId>
+      <artifactId>chenile-query-controller</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.junit.vintage</groupId>
       <artifactId>junit-vintage-engine</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.chenile</groupId>
+      <artifactId>cucumber-sec-utils</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>

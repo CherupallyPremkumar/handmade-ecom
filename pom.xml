@@ -30,7 +30,7 @@
     <version>${revision}</version>
     <artifactId>ecommerce-parent</artifactId>
     <properties>
-        <revision>0.0.1-SNAPSHOT</revision>
+         <revision>0.0.1-SNAPSHOT</revision>
     </properties>
     <dependencyManagement>
         <dependencies>

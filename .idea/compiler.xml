@@ -21,7 +21,6 @@
         <module name="return-service" />
         <module name="artisan-api" />
         <module name="product-api" />
-        <module name="read-query-service (1)" />
         <module name="order-service" />
         <module name="cart-api" />
         <module name="return-api" />
@@ -37,6 +36,7 @@
       <module name="database-parent" target="17" />
       <module name="database-parent (1) (com.handmade.ecommerce.database)" target="17" />
       <module name="database-service" target="17" />
+      <module name="read-query-service (1)" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

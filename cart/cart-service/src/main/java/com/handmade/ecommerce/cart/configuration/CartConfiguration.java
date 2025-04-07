@@ -1,5 +1,6 @@
 package com.handmade.ecommerce.cart.configuration;
 
+import com.handmade.ecommerce.cart.configuration.dao.CartRepository;
 import org.chenile.stm.*;
 import org.chenile.stm.action.STMTransitionAction;
 import org.chenile.stm.impl.*;
@@ -53,7 +54,8 @@ public class CartConfiguration {
         WorkflowRegistry.addSTMActionsInfoProvider("cart",provider);
         return provider;
 	}
-	
+
+
 	@Bean EntityStore<Cart> cartEntityStore() {
 		return new CartEntityStore();
 	}

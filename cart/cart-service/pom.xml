@@ -15,6 +15,7 @@
 	<name>Cart Service Implementations</name>
 
 	<dependencies>
+
 		<dependency>
             <groupId>com.handmade.ecommerce.cart</groupId>
 			<artifactId>cart-api</artifactId>

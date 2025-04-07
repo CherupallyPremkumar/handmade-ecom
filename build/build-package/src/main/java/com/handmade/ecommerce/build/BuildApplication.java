@@ -1,15 +1,22 @@
 package com.handmade.ecommerce.build;
 
+import com.handmade.ecommerce.artisan.configuration.dao.ArtisanRepository;
 import com.handmade.ecommerce.cart.configuration.dao.CartRepository;
+import com.handmade.ecommerce.product.configuration.dao.ProductRepository;
+import jakarta.persistence.EntityManagerFactory;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+
 @SpringBootApplication(scanBasePackages = { "com.handmade.ecommerce.**",
 		"org.chenile.configuration" })
-@EnableJpaRepositories(basePackages = {"com.handmade.ecommerce.cart.configuration.dao","com.handmade.ecommerce.product.configuration.dao","com.handmade.ecommerce.artisan.configuration.dao"})
+@EnableJpaRepositories(basePackages ={"com.handmade.ecommerce.cart.configuration.dao","com.handmade.ecommerce.artisan.configuration.dao", "com.handmade.ecommerce.product.configuration.dao"})
 @EntityScan(basePackages = {"com.handmade.ecommerce.cart.model","com.handmade.ecommerce.product.model","com.handmade.ecommerce.artisan.model"})
 public class BuildApplication extends SpringBootServletInitializer {
 
