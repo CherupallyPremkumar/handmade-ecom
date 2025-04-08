@@ -1,38 +1,34 @@
 chenile:
   security:
     ignore: false
+    client:
+      id: authz-servlet
+      secret: secret
+    keycloak:
+      host: http://localhost:8081
+      port: 8081
+      base:
+        realm: sarees
 
 spring:
-  # or prod, if you're using MySQL profile
-
+  liquibase:
+    enabled: true
+    change-log: classpath:changelog/changelog-master.xml
+    drop-first: true
   datasource:
-    url: jdbc:mysql://localhost:3306/handmade_db?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/handmade_db
     username: root
     password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
-
   jpa:
     show-sql: true
     database-platform: org.hibernate.dialect.MySQL8Dialect
 
-  liquibase:
-    enabled: true
-    change-log: classpath:changelog/changelog-master.xml
   security:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: http://localhost:8180/realms/#tenantId#/protocol/openid-connect/certs
+          jwk-set-uri: http://localhost:8081/realms/#tenantId#/protocol/openid-connect/certs
 
 server:
-  banner:
-    location: classpath:banner.txt
-    port: 8099
-
-
-
-  logging:
-    level:
-      org:
-        chenile:
-          security: DEBUG
+  port: 8098

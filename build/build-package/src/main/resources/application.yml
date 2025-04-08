@@ -1,60 +1,10 @@
-chenile:
-  security:
-    ignore: false
-
-    client:
-      id: "authz-servlet"
-      secret: "secret"
-    keycloak:
-      host: "http://localhost:8180"
-      port: 8180
-      base:
-        realm: quickstart
-
 spring:
   profiles:
     active: @activatedProperties@
-  main:
-    allow-bean-definition-overriding: true
-
-  liquibase:
-    change-log: classpath:changelog/changelog-master.xml
-    enabled: true
-
-  datasource:
-    url: jdbc:h2:mem:demo;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
-    hikari:
-      maximum-pool-size: 10
-      minimum-idle: 2
-      idle-timeout: 5000
-
-  jpa:
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-    database-platform: org.hibernate.dialect.H2Dialect
-
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          jwk-set-uri: http://localhost:8180/realms/#tenantId#/protocol/openid-connect/certs
 
 server:
   banner:
     location: classpath:banner.txt
-  port: 8099
-
-
 
 logging:
   level:

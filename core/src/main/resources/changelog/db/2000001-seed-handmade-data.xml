@@ -55,9 +55,9 @@
             <column name="stock_quantity" valueNumeric="10"/>
             <column name="material" value="Silk"/>
             <column name="origin" value="Kanchipuram"/>
-            <column name="category_id" value="bridal"/>
+            <column name="category_id" value="brdal"/>
             <column name="color" value="Red and Gold"/>
-            <column name="artisan_id" value="art-001"/>
+            <column name="artisan_id" value="ar-001"/>
             <column name="tenant" value="default"/>
         </insert>
         <insert tableName="hm_product">
@@ -68,9 +68,9 @@
             <column name="stock_quantity" valueNumeric="5"/>
             <column name="material" value="Cotton Silk"/>
             <column name="origin" value="Varanasi"/>
-            <column name="category_id" value="casual"/>
+            <column name="category_id" value="caual"/>
             <column name="color" value="Blue and Silver"/>
-            <column name="artisan_id" value="art-002"/>
+            <column name="artisan_id" value="ar-002"/>
             <column name="tenant" value="default"/>
         </insert>
     </changeSet>
