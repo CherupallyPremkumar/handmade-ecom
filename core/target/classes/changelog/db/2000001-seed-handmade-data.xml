@@ -6,10 +6,10 @@
                         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
     <!-- Seed Artisans -->
-    <changeSet id="2000001-seed-artisans" author="premkumar (generated)">
+    <changeSet id="2000001-seed-arisans" author="premkumar (generated)">
         <insert tableName="hm_artisan">
-            <column name="id" value="art-001"/>
-            <column name="name" value="Ravi Kumar"/>
+            <column name="id" value="ar-001"/>
+            <column name="artisan_name" value="Ravi Kumar"/>
             <column name="specialty" value="Sarees"/>
             <column name="region" value="Tamil Nadu"/>
             <column name="contact_info" value="ravi@example.com"/>
@@ -17,8 +17,8 @@
             <column name="tenant" value="default"/>
         </insert>
         <insert tableName="hm_artisan">
-            <column name="id" value="art-002"/>
-            <column name="name" value="Meena Bai"/>
+            <column name="id" value="ar-002"/>
+            <column name="artisan_name" value="Meena Bai"/>
             <column name="specialty" value="Silk Sarees"/>
             <column name="region" value="Varanasi"/>
             <column name="contact_info" value="meena@example.com"/>
@@ -28,17 +28,17 @@
     </changeSet>
 
     <!-- Seed Categories -->
-    <changeSet id="2000002-seed-categories" author="premkumar (generated)">
+    <changeSet id="2000002-seed-catgories" author="premkumar (generated)">
         <insert tableName="hm_category">
-            <column name="id" value="bridal"/>
-            <column name="name" value="Bridal Sarees"/>
+            <column name="id" value="brdal"/>
+            <column name="category_name" value="Bridal Sarees"/>
             <column name="description" value="Sarees for wedding and bridal occasions"/>
             <column name="type" value="saree"/>
             <column name="tenant" value="default"/>
         </insert>
         <insert tableName="hm_category">
-            <column name="id" value="casual"/>
-            <column name="name" value="Casual Sarees"/>
+            <column name="id" value="caual"/>
+            <column name="category_name" value="Casual Sarees"/>
             <column name="description" value="Lightweight, everyday wear sarees"/>
             <column name="type" value="saree"/>
             <column name="tenant" value="default"/>
@@ -55,9 +55,9 @@
             <column name="stock_quantity" valueNumeric="10"/>
             <column name="material" value="Silk"/>
             <column name="origin" value="Kanchipuram"/>
-            <column name="category_id" value="bridal"/>
+            <column name="category_id" value="brdal"/>
             <column name="color" value="Red and Gold"/>
-            <column name="artisan_id" value="art-001"/>
+            <column name="artisan_id" value="ar-001"/>
             <column name="tenant" value="default"/>
         </insert>
         <insert tableName="hm_product">
@@ -68,9 +68,9 @@
             <column name="stock_quantity" valueNumeric="5"/>
             <column name="material" value="Cotton Silk"/>
             <column name="origin" value="Varanasi"/>
-            <column name="category_id" value="casual"/>
+            <column name="category_id" value="caual"/>
             <column name="color" value="Blue and Silver"/>
-            <column name="artisan_id" value="art-002"/>
+            <column name="artisan_id" value="ar-002"/>
             <column name="tenant" value="default"/>
         </insert>
     </changeSet>

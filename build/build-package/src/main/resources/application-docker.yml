@@ -1,0 +1,30 @@
+
+
+chenile:
+  security:
+    client:
+      id: "authz-servlet"
+      secret: "secret"
+    keycloak:
+      host: "http://keycloak:8080"
+      port: 8080
+      base:
+        realm: sarees
+spring:
+#liquibase
+  liquibase:
+    enabled: true
+    change-log: classpath:changelog/changelog-master.xml
+    drop-first: true
+#    datasource
+  datasource:
+    url: jdbc:mysql://mysql:3306/handmade
+    username: appuser
+    password: appuser
+    driver-class-name: com.mysql.cj.jdbc.Driver
+ #keycloak jwt api call uri comes under spring..
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://keycloak:8080/realms/#tenantId#/protocol/openid-connect/certs

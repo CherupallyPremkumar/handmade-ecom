@@ -8,7 +8,9 @@ import com.handmade.ecommerce.cart.configuration.dao.CartRepository;
 import java.util.Optional;
 
 public class CartEntityStore implements EntityStore<Cart>{
-    @Autowired private CartRepository cartRepository;
+     @Autowired
+	 private CartRepository cartRepository;
+
 
 	@Override
 	public void store(Cart entity) {

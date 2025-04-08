@@ -1,0 +1,33 @@
+[
+  {
+    "id": "Product.getAll",
+    "name": "products",
+    "columnMetadata": {
+      "categoryId" : {
+        "name": "categoryId",
+        "filterable": true,
+        "columnType": "Text"
+      },
+      "name" : {
+        "name": "name",
+        "columnType" : "Text",
+        "likeQuery": true,
+        "filterable": true
+      },
+      "artisanId": {
+        "name" : "artisanId",
+        "filterable": true,
+        "columnType": "Text"
+      },
+      "search" : {
+        "name": "search",
+        "columnType" : "Text",
+        "filterable": true
+      }
+    },
+    "flexiblePropnames": false,
+    "paginated" : true,
+    "sortable" : true
+  }
+
+]

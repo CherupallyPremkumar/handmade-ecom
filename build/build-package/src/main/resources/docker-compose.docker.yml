@@ -1,0 +1,61 @@
+
+services:
+
+
+  mysql:
+    image: mysql:8
+    container_name: mysql-dev
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: handmade
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: appuser
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:22.0.1
+    container_name: keycloak-dev
+    command: start-dev --import-realm
+    restart: always
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      KC_DB: mysql
+      KC_DB_URL: jdbc:mysql://mysql:3306/handmade
+      KC_DB_USERNAME: appuser
+      KC_DB_PASSWORD: appuser
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    volumes:
+      - ./realms:/opt/keycloak/data/import
+    ports:
+      - "8180:8080"
+
+  app:
+    build:
+      context: ../../../../..
+      dockerfile: build/build-package/src/main/resources/Dockerfile
+    container_name: springboot-app-dev
+    restart: always
+    depends_on:
+      mysql:
+        condition: service_healthy
+      keycloak:
+        condition: service_started
+    ports:
+      - "8099:8099"
+    volumes:
+      - ./logs:/app/logs
+
+volumes:
+  mysql_data:

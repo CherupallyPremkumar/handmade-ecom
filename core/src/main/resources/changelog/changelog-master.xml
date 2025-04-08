@@ -19,6 +19,7 @@
     <property name="clobType" value="TEXT" dbms="mysql"/>
     <property name="blobType" value="BLOB" dbms="mysql"/>
 
+
     <include file="db/1000008-handmade-category.xml" relativeToChangelogFile="true"/>
     <include file="db/1000007-handmade-artisan.xml" relativeToChangelogFile="true"/>
     <include file="db/1000004-handmade-product.xml" relativeToChangelogFile="true"/>

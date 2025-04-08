@@ -39,4 +39,11 @@
             <dropTable tableName="hm_artisan"/>
         </rollback>
     </changeSet>
+    <changeSet id="20250406-rename-" author="prem">
+        <renameColumn
+                tableName="hm_artisan"
+                oldColumnName="name"
+                newColumnName="artisan_name"
+                columnDataType="VARCHAR(255)"/>
+    </changeSet>
 </databaseChangeLog>

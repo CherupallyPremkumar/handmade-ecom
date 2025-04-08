@@ -27,4 +27,11 @@
             <dropTable tableName="hm_category"/>
         </rollback>
     </changeSet>
+    <changeSet id="20250406-rename-name-column" author="prem">
+        <renameColumn
+                tableName="hm_category"
+                oldColumnName="name"
+                newColumnName="category_name"
+                columnDataType="VARCHAR(255)"/>
+    </changeSet>
 </databaseChangeLog>
