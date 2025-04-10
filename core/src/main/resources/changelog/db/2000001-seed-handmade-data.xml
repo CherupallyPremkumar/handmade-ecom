@@ -5,6 +5,20 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
+    <changeSet id="2000004-seed-tenants" author="premkumar">
+        <insert tableName="hm_tenant">
+            <column name="id" value="SAREEHOUSE_IN"/>
+            <column name="tenant_name" value="Saree House India"/>
+            <column name="base_currency" value="INR"/>
+            <column name="created_by" value="system"/>
+        </insert>
+        <insert tableName="hm_tenant">
+            <column name="id" value="SAREEHOUSE_US"/>
+            <column name="tenant_name" value="Saree House USA"/>
+            <column name="base_currency" value="USD"/>
+            <column name="created_by" value="system"/>
+        </insert>
+    </changeSet>
     <!-- Seed Artisans -->
     <changeSet id="2000001-seed-arisans" author="premkumar (generated)">
         <insert tableName="hm_artisan">
@@ -14,7 +28,7 @@
             <column name="region" value="Tamil Nadu"/>
             <column name="contact_info" value="ravi@example.com"/>
             <column name="bio" value="Master weaver with 20 years of experience"/>
-            <column name="tenant" value="default"/>
+            <column name="tenant" value="SAREEHOUSE_IN"/>
         </insert>
         <insert tableName="hm_artisan">
             <column name="id" value="ar-002"/>
@@ -23,7 +37,7 @@
             <column name="region" value="Varanasi"/>
             <column name="contact_info" value="meena@example.com"/>
             <column name="bio" value="Specializes in traditional Banarasi sarees"/>
-            <column name="tenant" value="default"/>
+            <column name="tenant" value="SAREEHOUSE_IN"/>
         </insert>
     </changeSet>
 
@@ -34,14 +48,14 @@
             <column name="category_name" value="Bridal Sarees"/>
             <column name="description" value="Sarees for wedding and bridal occasions"/>
             <column name="type" value="saree"/>
-            <column name="tenant" value="default"/>
+            <column name="tenant" value="SAREEHOUSE_IN"/>
         </insert>
         <insert tableName="hm_category">
             <column name="id" value="caual"/>
             <column name="category_name" value="Casual Sarees"/>
             <column name="description" value="Lightweight, everyday wear sarees"/>
             <column name="type" value="saree"/>
-            <column name="tenant" value="default"/>
+            <column name="tenant" value="SAREEHOUSE_IN"/>
         </insert>
     </changeSet>
 
@@ -58,7 +72,7 @@
             <column name="category_id" value="brdal"/>
             <column name="color" value="Red and Gold"/>
             <column name="artisan_id" value="ar-001"/>
-            <column name="tenant" value="default"/>
+            <column name="tenant" value="SAREEHOUSE_IN"/>
         </insert>
         <insert tableName="hm_product">
             <column name="id" value="prd-002"/>
@@ -71,7 +85,7 @@
             <column name="category_id" value="caual"/>
             <column name="color" value="Blue and Silver"/>
             <column name="artisan_id" value="ar-002"/>
-            <column name="tenant" value="default"/>
+            <column name="tenant" value="SAREEHOUSE_IN"/>
         </insert>
     </changeSet>
 

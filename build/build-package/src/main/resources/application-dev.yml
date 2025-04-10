@@ -21,14 +21,15 @@ spring:
     password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
+    properties:
+      hibernate:
+        physical_naming_strategy: org.hibernate.cfg.EJB3NamingStrategy
     show-sql: true
     database-platform: org.hibernate.dialect.MySQL8Dialect
 
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          jwk-set-uri: http://localhost:8081/realms/#tenantId#/protocol/openid-connect/certs
-
 server:
   port: 8098
+
+logging:
+  level:
+    org.springframework.security: DEBUG

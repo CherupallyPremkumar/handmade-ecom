@@ -14,3 +14,22 @@ logging:
 
 cors:
   allowedOrigin: http://localhost:3000
+
+query:
+  jpa:
+    hibernate:
+      show_sql: 'true'
+      ddl-auto: create
+    database-platform: org.hibernate.dialect.H2Dialect
+    properties:
+      hibernate:
+        format_sql: 'true'
+        dialect: org.hibernate.dialect.H2Dialect
+  datasource:
+    maximumPoolSize: '10'
+    type: com.zaxxer.hikari.HikariDataSource
+    username: root
+    password: password
+    minimumIdle: '2'
+    idleTimeout: '5000'
+    jdbcUrl: jdbc:mysql://localhost:3306/handmade_db

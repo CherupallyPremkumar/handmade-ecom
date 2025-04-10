@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Tenant lifecycle state machine -->
+<states>
+	<!-- Common default transition logic -->
+	<default-transition-action componentName="tenantBaseTransitionAction"/>
+
+	<!-- Tag to map to a DB field (e.g., tenant.status) -->
+	<add-state-tag tag="status" manualState="true"/>
+
+	<!-- Transition tag: defines which XML attribute triggers a state change -->
+	<add-transition-tag tag="on-action" eventIdTag="id" newStateIdTag="move-to"
+						meta-acls="tenant.lifecycle"/>
+
+	<!-- Tenant flow definition -->
+	<flow id="TenantFlow" default="true">
+		<entry-action componentName="tenantEntryAction"/>
+		<exit-action componentName="tenantExitAction"/>
+		<security-strategy componentName="stmSecurityStrategy"/>
+
+		<!-- Initial creation -->
+		<status id="OPENED" initialState="true">
+			<on-action id="assign" move-to="ASSIGNED"/>
+		</status>
+
+		<!-- Assigned to onboarding or ops -->
+		<status id="ASSIGNED">
+			<on-action id="approve" move-to="APPROVED"/>
+		</status>
+
+		<!-- Fully setup and verified -->
+		<status id="APPROVED">
+			<on-action id="activate" move-to="ACTIVE"/>
+		</status>
+
+		<!-- Active tenant can be suspended -->
+		<status id="ACTIVE">
+			<on-action id="suspend" move-to="SUSPENDED"/>
+			<on-action id="close" move-to="CLOSED"/>
+		</status>
+
+		<!-- Suspended tenants can be reactivated or closed -->
+		<status id="SUSPENDED">
+			<on-action id="reactivate" move-to="ACTIVE"/>
+			<on-action id="close" move-to="CLOSED"/>
+		</status>
+
+		<!-- Terminal state -->
+		<status id="CLOSED" />
+	</flow>
+</states>

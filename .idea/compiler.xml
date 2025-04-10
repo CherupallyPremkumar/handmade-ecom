@@ -9,6 +9,8 @@
         <module name="read-query-service" />
         <module name="cart-service" />
         <module name="customer-service" />
+        <module name="tenant-service" />
+        <module name="tenant-api" />
         <module name="product-service" />
         <module name="order-api" />
         <module name="payment-api" />
@@ -79,6 +81,9 @@
       <module name="shipping-api" options="-parameters" />
       <module name="shipping-parent" options="-parameters" />
       <module name="shipping-service" options="-parameters" />
+      <module name="tenant-api" options="-parameters" />
+      <module name="tenant-parent" options="-parameters" />
+      <module name="tenant-service" options="-parameters" />
     </option>
   </component>
 </project>
