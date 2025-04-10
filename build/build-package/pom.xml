@@ -40,6 +40,11 @@
             <version>${revision}</version>
         </dependency>
         <dependency>
+            <groupId>com.handmade.ecommerce.tenant</groupId>
+            <artifactId>tenant-service</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
             <groupId>com.handmade.ecommerce</groupId>
             <artifactId>core</artifactId>
             <version>${revision}</version>
@@ -62,6 +67,10 @@
             <groupId>com.handmade.ecommerce.product</groupId>
             <artifactId>product-service</artifactId>
             <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 	</dependencies>
 

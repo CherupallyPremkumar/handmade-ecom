@@ -1,7 +1,0 @@
-com/handmade/ecommerce/product/service/errorcodes/ErrorCodes.class
-com/handmade/ecommerce/product/configuration/ProductConfiguration.class
-com/handmade/ecommerce/product/configuration/dao/ProductRepository.class
-com/handmade/ecommerce/product/configuration/controller/ProductController.class
-com/handmade/ecommerce/product/service/cmds/DefaultSTMTransitionAction.class
-com/handmade/ecommerce/product/service/store/ProductEntityStore.class
-com/handmade/ecommerce/product/service/healthcheck/ProductHealthChecker.class

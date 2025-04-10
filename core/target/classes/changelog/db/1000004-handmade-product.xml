@@ -23,8 +23,8 @@
             <column name="state_entry_time" type="timestamp"/>
             <column name="sla_tending_late" type="int"/>
             <column name="sla_late" type="int"/>
-            <column name="flow_id" type="varchar(255)"/>
-            <column name="state_id" type="varchar(255)"/>
+            <column name="flowId" type="varchar(255)"/>
+            <column name="stateId" type="varchar(255)"/>
 
             <!-- Domain-specific fields -->
             <column name="name" type="VARCHAR(255)"/>
@@ -38,6 +38,12 @@
             <column name="color" type="VARCHAR(100)"/>
         </createTable>
 
+        <addForeignKeyConstraint
+                baseTableName="hm_product"
+                baseColumnNames="tenant"
+                referencedTableName="hm_tenant"
+                referencedColumnNames="id"
+                constraintName="fk_product_tenant"/>
         <!-- Foreign keys -->
         <addForeignKeyConstraint
                 baseTableName="hm_product"

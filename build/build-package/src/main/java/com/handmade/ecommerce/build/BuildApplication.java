@@ -16,8 +16,14 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication(scanBasePackages = { "com.handmade.ecommerce.**",
 		"org.chenile.configuration" })
-@EnableJpaRepositories(basePackages ={"com.handmade.ecommerce.cart.configuration.dao","com.handmade.ecommerce.artisan.configuration.dao", "com.handmade.ecommerce.product.configuration.dao"})
-@EntityScan(basePackages = {"com.handmade.ecommerce.cart.model","com.handmade.ecommerce.product.model","com.handmade.ecommerce.artisan.model"})
+@EnableJpaRepositories(basePackages ={"com.handmade.ecommerce.cart.configuration.dao",
+		"com.handmade.ecommerce.artisan.configuration.dao",
+		"com.handmade.ecommerce.product.configuration.dao",
+		"com.handmade.ecommerce.tenant.configuration.dao"})
+@EntityScan(basePackages = {"com.handmade.ecommerce.cart.model",
+		"com.handmade.ecommerce.product.model",
+		"com.handmade.ecommerce.artisan.model",
+		"com.handmade.ecommerce.tenant.model"})
 public class BuildApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {

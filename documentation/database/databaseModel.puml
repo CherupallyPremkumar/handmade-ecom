@@ -1,0 +1,41 @@
+@startuml
+title Multi-Region Pricing Data Model (Tenant-Based)
+
+entity tenant {
+  * tenant_id : VARCHAR
+  --
+  tenant_name : VARCHAR
+  base_currency : CHAR(3)
+  status : VARCHAR
+  created_by : VARCHAR
+  created_date : TIMESTAMP
+}
+
+entity product {
+  * product_id : VARCHAR
+  --
+  product_name : VARCHAR
+  description : VARCHAR
+}
+
+entity price_list {
+  * price_list_id : VARCHAR
+  --
+  tenant_id : VARCHAR
+  region_code : VARCHAR
+  currency_code : CHAR(3)
+  is_default : CHAR(1)
+}
+
+entity product_price {
+  * product_id : VARCHAR
+  * price_list_id : VARCHAR
+  --
+  price : DECIMAL(18,2)
+}
+
+product_price::product_id --> product::product_id
+product_price::price_list_id --> price_list::price_list_id
+price_list::tenant_id --> tenant::tenant_id
+
+@enduml

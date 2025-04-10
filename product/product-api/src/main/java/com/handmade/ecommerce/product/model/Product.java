@@ -1,8 +1,6 @@
 package com.handmade.ecommerce.product.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.chenile.jpautils.entity.AbstractJpaStateEntity;
 
 import java.math.BigDecimal;
@@ -10,13 +8,24 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "hm_product")
+@AttributeOverrides({
+	@AttributeOverride(name = "createdTime", column = @Column(name = "created_time")),
+	@AttributeOverride(name = "createdBy", column = @Column(name = "created_by")),
+	@AttributeOverride(name = "lastModifiedTime", column = @Column(name = "last_modified_time")),
+	@AttributeOverride(name = "lastModifiedBy", column = @Column(name = "last_modified_by")),
+	@AttributeOverride(name = "slaLate", column = @Column(name = "sla_late")),
+	@AttributeOverride(name = "slaRedDate", column = @Column(name = "sla_red_date")),
+	@AttributeOverride(name = "slaTendingLate", column = @Column(name = "sla_tending_late")),
+	@AttributeOverride(name = "slaYellowDate", column = @Column(name = "sla_yellow_date")),
+	@AttributeOverride(name = "stateEntryTime", column = @Column(name = "state_entry_time")),
+})
 public class Product extends AbstractJpaStateEntity {
 
 	private String name;
 	private String description;
 	private BigDecimal price;
+	@Column(name = "stock_quantity")
 	private int stockQuantity;
-
 	private String material;
 	private String origin;
 	@Column(name = "artisan_id")
@@ -24,6 +33,7 @@ public class Product extends AbstractJpaStateEntity {
 	@Column(name = "category_id")
 	private String categoryId;
 	private String color;
+
 
 	public String getName() {
 		return name;
