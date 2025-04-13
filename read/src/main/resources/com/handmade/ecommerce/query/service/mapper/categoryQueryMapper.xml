@@ -1,0 +1,47 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Category">
+
+    <resultMap id="CategoryResultMap" type="map">
+        <id property="id" column="category_id"/>
+        <result property="name" column="category_name"/>
+        <result property="description" column="description"/>
+        <result property="parentCategoryId" column="parent_category_id"/>
+    </resultMap>
+
+    <!-- Main query to get all categories and their parent info -->
+    <select id="getAll" resultMap="CategoryResultMap">
+        SELECT
+        c.id AS category_id,
+        c.category_name,
+        c.description,
+        c.parent_category_id
+        FROM
+        hm_category c
+        <where>
+            <if test="parentCategoryId != null and parentCategoryId != ''">
+                c.parent_category_id = #{parentCategoryId}
+            </if>
+            <if test="category_name != null and category_name != ''">
+                AND LOWER(c.category_name) LIKE CONCAT('%', LOWER(#{category_name}), '%')
+            </if>
+        </where>
+        ${orderby} ${pagination}
+    </select>
+
+    <!-- Count Query -->
+    <select id="getAll-count" resultType="int">
+        SELECT COUNT(*)
+        FROM hm_category c
+        LEFT JOIN hm_category p ON c.parent_category_id = p.id
+        <where>
+            <if test="categoryId != null and categoryId != ''">
+                c.id = #{categoryId}
+            </if>
+            <if test="category_name != null and category_name != ''">
+                AND LOWER(c.category_name) LIKE CONCAT('%', LOWER(#{category_name}), '%')
+            </if>
+        </where>
+    </select>
+</mapper>
