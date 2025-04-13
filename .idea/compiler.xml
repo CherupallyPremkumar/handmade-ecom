@@ -6,26 +6,30 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="read-query-service" />
-        <module name="cart-service" />
-        <module name="customer-service" />
         <module name="tenant-service" />
         <module name="tenant-api" />
-        <module name="product-service" />
+        <module name="price-service" />
         <module name="order-api" />
         <module name="payment-api" />
-        <module name="build-package" />
-        <module name="core" />
         <module name="artisan-service" />
         <module name="payment-service" />
-        <module name="customer-api" />
         <module name="shipping-api" />
-        <module name="return-service" />
         <module name="artisan-api" />
+        <module name="category-api" />
+        <module name="return-api" />
+        <module name="read-query-service" />
+        <module name="cart-service" />
+        <module name="category-service" />
+        <module name="customer-service" />
+        <module name="product-service" />
+        <module name="price-api" />
+        <module name="build-package" />
+        <module name="core" />
+        <module name="customer-api" />
+        <module name="return-service" />
         <module name="product-api" />
         <module name="order-service" />
         <module name="cart-api" />
-        <module name="return-api" />
         <module name="shipping-service" />
       </profile>
     </annotationProcessing>
@@ -51,6 +55,9 @@
       <module name="cart-api" options="-parameters" />
       <module name="cart-parent" options="-parameters" />
       <module name="cart-service" options="-parameters" />
+      <module name="category-api" options="-parameters" />
+      <module name="category-parent" options="-parameters" />
+      <module name="category-service" options="-parameters" />
       <module name="core" options="-parameters" />
       <module name="core-api" options="-parameters" />
       <module name="core-parent" options="-parameters" />
@@ -70,6 +77,9 @@
       <module name="payment-api" options="-parameters" />
       <module name="payment-parent" options="-parameters" />
       <module name="payment-service" options="-parameters" />
+      <module name="price-api" options="-parameters" />
+      <module name="price-parent" options="-parameters" />
+      <module name="price-service" options="-parameters" />
       <module name="product-api" options="-parameters" />
       <module name="product-parent" options="-parameters" />
       <module name="product-service" options="-parameters" />
