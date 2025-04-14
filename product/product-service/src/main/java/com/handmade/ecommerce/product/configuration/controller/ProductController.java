@@ -24,7 +24,8 @@ import org.chenile.security.model.SecurityConfig;
 @RestController
 @ChenileController(value = "productService", serviceName = "_productStateEntityService_",
 		healthCheckerName = "productHealthChecker")
-public class ProductController extends ControllerSupport{
+public class
+ProductController extends ControllerSupport{
 	
 	@GetMapping("/product/{id}")
     @SecurityConfig(authorities = {"some_premium_scope","test.premium"})

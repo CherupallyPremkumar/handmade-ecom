@@ -12,6 +12,10 @@
     <file url="file://$PROJECT_DIR$/cart/cart-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cart/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cart/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/category/category-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/category/category-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/category/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/category/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/core/core-api/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/core/core-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/core/src/main/java" charset="UTF-8" />
@@ -32,6 +36,10 @@
     <file url="file://$PROJECT_DIR$/payment/payment-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/payment/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/payment/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/price/price-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/price/price-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/price/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/price/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/product/product-api/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/product/product-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/product/src/main/java" charset="UTF-8" />

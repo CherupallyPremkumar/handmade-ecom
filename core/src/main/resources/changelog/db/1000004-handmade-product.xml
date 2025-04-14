@@ -15,14 +15,14 @@
             <column name="last_modified_by" type="varchar(255)"/>
             <column name="tenant" type="varchar(255)"/>
             <column name="created_by" type="varchar(255)"/>
-            <column name="version" type="bigint"/>
+            <column name="version" type="bigint" defaultValue="0"/>
 
             <!-- STM fields -->
             <column name="sla_yellow_date" type="timestamp"/>
             <column name="sla_red_date" type="timestamp"/>
             <column name="state_entry_time" type="timestamp"/>
-            <column name="sla_tending_late" type="int"/>
-            <column name="sla_late" type="int"/>
+            <column name="sla_tending_late" type="int" defaultValue="0"/>
+            <column name="sla_late" type="int" defaultValue="0"/>
             <column name="flowId" type="varchar(255)"/>
             <column name="stateId" type="varchar(255)"/>
 

@@ -23,6 +23,7 @@
     <include file="db/1000008-handmade-category.xml" relativeToChangelogFile="true"/>
     <include file="db/1000007-handmade-artisan.xml" relativeToChangelogFile="true"/>
     <include file="db/1000004-handmade-product.xml" relativeToChangelogFile="true"/>
+    <include file="db/1000000010-handmade-product_price.xml" relativeToChangelogFile="true"/>
     <include file="db/1000001-handmade-customer.xml" relativeToChangelogFile="true"/>
     <include file="db/1000002-handmade-cart.xml" relativeToChangelogFile="true"/>
     <include file="db/1000003-handmade-cart-item.xml" relativeToChangelogFile="true"/>

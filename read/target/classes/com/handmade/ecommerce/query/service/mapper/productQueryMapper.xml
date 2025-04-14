@@ -2,20 +2,26 @@
 
 <mapper namespace = "Product">
 
-<resultMap id="HomepageProductResultMap" type="map">
-    <id property="id" column="product_id"/>
-    <result property="name" column="product_name"/>
-    <result property="price" column="price"/>
-    <result property="color" column="color"/>
-    <result property="artisanName" column="artisan_name"/>
-    <result property="categoryName" column="category_name"/>
-</resultMap>
+    <resultMap id="HomepageProductResultMap" type="map">
+        <id property="id" column="product_id"/>
+        <result property="name" column="product_name"/>
+        <result property="price" column="price"/>
+        <result property="stateId" column="stateId"/>
+        <result property="flowId" column="flowId"/>
+        <result property="currencyCode" column="currency_code"/>
+        <result property="color" column="color"/>
+        <result property="artisanName" column="artisan_name"/>
+        <result property="categoryName" column="category_name"/>
+    </resultMap>
 
 <select id="getAll" resultMap="HomepageProductResultMap">
     SELECT
     p.id AS product_id,
     p.name AS product_name,
-    p.price,
+    p.stateId,
+    p.flowId,
+    pr.price AS price,
+    pr.currency_code AS currency_code,
     p.color,
     a.artisan_name AS artisan_name,
     c.category_name AS category_name
@@ -23,15 +29,19 @@
     FROM hm_product p
     LEFT JOIN hm_artisan a ON p.artisan_id = a.id
     LEFT JOIN hm_category c ON p.category_id = c.id
+    LEFT JOIN hm_price pr ON pr.product_id = p.id AND pr.location_code = #{locationCode}
     <where>
+        <if test="stateId != null and stateId != ''">
+            p.stateId = #{stateId}
+        </if>
         <if test="categoryId != null and categoryId != ''">
             p.category_id = #{categoryId}
         </if>
         <if test="artisanId != null and artisanId != ''">
             AND p.artisan_id = #{artisanId}
         </if>
-        <if test="search != null and search != ''">
-            AND LOWER(p.name) LIKE CONCAT('%', LOWER(#{search}), '%')
+        <if test="name != null and name != ''">
+            AND LOWER(p.name) LIKE CONCAT('%', LOWER(#{name}), '%')
         </if>
     </where>
     ${orderby} ${pagination}
@@ -42,7 +52,11 @@
         FROM hm_product p
         LEFT JOIN hm_artisan a ON p.artisan_id = a.id
         LEFT JOIN hm_category c ON p.category_id = c.id
+        LEFT JOIN hm_price pr ON pr.product_id = p.id AND pr.location_code = #{locationCode}
         <where>
+            <if test="stateId != null and stateId != ''">
+                p.stateId = #{stateId}
+            </if>
             <if test="categoryId != null and categoryId != ''">
                 p.category_id = #{categoryId}
             </if>

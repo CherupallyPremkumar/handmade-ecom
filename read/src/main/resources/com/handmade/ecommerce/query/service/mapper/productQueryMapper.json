@@ -2,16 +2,26 @@
   {
     "id": "Product.getAll",
     "name": "products",
+    "workflowName": "ProductFlow",
     "columnMetadata": {
       "categoryId" : {
         "name": "categoryId",
         "filterable": true,
         "columnType": "Text"
+      },"price" : {
+        "name": "price",
+        "filterable": true,
+        "columnType": "Text"
+      },
+      "currencyCode" : {
+        "name": "currencyCode",
+        "filterable": false,
+        "columnType": "Text"
       },
       "name" : {
         "name": "name",
         "columnType" : "Text",
-        "likeQuery": true,
+        "likeQuery": false,
         "filterable": true
       },
       "artisanId": {
@@ -21,6 +31,16 @@
       },
       "search" : {
         "name": "search",
+        "columnType" : "Text",
+        "filterable": true
+      },
+      "locationCode" : {
+        "name": "locationCode",
+        "columnType" : "Text",
+        "filterable": true
+      },
+      "stateId" : {
+        "name": "stateId",
         "columnType" : "Text",
         "filterable": true
       }

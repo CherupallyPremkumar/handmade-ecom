@@ -27,7 +27,7 @@
             <column name="flowId" type="varchar(255)"/>
             <column name="stateId" type="varchar(255)"/>
             <column name="tenant_name" type="VARCHAR(255)" />
-            <column name="base_currency" type="CHAR(3)" />
+            <column name="base_currency" type="varchar(6)" />
         </createTable>
     </changeSet>
 </databaseChangeLog>

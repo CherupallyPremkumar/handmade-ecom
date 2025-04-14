@@ -7,24 +7,19 @@
 -->
 <states>
 	<event-information eventId="submit"
-					   meta-acls="product.editor,product.manager"
-					   meta-bodyType="com.handmade.ecommerce.product.payload.SubmitProductPayload"/>
+					   meta-bodyType="com.handmade.ecommerce.product.model.command.SubmitProductCommand"/>
 
 	<event-information eventId="approve"
-					   meta-acls="product.reviewer"
-					   meta-bodyType="com.handmade.ecommerce.product.payload.ApproveProductPayload"/>
+					   meta-bodyType="com.handmade.ecommerce.product.model.command.ApproveProductCommand"/>
 
 	<event-information eventId="reject"
-					   meta-acls="product.reviewer"
-					   meta-bodyType="com.handmade.ecommerce.product.payload.RejectProductPayload"/>
+					   meta-bodyType="com.handmade.ecommerce.product.model.command.RejectProductCommand"/>
 
 	<event-information eventId="edit"
-					   meta-acls="product.editor"
-					   meta-bodyType="com.handmade.ecommerce.product.payload.EditProductPayload"/>
+					   meta-bodyType="com.handmade.ecommerce.product.model.command.EditProductCommand"/>
 
 	<event-information eventId="outOfStock"
-					   meta-acls="product.manager"
-					   meta-bodyType="com.handmade.ecommerce.product.payload.MarkOutOfStockPayload"/>
+					   meta-bodyType="com.handmade.ecommerce.product.model.command.MarkOutOfStockPayload"/>
 
 	<event-information eventId="restock"
 					   meta-acls="product.manager"
@@ -35,8 +30,7 @@
 					   meta-bodyType="com.handmade.ecommerce.product.payload.DiscontinueProductPayload"/>
 	<default-transition-action componentName="productBaseTransitionAction"/>
     <add-state-tag tag="status" manualState="true"/>
-    <add-transition-tag tag="on-action" eventIdTag="id" newStateIdTag="move-to"
-                    meta-acls="test.premium"/>
+    <add-transition-tag tag="on-action" eventIdTag="id" newStateIdTag="move-to"/>
 
 	<flow id="ProductFlow" default="true">
 		<entry-action componentName="productEntryAction"/>

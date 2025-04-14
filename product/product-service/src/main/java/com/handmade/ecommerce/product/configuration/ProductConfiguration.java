@@ -47,7 +47,7 @@ public class ProductConfiguration {
 	
 	@Bean @Autowired STMActionsInfoProvider productActionsInfoProvider(@Qualifier("productFlowStore") STMFlowStoreImpl stmFlowStore) {
 		STMActionsInfoProvider provider =  new STMActionsInfoProvider(stmFlowStore);
-        WorkflowRegistry.addSTMActionsInfoProvider("product",provider);
+        WorkflowRegistry.addSTMActionsInfoProvider("ProductFlow",provider);
         return provider;
 	}
 	

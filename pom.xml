@@ -11,7 +11,9 @@
         <module>tenant</module>
         <module>cart</module>
 <!--        <module>order</module>-->
+        <module>category</module>
         <module>product</module>
+        <module>price</module>
         <module>core</module>
 <!--        <module>customer</module>-->
 <!--        <module>payment</module>-->

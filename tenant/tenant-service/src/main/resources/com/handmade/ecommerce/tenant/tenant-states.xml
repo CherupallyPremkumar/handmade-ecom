@@ -9,7 +9,7 @@
 
 	<!-- Transition tag: defines which XML attribute triggers a state change -->
 	<add-transition-tag tag="on-action" eventIdTag="id" newStateIdTag="move-to"
-						meta-acls="tenant.lifecycle"/>
+						meta-acls="test.premium"/>
 
 	<!-- Tenant flow definition -->
 	<flow id="TenantFlow" default="true">

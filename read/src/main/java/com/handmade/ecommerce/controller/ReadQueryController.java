@@ -1,4 +1,4 @@
-package com.handmade.ecommerce;
+package com.handmade.ecommerce.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.chenile.base.response.GenericResponse;

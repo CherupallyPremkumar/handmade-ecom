@@ -50,6 +50,16 @@
             <version>${revision}</version>
         </dependency>
         <dependency>
+            <groupId>com.handmade.ecommerce.price</groupId>
+            <artifactId>price-service</artifactId>
+             <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.handmade.ecommerce.category</groupId>
+            <artifactId>category-service</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
             <groupId>com.handmade.ecommerce</groupId>
             <artifactId>read-query-service</artifactId>
             <version>${revision}</version>

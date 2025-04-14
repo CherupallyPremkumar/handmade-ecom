@@ -19,6 +19,7 @@
         <option value="$PROJECT_DIR$/read/pom.xml" />
         <option value="$PROJECT_DIR$/artisan/pom.xml" />
         <option value="$PROJECT_DIR$/tenant/pom.xml" />
+        <option value="$PROJECT_DIR$/category/pom.xml" />
       </list>
     </option>
   </component>

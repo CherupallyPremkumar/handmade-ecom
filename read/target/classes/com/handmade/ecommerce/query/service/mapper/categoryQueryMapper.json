@@ -1,0 +1,29 @@
+[
+  {
+    "id": "Category.getAll",
+    "name": "categories",
+    "columnMetadata": {
+      "categoryId" : {
+        "name": "categoryId",
+        "filterable": true,
+        "columnType": "Text"
+      },
+      "category_name" : {
+        "name": "categoryName",
+        "columnType" : "Text",
+        "likeQuery": true,
+        "filterable": true
+      },
+      "parentCategoryId" : {
+        "name": "parentCategoryId",
+        "columnType" : "Text",
+        "likeQuery": false,
+        "filterable": true
+      }
+    },
+    "flexiblePropnames": false,
+    "paginated" : true,
+    "sortable" : true
+  }
+
+]
