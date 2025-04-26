@@ -1,0 +1,71 @@
+@startuml
+title Product - Artisan Association
+
+' -------------------------
+' Entities
+' -------------------------
+class Product {
+  - id : varchar(255)
+  - created_time : timestamp
+  - last_modified_time : timestamp
+  - last_modified_by : varchar(255)
+  - tenant : varchar(255)
+  - created_by : varchar(255)
+  - version : bigint
+  --
+  - name : varchar(255)
+  - description : TEXT
+  - price : DECIMAL(10,2)
+  - stock_quantity : INT
+  - material : varchar(100)
+  - origin : varchar(100)
+  - category_id : varchar(100)
+  - color : varchar(100)
+}
+
+class Artisan {
+  - id : varchar(255)
+  - artisan_name : varchar(255)
+  - specialty : varchar(255)
+  - region : varchar(100)
+  - contact_info : varchar(255)
+  - bio : TEXT
+  --
+  - state : varchar(50)
+  - flow_id : varchar(100)
+  - state_id : varchar(100)
+  - state_entry_time : timestamp
+  - sla_yellow_date : timestamp
+  - sla_red_date : timestamp
+  - sla_tending_late : int
+  - sla_late : int
+  --
+  - created_time : timestamp
+  - last_modified_time : timestamp
+  - last_modified_by : varchar(255)
+  - created_by : varchar(255)
+  - tenant : varchar(255)
+  - version : bigint
+}
+
+class ProductArtisan {
+  - id : varchar(255)
+  - product_id : varchar(255)
+  - artisan_id : varchar(255)
+  - role : varchar(50)
+}
+
+' -------------------------
+' Associations
+' -------------------------
+
+' A product can associate with many ProductArtisan entries
+Product "1" -- "0..*" ProductArtisan : "associates"
+' An artisan may appear in multiple ProductArtisan entries
+Artisan "1" -- "0..*" ProductArtisan : "involved in"
+
+' The join table references the parent tables
+ProductArtisan --> Product : product_id
+ProductArtisan --> Artisan : artisan_id
+
+@enduml

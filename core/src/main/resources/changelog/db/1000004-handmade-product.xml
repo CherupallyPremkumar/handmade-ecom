@@ -3,8 +3,9 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+                            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
+    <!-- ChangeSet for creating the product table (without an artisan_id column) -->
     <changeSet id="20240404-1630" author="prem">
         <createTable tableName="hm_product">
             <column name="id" type="varchar(255)">
@@ -33,7 +34,7 @@
             <column name="stock_quantity" type="INT"/>
             <column name="material" type="VARCHAR(100)"/>
             <column name="origin" type="VARCHAR(100)"/>
-            <column name="artisan_id" type="VARCHAR(255)"/>
+            <!-- Removing artisan_id since we now support multiple artisans -->
             <column name="category_id" type="VARCHAR(100)"/>
             <column name="color" type="VARCHAR(100)"/>
         </createTable>
@@ -44,7 +45,6 @@
                 referencedTableName="hm_tenant"
                 referencedColumnNames="id"
                 constraintName="fk_product_tenant"/>
-        <!-- Foreign keys -->
         <addForeignKeyConstraint
                 baseTableName="hm_product"
                 baseColumnNames="category_id"
@@ -52,15 +52,42 @@
                 referencedColumnNames="id"
                 constraintName="fk_product_category"/>
 
+        <rollback>
+            <dropTable tableName="hm_product"/>
+        </rollback>
+    </changeSet>
+
+    <!-- ChangeSet for creating the join table to map a product to multiple artisans -->
+    <changeSet id="20240404-1700" author="prem">
+        <createTable tableName="hm_product_artisan">
+            <column name="id" type="varchar(255)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="product_id" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="artisan_id" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <!-- Optionally, you can include a column to capture the artisan's role (e.g. LEAD, SUPPORT) -->
+            <column name="role" type="varchar(50)"/>
+        </createTable>
+
         <addForeignKeyConstraint
-                baseTableName="hm_product"
+                baseTableName="hm_product_artisan"
+                baseColumnNames="product_id"
+                referencedTableName="hm_product"
+                referencedColumnNames="id"
+                constraintName="fk_product_artisan_product"/>
+        <addForeignKeyConstraint
+                baseTableName="hm_product_artisan"
                 baseColumnNames="artisan_id"
                 referencedTableName="hm_artisan"
                 referencedColumnNames="id"
-                constraintName="fk_product_artisan"/>
+                constraintName="fk_product_artisan_artisan"/>
 
         <rollback>
-            <dropTable tableName="hm_product"/>
+            <dropTable tableName="hm_product_artisan"/>
         </rollback>
     </changeSet>
 

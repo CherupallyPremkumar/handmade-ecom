@@ -22,8 +22,7 @@
 					   meta-bodyType="com.handmade.ecommerce.product.model.command.MarkOutOfStockPayload"/>
 
 	<event-information eventId="restock"
-					   meta-acls="product.manager"
-					   meta-bodyType="com.handmade.ecommerce.product.payload.RestockProductPayload"/>
+					   meta-bodyType="com.handmade.ecommerce.product.model.command.RestockProductPayload"/>
 
 	<event-information eventId="discontinue"
 					   meta-acls="product.admin"
@@ -39,20 +38,28 @@
 
 		<status id="DRAFT" initialState="true">
 			<on-action id="submit" move-to="REVIEW"/>
+			<on-action id="edit" move-to="DRAFT"/>
 		</status>
 
 		<status id="REVIEW">
 			<on-action id="approve" move-to="ACTIVE"/>
 			<on-action id="reject" move-to="REJECTED"/>
+			<on-action id="edit" move-to="REVIEW"/>
 		</status>
 
 		<status id="ACTIVE">
 			<on-action id="outOfStock" move-to="OUT_OF_STOCK"/>
 			<on-action id="discontinue" move-to="DISCONTINUED"/>
+			<on-action id="edit" move-to="VALIDATE_STATE"/>
 		</status>
 
+		<auto-state id='VALIDATE_STOCK' componentName="validateProductStockService">
+			<on-action id="true" move-to="ACTIVE"/>
+			<on-action id="false" move-to="OUT_OF_STOCK"/>
+		</auto-state>
 		<status id="OUT_OF_STOCK">
 			<on-action id="restock" move-to="ACTIVE"/>
+			<on-action id="edit" move-to="DRAFT"/>
 		</status>
 
 		<status id="REJECTED">

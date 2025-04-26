@@ -1,6 +1,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace = "Product">
+<mapper namespace="Product">
 
     <resultMap id="HomepageProductResultMap" type="map">
         <id property="id" column="product_id"/>
@@ -14,43 +14,20 @@
         <result property="categoryName" column="category_name"/>
     </resultMap>
 
-<select id="getAll" resultMap="HomepageProductResultMap">
-    SELECT
-    p.id AS product_id,
-    p.name AS product_name,
-    p.stateId,
-    p.flowId,
-    pr.price AS price,
-    pr.currency_code AS currency_code,
-    p.color,
-    a.artisan_name AS artisan_name,
-    c.category_name AS category_name
-
-    FROM hm_product p
-    LEFT JOIN hm_artisan a ON p.artisan_id = a.id
-    LEFT JOIN hm_category c ON p.category_id = c.id
-    LEFT JOIN hm_price pr ON pr.product_id = p.id AND pr.location_code = #{locationCode}
-    <where>
-        <if test="stateId != null and stateId != ''">
-            p.stateId = #{stateId}
-        </if>
-        <if test="categoryId != null and categoryId != ''">
-            p.category_id = #{categoryId}
-        </if>
-        <if test="artisanId != null and artisanId != ''">
-            AND p.artisan_id = #{artisanId}
-        </if>
-        <if test="name != null and name != ''">
-            AND LOWER(p.name) LIKE CONCAT('%', LOWER(#{name}), '%')
-        </if>
-    </where>
-    ${orderby} ${pagination}
-</select>
-
-    <select id="getAll-count" resultType="int">
-        SELECT COUNT(*)
+    <select id="getAll" resultMap="HomepageProductResultMap">
+        SELECT
+        p.id AS product_id,
+        p.name AS product_name,
+        p.stateId,
+        p.flowId,
+        pr.price AS price,
+        pr.currency_code AS currency_code,
+        p.color,
+        a.artisan_name AS artisan_name,
+        c.category_name AS category_name
         FROM hm_product p
-        LEFT JOIN hm_artisan a ON p.artisan_id = a.id
+        LEFT JOIN hm_product_artisan pa ON p.id = pa.product_id
+        LEFT JOIN hm_artisan a ON pa.artisan_id = a.id
         LEFT JOIN hm_category c ON p.category_id = c.id
         LEFT JOIN hm_price pr ON pr.product_id = p.id AND pr.location_code = #{locationCode}
         <where>
@@ -58,10 +35,34 @@
                 p.stateId = #{stateId}
             </if>
             <if test="categoryId != null and categoryId != ''">
-                p.category_id = #{categoryId}
+                AND p.category_id = #{categoryId}
             </if>
             <if test="artisanId != null and artisanId != ''">
-                AND p.artisan_id = #{artisanId}
+                AND a.id = #{artisanId}
+            </if>
+            <if test="name != null and name != ''">
+                AND LOWER(p.name) LIKE CONCAT('%', LOWER(#{name}), '%')
+            </if>
+        </where>
+        ${orderby} ${pagination}
+    </select>
+
+    <select id="getAll-count" resultType="int">
+        SELECT COUNT(*)
+        FROM hm_product p
+        LEFT JOIN hm_product_artisan pa ON p.id = pa.product_id
+        LEFT JOIN hm_artisan a ON pa.artisan_id = a.id
+        LEFT JOIN hm_category c ON p.category_id = c.id
+        LEFT JOIN hm_price pr ON pr.product_id = p.id AND pr.location_code = #{locationCode}
+        <where>
+            <if test="stateId != null and stateId != ''">
+                p.stateId = #{stateId}
+            </if>
+            <if test="categoryId != null and categoryId != ''">
+                AND p.category_id = #{categoryId}
+            </if>
+            <if test="artisanId != null and artisanId != ''">
+                AND a.id = #{artisanId}
             </if>
             <if test="search != null and search != ''">
                 AND LOWER(p.name) LIKE CONCAT('%', LOWER(#{search}), '%')
