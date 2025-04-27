@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="create-product-price-table-202405301530" author="premkumar">
+        <createTable tableName="hm_product_price">
+            <column name="id" type="varchar(255)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="created_time" type="timestamp"/>
+            <column name="last_modified_time" type="timestamp"/>
+            <column name="last_modified_by" type="varchar(255)"/>
+            <column name="tenant" type="varchar(255)"/>
+            <column name="created_by" type="varchar(255)"/>
+            <column name="version" type="bigint" defaultValue="0"/>
+            <column name="product_id" type="VARCHAR(255)">
+                <constraints nullable="false" foreignKeyName="fk_product_price_product" references="hm_product(id)"/>
+            </column>
+            <column name="location_code" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="currency_code" type="VARCHAR(5)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="DECIMAL(10,2)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <!-- Create unique constraint to prevent duplicate prices for same product/location/currency -->
+        <addUniqueConstraint 
+            tableName="hm_product_price" 
+            columnNames="product_id, location_code, currency_code"
+            constraintName="uk_product_price_location_currency"/>
+            
+        <rollback>
+            <dropTable tableName="hm_product_price"/>
+        </rollback>
+    </changeSet>
+    
+    <!-- Add sample data for product prices -->
+    <changeSet id="seed-product-prices-202405301531" author="premkumar">
+        <!-- Price for product prd-001 in India (INR) -->
+        <insert tableName="hm_product_price">
+            <column name="id" value="price-001-IN"/>
+            <column name="product_id" value="prd-001"/>
+            <column name="location_code" value="IN"/>
+            <column name="currency_code" value="INR"/>
+            <column name="price" valueNumeric="9999.00"/>
+            <column name="tenant" value="SAREEHOUSE_IN"/>
+        </insert>
+        
+        <!-- Price for product prd-001 in US (USD) -->
+        <insert tableName="hm_product_price">
+            <column name="id" value="price-001-US"/>
+            <column name="product_id" value="prd-001"/>
+            <column name="location_code" value="US"/>
+            <column name="currency_code" value="USD"/>
+            <column name="price" valueNumeric="129.99"/>
+            <column name="tenant" value="SAREEHOUSE_IN"/>
+        </insert>
+        
+        <!-- Price for product prd-002 in India (INR) -->
+        <insert tableName="hm_product_price">
+            <column name="id" value="price-002-IN"/>
+            <column name="product_id" value="prd-002"/>
+            <column name="location_code" value="IN"/>
+            <column name="currency_code" value="INR"/>
+            <column name="price" valueNumeric="7999.00"/>
+            <column name="tenant" value="SAREEHOUSE_IN"/>
+        </insert>
+        
+        <!-- Price for product prd-002 in US (USD) -->
+        <insert tableName="hm_product_price">
+            <column name="id" value="price-002-US"/>
+            <column name="product_id" value="prd-002"/>
+            <column name="location_code" value="US"/>
+            <column name="currency_code" value="USD"/>
+            <column name="price" valueNumeric="99.99"/>
+            <column name="tenant" value="SAREEHOUSE_IN"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog> 

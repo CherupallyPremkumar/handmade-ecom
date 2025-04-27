@@ -1,4 +1,4 @@
-package com.handmade.ecommerce.shipping.service.cmds;
+package com.grade.flow.shipping.service.cmds;
 
 import org.chenile.stm.STMInternalTransitionInvoker;
 import org.chenile.stm.State;

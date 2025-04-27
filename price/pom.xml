@@ -6,6 +6,7 @@
 	<modules>
 		<module>price-api</module>
 		<module>price-service</module>
+		<module>price-dto</module>
 	</modules>
 	<parent>
 		<groupId>com.handmade.ecommerce</groupId>
@@ -35,6 +36,11 @@
 			<groupId>com.handmade.ecommerce.price</groupId>	
 			<version>${price.version}</version>
 			<artifactId>price-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.handmade.ecommerce.price</groupId>
+			<version>${price.version}</version>
+			<artifactId>price-dto</artifactId>
 		</dependency>
 	</dependencies>
 	</dependencyManagement>

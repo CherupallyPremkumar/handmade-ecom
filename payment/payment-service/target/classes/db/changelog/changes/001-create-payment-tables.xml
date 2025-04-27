@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet id="001-create-payment-tables" author="handmade">
+        <!-- Payment Table -->
+        <createTable tableName="payment">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="order_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="customer_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="decimal(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="currency" type="varchar(3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="payment_method" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="payment_status" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="payment_provider" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="provider_transaction_id" type="varchar(100)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenant_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Payment Method Table -->
+        <createTable tableName="payment_method">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="customer_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="payment_type" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="provider_token" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_default" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_four" type="varchar(4)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="expiry_month" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="expiry_year" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenant_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Refund Table -->
+        <createTable tableName="refund">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="payment_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="decimal(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="currency" type="varchar(3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reason" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="refund_status" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="provider_refund_id" type="varchar(100)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenant_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Add Foreign Key Constraints -->
+        <addForeignKeyConstraint baseTableName="refund"
+                                baseColumnNames="payment_id"
+                                constraintName="fk_refund_payment"
+                                referencedTableName="payment"
+                                referencedColumnNames="id"/>
+
+        <!-- Add Indexes -->
+        <createIndex indexName="idx_payment_order_id"
+                    tableName="payment">
+            <column name="order_id"/>
+        </createIndex>
+
+        <createIndex indexName="idx_payment_customer_id"
+                    tableName="payment">
+            <column name="customer_id"/>
+        </createIndex>
+
+        <createIndex indexName="idx_payment_method_customer_id"
+                    tableName="payment_method">
+            <column name="customer_id"/>
+        </createIndex>
+
+        <createIndex indexName="idx_refund_payment_id"
+                    tableName="refund">
+            <column name="payment_id"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog> 

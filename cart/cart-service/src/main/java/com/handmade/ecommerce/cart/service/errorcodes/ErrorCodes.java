@@ -1,11 +1,32 @@
 package com.handmade.ecommerce.cart.service.errorcodes;
 
 public enum ErrorCodes {
-    // replace the 50000 below with your own sub error range.
-	// Each service must have its own sub error range so that it is easy
-	// to know the service from the sub error range
-	// Make sure that the sub error number matches the one in the resources
-	SOME_ERROR(50000);
+    INTERNAL_ERROR(50000),
+	INVALID_INPUT(50001),
+	NOT_FOUND(50002),
+	BUSINESS_RULE_VIOLATION("E50003"),
+	INVALID_STATE_TRANSITION("E50004"),
+
+	// Cart Errors
+	CART_NOT_FOUND("E51000"),
+	USER_HAS_ACTIVE_CART("E51001"),
+	CANNOT_ADD_TO_INACTIVE_CART("E51002"),
+	ITEM_NOT_FOUND("E51003"),
+	CANNOT_UPDATE_INACTIVE_CART("E51004"),
+	CANNOT_REMOVE_FROM_INACTIVE_CART("E51005"),
+	CANNOT_DELETE_ACTIVE_CART("E51006"),
+	CANNOT_CREATE_ORDER_FROM_EMPTY_CART("E51007"),
+	CART_ALREADY_CONVERTED("E51008"),
+	ONLY_ACTIVE_CARTS_CAN_BE_CONVERTED("E51009"),
+	FAILED_TO_CREATE_ORDER("E51010"),
+	INVALID_CART_STATE("E51011"),
+	INVALID_TRANSITION("E51012"),
+	CANNOT_RESTORE_CART("E51013"),
+	ITEM_REQUEST_NULL("E51014"),
+	ITEM_ID_AND_QUANTITY_NULL("E51015"),
+	QUANTITY_MUST_BE_POSITIVE("E51016"),
+	ITEM_ID_NULL("E51017"),
+	CART_NOT_CONVERTED("E51018");
 
 	private final int subError;
 	private ErrorCodes(int subError) {

@@ -1,5 +1,6 @@
-package com.handmade.ecommerce.shipping.configuration;
+package com.grade.flow.shipping.configuration;
 
+import com.grade.flow.shipping.service.cmds.DefaultSTMTransitionAction;
 import org.chenile.stm.*;
 import org.chenile.stm.action.STMTransitionAction;
 import org.chenile.stm.impl.*;
@@ -15,7 +16,6 @@ import org.chenile.workflow.service.impl.StateEntityServiceImpl;
 import org.chenile.workflow.service.stmcmds.*;
 import com.handmade.ecommerce.shipping.model.Shipping;
 import com.handmade.ecommerce.shipping.service.cmds.AssignShippingAction;
-import com.handmade.ecommerce.shipping.service.cmds.DefaultSTMTransitionAction;
 import com.handmade.ecommerce.shipping.service.cmds.CloseShippingAction;
 import com.handmade.ecommerce.shipping.service.cmds.ResolveShippingAction;
 import com.handmade.ecommerce.shipping.service.healthcheck.ShippingHealthChecker;

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchchangelog-4.4.xsd">
+
+    <changeSet id="003-add-artisan-review-and-working-hours-tables" author="handmade">
+        <!-- Enhanced Artisan Review Table -->
+        <createTable tableName="artisan_review">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="artisan_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reviewer_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="order_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rating" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="varchar(255)"/>
+            <column name="comment" type="text"/>
+            <column name="is_verified_purchase" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_public" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(20)" defaultValue="PENDING">
+                <constraints nullable="false"/>
+            </column>
+            <column name="moderation_notes" type="text"/>
+            <column name="moderated_by" type="varchar(36)"/>
+            <column name="moderation_date" type="timestamp"/>
+            <column name="created_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="bigint" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Enhanced Artisan Working Hours Table -->
+        <createTable tableName="artisan_working_hours_enhanced">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="artisan_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="day_of_week" type="int"/>
+            <column name="specific_date" type="date"/>
+            <column name="start_time" type="time">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_time" type="time">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_available" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="break_start_time" type="time"/>
+            <column name="break_end_time" type="time"/>
+            <column name="is_recurring" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="notes" type="text"/>
+            <column name="created_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="bigint" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Artisan Review Response Table -->
+        <createTable tableName="artisan_review_response">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="review_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="responder_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="response_text" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="bigint" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Artisan Review Rating Categories Table -->
+        <createTable tableName="artisan_review_rating_category">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="review_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="category_name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rating" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="bigint" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Indexes -->
+        <createIndex indexName="idx_artisan_review_artisan" tableName="artisan_review">
+            <column name="artisan_id"/>
+        </createIndex>
+        <createIndex indexName="idx_artisan_review_reviewer" tableName="artisan_review">
+            <column name="reviewer_id"/>
+        </createIndex>
+        <createIndex indexName="idx_artisan_review_order" tableName="artisan_review">
+            <column name="order_id"/>
+        </createIndex>
+        <createIndex indexName="idx_artisan_review_status" tableName="artisan_review">
+            <column name="status"/>
+        </createIndex>
+        <createIndex indexName="idx_artisan_working_hours_enhanced_artisan" tableName="artisan_working_hours_enhanced">
+            <column name="artisan_id"/>
+        </createIndex>
+        <createIndex indexName="idx_artisan_working_hours_enhanced_day" tableName="artisan_working_hours_enhanced">
+            <column name="day_of_week"/>
+        </createIndex>
+        <createIndex indexName="idx_artisan_working_hours_enhanced_date" tableName="artisan_working_hours_enhanced">
+            <column name="specific_date"/>
+        </createIndex>
+        <createIndex indexName="idx_artisan_review_response_review" tableName="artisan_review_response">
+            <column name="review_id"/>
+        </createIndex>
+        <createIndex indexName="idx_artisan_review_rating_category_review" tableName="artisan_review_rating_category">
+            <column name="review_id"/>
+        </createIndex>
+
+        <!-- Foreign Keys -->
+        <addForeignKeyConstraint baseTableName="artisan_review"
+                                baseColumnNames="artisan_id"
+                                constraintName="fk_artisan_review_artisan"
+                                referencedTableName="artisan"
+                                referencedColumnNames="id"
+                                onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="artisan_working_hours_enhanced"
+                                baseColumnNames="artisan_id"
+                                constraintName="fk_artisan_working_hours_enhanced_artisan"
+                                referencedTableName="artisan"
+                                referencedColumnNames="id"
+                                onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="artisan_review_response"
+                                baseColumnNames="review_id"
+                                constraintName="fk_artisan_review_response_review"
+                                referencedTableName="artisan_review"
+                                referencedColumnNames="id"
+                                onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="artisan_review_rating_category"
+                                baseColumnNames="review_id"
+                                constraintName="fk_artisan_review_rating_category_review"
+                                referencedTableName="artisan_review"
+                                referencedColumnNames="id"
+                                onDelete="CASCADE"/>
+    </changeSet>
+</databaseChangeLog> 

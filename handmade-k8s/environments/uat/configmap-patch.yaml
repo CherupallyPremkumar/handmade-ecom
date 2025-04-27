@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: handmade-config
+data:
+  application.yml: |
+    spring:
+      datasource:
+        url: jdbc:postgresql://postgres-uat:5432/handmade_uat
+      jpa:
+        show-sql: true
+    logging:
+      level:
+        root: INFO
+        com.handmade.ecommerce: DEBUG

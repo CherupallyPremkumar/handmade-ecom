@@ -1,0 +1,25 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: handmade-uat
+
+resources:
+  - ../../base
+
+patches:
+  - path: deployment-patch.yaml
+  - path: configmap-patch.yaml
+
+configMapGenerator:
+  - name: handmade-config
+    behavior: merge
+    literals:
+      - SPRING_PROFILES_ACTIVE=uat
+      - LOGGING_LEVEL_ROOT=INFO
+      - LOGGING_LEVEL_COM_HANDMADE_ECOMMERCE=DEBUG
+
+secretGenerator:
+  - name: handmade-secrets
+    behavior: merge
+    envs:
+      - secrets.env

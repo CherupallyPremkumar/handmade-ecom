@@ -45,7 +45,7 @@ spring:
       # disable spring boot built-in h2-console since we start it manually with correct configuration
       enabled: true
   liquibase:
-    change-log: classpath:/changelog/changelog-master.xml
+    change-log: classpath:/changelog-master.xml
     # Remove 'faker' if you do not want the sample data to be loaded automatically
     contexts: dev, faker
 

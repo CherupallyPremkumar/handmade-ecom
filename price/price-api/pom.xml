@@ -19,7 +19,10 @@
         <groupId>org.chenile</groupId>
         <artifactId>jpa-utils</artifactId>
       </dependency>
-
+		<dependency>
+			<groupId>com.handmade.ecommerce.price</groupId>
+			<artifactId>price-dto</artifactId>
+		</dependency>
     </dependencies>
 
 </project>

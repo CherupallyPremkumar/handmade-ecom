@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet id="002-create-artisan-additional-tables" author="handmade">
+        <!-- Artisan Bank Account Table -->
+        <createTable tableName="artisan_bank_account">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="artisan_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_holder_name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_number" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bank_name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="branch_code" type="varchar(20)"/>
+            <column name="is_default" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="verification_status" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="verification_date" type="timestamp"/>
+            <column name="verified_by" type="varchar(36)"/>
+            <column name="created_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="bigint" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Artisan Service Area Table -->
+        <createTable tableName="artisan_service_area">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="artisan_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="country" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="state" type="varchar(100)"/>
+            <column name="city" type="varchar(100)"/>
+            <column name="postal_code" type="varchar(20)"/>
+            <column name="service_radius" type="int"/>
+            <column name="is_active" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="bigint" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Artisan Working Hours Table -->
+        <createTable tableName="artisan_working_hours">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="artisan_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="day_of_week" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_time" type="time">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_time" type="time">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_available" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="bigint" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Indexes -->
+        <createIndex indexName="idx_artisan_bank_account_artisan" tableName="artisan_bank_account">
+            <column name="artisan_id"/>
+        </createIndex>
+        <createIndex indexName="idx_artisan_bank_account_default" tableName="artisan_bank_account">
+            <column name="is_default"/>
+        </createIndex>
+        <createIndex indexName="idx_artisan_service_area_artisan" tableName="artisan_service_area">
+            <column name="artisan_id"/>
+        </createIndex>
+        <createIndex indexName="idx_artisan_service_area_active" tableName="artisan_service_area">
+            <column name="is_active"/>
+        </createIndex>
+        <createIndex indexName="idx_artisan_working_hours_artisan" tableName="artisan_working_hours">
+            <column name="artisan_id"/>
+        </createIndex>
+        <createIndex indexName="idx_artisan_working_hours_day" tableName="artisan_working_hours">
+            <column name="day_of_week"/>
+        </createIndex>
+
+        <!-- Foreign Keys -->
+        <addForeignKeyConstraint baseTableName="artisan_bank_account"
+                                baseColumnNames="artisan_id"
+                                constraintName="fk_artisan_bank_account_artisan"
+                                referencedTableName="artisan"
+                                referencedColumnNames="id"
+                                onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="artisan_service_area"
+                                baseColumnNames="artisan_id"
+                                constraintName="fk_artisan_service_area_artisan"
+                                referencedTableName="artisan"
+                                referencedColumnNames="id"
+                                onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="artisan_working_hours"
+                                baseColumnNames="artisan_id"
+                                constraintName="fk_artisan_working_hours_artisan"
+                                referencedTableName="artisan"
+                                referencedColumnNames="id"
+                                onDelete="CASCADE"/>
+    </changeSet>
+</databaseChangeLog> 

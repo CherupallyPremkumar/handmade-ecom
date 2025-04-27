@@ -19,16 +19,27 @@
     <property name="clobType" value="TEXT" dbms="mysql"/>
     <property name="blobType" value="BLOB" dbms="mysql"/>
 
-    <include file="db/100000009-handmade-tenant.xml" relativeToChangelogFile="true"/>
-    <include file="db/1000008-handmade-category.xml" relativeToChangelogFile="true"/>
-    <include file="db/1000007-handmade-artisan.xml" relativeToChangelogFile="true"/>
-    <include file="db/1000004-handmade-product.xml" relativeToChangelogFile="true"/>
-    <include file="db/1000000010-handmade-product_price.xml" relativeToChangelogFile="true"/>
-    <include file="db/1000000011-handmade-product-price.xml" relativeToChangelogFile="true"/>
-    <include file="db/1000001-handmade-customer.xml" relativeToChangelogFile="true"/>
-    <include file="db/1000002-handmade-cart.xml" relativeToChangelogFile="true"/>
-    <include file="db/1000003-handmade-cart-item.xml" relativeToChangelogFile="true"/>
-    <include file="db/1000005-handmade-order.xml" relativeToChangelogFile="true"/>
-    <include file="db/1000006-handmade-order-item.xml" relativeToChangelogFile="true"/>
-    <include file="db/2000001-seed-handmade-data.xml" relativeToChangelogFile="true"/>
+    <!-- Core Tables -->
+    <include file="db/changelog/changes/100000009-handmade-tenant.xml" relativeToChangelogFile="true"/>
+    <include file="db/changelog/changes/1000008-handmade-category.xml" relativeToChangelogFile="true"/>
+    <include file="db/changelog/changes/1000007-handmade-artisan.xml" relativeToChangelogFile="true"/>
+    <include file="db/changelog/changes/1000004-handmade-product.xml" relativeToChangelogFile="true"/>
+    <include file="db/changelog/changes/1000000010-handmade-product_price.xml" relativeToChangelogFile="true"/>
+    <include file="db/changelog/changes/1000000011-handmade-product-price.xml" relativeToChangelogFile="true"/>
+    <include file="db/changelog/changes/1000001-handmade-customer.xml" relativeToChangelogFile="true"/>
+    <include file="db/changelog/changes/1000002-handmade-cart.xml" relativeToChangelogFile="true"/>
+    <include file="db/changelog/changes/1000003-handmade-cart-item.xml" relativeToChangelogFile="true"/>
+    <include file="db/changelog/changes/1000005-handmade-order.xml" relativeToChangelogFile="true"/>
+    <include file="db/changelog/changes/1000006-handmade-order-item.xml" relativeToChangelogFile="true"/>
+
+    <!-- Artisan Related Tables -->
+    <include file="db/changelog/changes/001-create-artisan-tables.xml" relativeToChangelogFile="true"/>
+    <include file="db/changelog/changes/002-create-artisan-additional-tables.xml" relativeToChangelogFile="true"/>
+    <include file="db/changelog/changes/003-add-artisan-review-and-working-hours-tables.xml" relativeToChangelogFile="true"/>
+
+    <!-- E-commerce Core Tables -->
+    <include file="db/changelog/changes/004-add-ecommerce-core-tables.xml" relativeToChangelogFile="true"/>
+
+    <!-- Seed Data -->
+    <include file="db/changelog/changes/2000001-seed-handmade-data.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

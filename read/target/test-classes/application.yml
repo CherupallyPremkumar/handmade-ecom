@@ -4,7 +4,23 @@ logging:
     org.hibernate.SQL: INFO
     org.chenile.*: DEBUG
 
+chenile:
+  security:
+    client:
+      id: "authz-servlet"
+      secret: "secret"
+    keycloak:
+      host: "localhost"
+      port: 8188
+      base:
+        realm: quickstart
+
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8180/realms/#tenantId#/protocol/openid-connect/certs
   banner:
     location: classpath:banner.txt
   devtools:
@@ -29,6 +45,7 @@ spring:
       # disable spring boot built-in h2-console since we start it manually with correct configuration
       enabled: true
   liquibase:
+    change-log: classpath:/changelog-master.xml
     # Remove 'faker' if you do not want the sample data to be loaded automatically
     contexts: dev, faker
 

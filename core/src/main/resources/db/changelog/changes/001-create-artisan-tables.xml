@@ -1,0 +1,162 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet id="001-create-artisan-tables" author="handmade">
+        <!-- Artisan Table -->
+        <createTable tableName="artisan">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tenant_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="phone" type="varchar(20)"/>
+            <column name="status" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text"/>
+            <column name="registration_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="verification_date" type="timestamp"/>
+            <column name="verified_by" type="varchar(36)"/>
+            <column name="verification_documents" type="text"/>
+            <column name="verification_notes" type="text"/>
+            <column name="activation_date" type="timestamp"/>
+            <column name="activated_by" type="varchar(36)"/>
+            <column name="activation_notes" type="text"/>
+            <column name="suspension_date" type="timestamp"/>
+            <column name="suspended_by" type="varchar(36)"/>
+            <column name="suspension_reason" type="varchar(500)"/>
+            <column name="suspension_notes" type="text"/>
+            <column name="deactivation_date" type="timestamp"/>
+            <column name="deactivated_by" type="varchar(36)"/>
+            <column name="deactivation_reason" type="varchar(500)"/>
+            <column name="deactivation_notes" type="text"/>
+            <column name="last_modified_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="bigint" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Artisan Skills Table -->
+        <createTable tableName="artisan_skills">
+            <column name="artisan_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="skill" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Artisan Portfolio Table -->
+        <createTable tableName="artisan_portfolio">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="artisan_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text"/>
+            <column name="image_url" type="varchar(500)"/>
+            <column name="created_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="bigint" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Artisan Reviews Table -->
+        <createTable tableName="artisan_reviews">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="artisan_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="customer_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="order_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rating" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="comment" type="text"/>
+            <column name="created_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="bigint" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Indexes -->
+        <createIndex indexName="idx_artisan_tenant" tableName="artisan">
+            <column name="tenant_id"/>
+        </createIndex>
+        <createIndex indexName="idx_artisan_status" tableName="artisan">
+            <column name="status"/>
+        </createIndex>
+        <createIndex indexName="idx_artisan_active" tableName="artisan">
+            <column name="active"/>
+        </createIndex>
+        <createIndex indexName="idx_artisan_skills_artisan" tableName="artisan_skills">
+            <column name="artisan_id"/>
+        </createIndex>
+        <createIndex indexName="idx_artisan_portfolio_artisan" tableName="artisan_portfolio">
+            <column name="artisan_id"/>
+        </createIndex>
+        <createIndex indexName="idx_artisan_reviews_artisan" tableName="artisan_reviews">
+            <column name="artisan_id"/>
+        </createIndex>
+
+        <!-- Foreign Keys -->
+        <addForeignKeyConstraint baseTableName="artisan_skills"
+                                baseColumnNames="artisan_id"
+                                constraintName="fk_artisan_skills_artisan"
+                                referencedTableName="artisan"
+                                referencedColumnNames="id"
+                                onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="artisan_portfolio"
+                                baseColumnNames="artisan_id"
+                                constraintName="fk_artisan_portfolio_artisan"
+                                referencedTableName="artisan"
+                                referencedColumnNames="id"
+                                onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="artisan_reviews"
+                                baseColumnNames="artisan_id"
+                                constraintName="fk_artisan_reviews_artisan"
+                                referencedTableName="artisan"
+                                referencedColumnNames="id"
+                                onDelete="CASCADE"/>
+    </changeSet>
+</databaseChangeLog> 

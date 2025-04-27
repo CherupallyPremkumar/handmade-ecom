@@ -8,24 +8,23 @@
         <artifactId>chenile-parent</artifactId>
     </parent>
     <modules>
+        <module>image-storage</module>
         <module>tenant</module>
         <module>cart</module>
-<!--        <module>order</module>-->
+        <module>order</module>
         <module>category</module>
         <module>product</module>
         <module>price</module>
         <module>core</module>
-<!--        <module>customer</module>-->
-<!--        <module>payment</module>-->
-<!--        <module>return</module>-->
-<!--        <module>shipping</module>-->
-
-     <module>artisan</module>
-<!--        <module>read</module>-->
-
-       <module>read</module>
-
+       <module>customer</module>
+       <module>payment</module>
+        <module>return</module>
+       <module>shipping</module>
+       <module>artisan</module>
+        <module>read</module>
         <module>build</module>
+        <module>common-exception</module>
+        <module>handmade-k8s</module>
     </modules>
 
     <groupId>com.handmade.ecommerce</groupId>
@@ -44,6 +43,11 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-jpa</artifactId>
                 <version>${spring-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.handmade.ecommerce</groupId>
+                <artifactId>common-exception</artifactId>
+                <version>${revision}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

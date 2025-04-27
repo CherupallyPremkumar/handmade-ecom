@@ -6,6 +6,7 @@
 	<modules>
 		<module>cart-api</module>
 		<module>cart-service</module>
+		<module>cart-dto</module>
 	</modules>
 	<parent>
 		<groupId>com.handmade.ecommerce</groupId>
@@ -35,6 +36,11 @@
 			<groupId>com.handmade.ecommerce.cart</groupId>
 			<version>${revision}</version>
 			<artifactId>cart-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.handmade.ecommerce.cart</groupId>
+			<artifactId>cart-dto</artifactId>
+			<version>${revision}</version>
 		</dependency>
 	</dependencies>
 	</dependencyManagement>

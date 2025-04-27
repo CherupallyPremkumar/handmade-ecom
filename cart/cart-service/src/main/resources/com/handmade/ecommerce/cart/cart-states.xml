@@ -8,27 +8,36 @@
 <states>
 	<default-transition-action componentName="cartBaseTransitionAction"/>
     <add-state-tag tag="status" manualState="true"/>
-    <add-transition-tag tag="on-action" eventIdTag="id" newStateIdTag="move-to"
-                    meta-acls="test.premium"/>
+    <add-transition-tag tag="on-action" eventIdTag="id" newStateIdTag="move-to"/>
 
 	<flow id='CartFlow' default='true'>
 		<entry-action componentName="cartEntryAction"/>
 		<exit-action componentName="cartExitAction"/>
         <security-strategy componentName="stmSecurityStrategy"/>
-		<status id='OPENED' initialState='true'>
-			<on-action id='assign'  move-to='ASSIGNED'/>
+		<status id='ACTIVE' initialState='true'>
+			<on-action id='convert' move-to='CONVERTED_TO_ORDER'/>
+			<on-action id='abandon' move-to='ABANDONED'/>
+			<on-action id='expire' move-to='EXPIRED'/>
+            <on-action id='addItem' action-component="addItemToCartCommand"/>
+            <on-action id='updateItem' action-component="updateCartItemCommand"/>
+            <on-action id='removeItem' action-component="removeItemFromCartCommand"/>
+            <on-action id='clearCart' action-component="clearCartCommand"/>
 		</status>
 
-		<status id='ASSIGNED'>
-			<on-action id='resolve' move-to='RESOLVED' />
+		<status id='CONVERTED_TO_ORDER'>
+			<!-- No transitions allowed from this state -->
+            <on-action id='getOrderDetails' action-component="getOrderDetailsCommand"/>
 		</status>
 
-        <status id='RESOLVED'>
-			<on-action id='close' move-to='CLOSED'/>
-        </status>
-        <status id='CLOSED' />
+		<status id='ABANDONED'>
+			<!-- No transitions allowed from this state -->
+            <on-action id='restore' action-component="restoreCartCommand"/>
+		</status>
 
-
+		<status id='EXPIRED'>
+			<!-- No transitions allowed from this state -->
+            <on-action id='restore' action-component="restoreCartCommand"/>
+		</status>
 	</flow>
 	
 </states>

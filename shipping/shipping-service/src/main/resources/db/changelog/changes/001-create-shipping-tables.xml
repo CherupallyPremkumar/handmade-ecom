@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet id="001-create-shipping-tables" author="handmade">
+        <!-- Shipment Table -->
+        <createTable tableName="shipment">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="order_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="customer_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="shipping_provider" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tracking_number" type="varchar(100)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="shipment_status" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="shipping_method" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="shipping_cost" type="decimal(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="currency" type="varchar(3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="estimated_delivery_date" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="actual_delivery_date" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenant_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Shipping Address Table -->
+        <createTable tableName="shipping_address">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="shipment_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="street_address" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="city" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="state" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="postal_code" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="country" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone_number" type="varchar(20)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenant_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Shipping Rate Table -->
+        <createTable tableName="shipping_rate">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="shipping_provider" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="service_level" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="base_rate" type="decimal(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="currency" type="varchar(3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="estimated_days" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_active" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenant_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Add Foreign Key Constraints -->
+        <addForeignKeyConstraint baseTableName="shipping_address"
+                                baseColumnNames="shipment_id"
+                                constraintName="fk_shipping_address_shipment"
+                                referencedTableName="shipment"
+                                referencedColumnNames="id"/>
+
+        <!-- Add Indexes -->
+        <createIndex indexName="idx_shipment_order_id"
+                    tableName="shipment">
+            <column name="order_id"/>
+        </createIndex>
+
+        <createIndex indexName="idx_shipment_customer_id"
+                    tableName="shipment">
+            <column name="customer_id"/>
+        </createIndex>
+
+        <createIndex indexName="idx_shipment_tracking"
+                    tableName="shipment">
+            <column name="tracking_number"/>
+        </createIndex>
+
+        <createIndex indexName="idx_shipping_rate_provider"
+                    tableName="shipping_rate">
+            <column name="shipping_provider"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog> 

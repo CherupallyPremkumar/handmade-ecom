@@ -1,6 +1,5 @@
 package com.handmade.ecommerce.cart.configuration;
 
-import com.handmade.ecommerce.cart.configuration.dao.CartRepository;
 import org.chenile.stm.*;
 import org.chenile.stm.action.STMTransitionAction;
 import org.chenile.stm.impl.*;
@@ -15,10 +14,7 @@ import org.chenile.utils.entity.service.EntityStore;
 import org.chenile.workflow.service.impl.StateEntityServiceImpl;
 import org.chenile.workflow.service.stmcmds.*;
 import com.handmade.ecommerce.cart.model.Cart;
-import com.handmade.ecommerce.cart.service.cmds.AssignCartAction;
 import com.handmade.ecommerce.cart.service.cmds.DefaultSTMTransitionAction;
-import com.handmade.ecommerce.cart.service.cmds.CloseCartAction;
-import com.handmade.ecommerce.cart.service.cmds.ResolveCartAction;
 import com.handmade.ecommerce.cart.service.healthcheck.CartHealthChecker;
 import com.handmade.ecommerce.cart.service.store.CartEntityStore;
 import org.chenile.workflow.api.WorkflowRegistry;
@@ -120,17 +116,6 @@ public class CartConfiguration {
     // The payload types will be detected as well so that there is no need to introduce an <event-information/>
     // segment in src/main/resources/com/handmade/cart/cart-states.xml
 
-    @Bean ResolveCartAction cartResolve() {
-        return new ResolveCartAction();
-    }
-
-    @Bean CloseCartAction cartClose() {
-        return new CloseCartAction();
-    }
-
-    @Bean AssignCartAction cartAssign() {
-        return new AssignCartAction();
-    }
 
 
     @Bean @Autowired Function<ChenileExchange, String[]> cartEventAuthoritiesSupplier(

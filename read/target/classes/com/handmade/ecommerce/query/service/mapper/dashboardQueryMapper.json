@@ -1,0 +1,236 @@
+{
+  "queries": [
+    {
+      "name": "getProductOverview",
+      "type": "list",
+      "sortable": true,
+      "paginated": true,
+      "description": "Products overview dashboard with prices and stock status",
+      "params": [
+        {
+          "name": "tenant",
+          "type": "string",
+          "description": "Tenant identifier"
+        },
+        {
+          "name": "categoryId",
+          "type": "string",
+          "description": "Filter by category ID"
+        },
+        {
+          "name": "artisanId",
+          "type": "string",
+          "description": "Filter by artisan ID"
+        },
+        {
+          "name": "locationCode",
+          "type": "string",
+          "description": "Location code (e.g., 'US', 'IN')"
+        },
+        {
+          "name": "currencyCode",
+          "type": "string",
+          "description": "Currency code (e.g., 'USD', 'INR')"
+        },
+        {
+          "name": "stockStatus",
+          "type": "string",
+          "description": "Filter by stock status ('Out of Stock', 'Low Stock', 'In Stock')"
+        }
+      ]
+    },
+    {
+      "name": "getSalesByProduct",
+      "type": "list",
+      "sortable": true,
+      "paginated": true,
+      "description": "Sales metrics by product for dashboard",
+      "params": [
+        {
+          "name": "tenant",
+          "type": "string",
+          "description": "Tenant identifier"
+        },
+        {
+          "name": "startDate",
+          "type": "date",
+          "description": "Start date for filtering orders"
+        },
+        {
+          "name": "endDate",
+          "type": "date",
+          "description": "End date for filtering orders"
+        },
+        {
+          "name": "categoryId",
+          "type": "string",
+          "description": "Filter by category ID"
+        }
+      ]
+    },
+    {
+      "name": "getSalesByCategory",
+      "type": "list",
+      "sortable": true,
+      "paginated": true,
+      "description": "Sales metrics by category for dashboard",
+      "params": [
+        {
+          "name": "tenant",
+          "type": "string",
+          "description": "Tenant identifier"
+        },
+        {
+          "name": "startDate",
+          "type": "date",
+          "description": "Start date for filtering orders"
+        },
+        {
+          "name": "endDate",
+          "type": "date",
+          "description": "End date for filtering orders"
+        }
+      ]
+    },
+    {
+      "name": "getCustomerProfile",
+      "type": "list",
+      "sortable": true,
+      "paginated": true,
+      "description": "Customer profiles with order history and cart information",
+      "params": [
+        {
+          "name": "tenant",
+          "type": "string",
+          "description": "Tenant identifier"
+        },
+        {
+          "name": "customerId",
+          "type": "string",
+          "description": "Filter by customer ID"
+        },
+        {
+          "name": "locationCode",
+          "type": "string",
+          "description": "Location code for cart pricing"
+        },
+        {
+          "name": "currencyCode",
+          "type": "string",
+          "description": "Currency code for cart pricing"
+        }
+      ]
+    },
+    {
+      "name": "getArtisanPerformance",
+      "type": "list",
+      "sortable": true,
+      "paginated": true,
+      "description": "Artisan performance metrics for dashboard",
+      "params": [
+        {
+          "name": "tenant",
+          "type": "string",
+          "description": "Tenant identifier"
+        },
+        {
+          "name": "artisanId",
+          "type": "string",
+          "description": "Filter by artisan ID"
+        },
+        {
+          "name": "startDate",
+          "type": "date",
+          "description": "Start date for filtering orders"
+        },
+        {
+          "name": "endDate",
+          "type": "date",
+          "description": "End date for filtering orders"
+        }
+      ]
+    },
+    {
+      "name": "getCategoryAnalysis",
+      "type": "list",
+      "sortable": true,
+      "paginated": true,
+      "description": "Category analysis metrics for dashboard",
+      "params": [
+        {
+          "name": "tenant",
+          "type": "string",
+          "description": "Tenant identifier"
+        },
+        {
+          "name": "categoryId",
+          "type": "string",
+          "description": "Filter by category ID"
+        },
+        {
+          "name": "locationCode",
+          "type": "string",
+          "description": "Location code for pricing"
+        },
+        {
+          "name": "currencyCode",
+          "type": "string",
+          "description": "Currency code for pricing"
+        }
+      ]
+    },
+    {
+      "name": "getPriceAnalysis",
+      "type": "list",
+      "sortable": true,
+      "paginated": true,
+      "description": "Product price analysis across locations",
+      "params": [
+        {
+          "name": "tenant",
+          "type": "string",
+          "description": "Tenant identifier"
+        },
+        {
+          "name": "productId",
+          "type": "string",
+          "description": "Filter by product ID"
+        },
+        {
+          "name": "locationCode",
+          "type": "string",
+          "description": "Filter by location code"
+        },
+        {
+          "name": "currencyCode",
+          "type": "string",
+          "description": "Filter by currency code"
+        }
+      ]
+    },
+    {
+      "name": "getOrderAnalysis",
+      "type": "list",
+      "sortable": true,
+      "paginated": true,
+      "description": "Order analysis by date for dashboard",
+      "params": [
+        {
+          "name": "tenant",
+          "type": "string",
+          "description": "Tenant identifier"
+        },
+        {
+          "name": "startDate",
+          "type": "date",
+          "description": "Start date for filtering orders"
+        },
+        {
+          "name": "endDate",
+          "type": "date",
+          "description": "End date for filtering orders"
+        }
+      ]
+    }
+  ]
+} 

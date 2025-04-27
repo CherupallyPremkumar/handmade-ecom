@@ -4,7 +4,8 @@ import jakarta.persistence.*;
 import org.chenile.jpautils.entity.AbstractJpaStateEntity;
 
 import java.math.BigDecimal;
-
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "hm_product")
@@ -34,6 +35,26 @@ public class Product extends AbstractJpaStateEntity {
 	private String categoryId;
 	private String color;
 
+	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<ProductPrice> prices = new HashSet<>();
+
+	// Default constructor
+	public Product() {
+	}
+
+	// Parameterized constructor
+	public Product(String name, String description, BigDecimal price, int stockQuantity, 
+				  String material, String origin, String artisanId, String categoryId, String color) {
+		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.stockQuantity = stockQuantity;
+		this.material = material;
+		this.origin = origin;
+		this.artisanId = artisanId;
+		this.categoryId = categoryId;
+		this.color = color;
+	}
 
 	public String getName() {
 		return name;
@@ -83,7 +104,6 @@ public class Product extends AbstractJpaStateEntity {
 		this.origin = origin;
 	}
 
-
 	public String getColor() {
 		return color;
 	}
@@ -99,6 +119,7 @@ public class Product extends AbstractJpaStateEntity {
 	public void setArtisanId(String artisanId) {
 		this.artisanId = artisanId;
 	}
+
 	public String getCategoryId() {
 		return categoryId;
 	}
@@ -106,6 +127,25 @@ public class Product extends AbstractJpaStateEntity {
 	public void setCategoryId(String categoryId) {
 		this.categoryId = categoryId;
 	}
+
+	public Set<ProductPrice> getPrices() {
+		return prices;
+	}
+
+	public void setPrices(Set<ProductPrice> prices) {
+		this.prices = prices;
+	}
+
+	public void addPrice(ProductPrice price) {
+		prices.add(price);
+		price.setProduct(this);
+	}
+
+	public void removePrice(ProductPrice price) {
+		prices.remove(price);
+		price.setProduct(null);
+	}
+
 	// STM-related fields (inherited from AbstractJpaStateEntity):
 	// state, flowId, stateId, stateEntryTime, slaYellowDate, slaRedDate, etc.
 }

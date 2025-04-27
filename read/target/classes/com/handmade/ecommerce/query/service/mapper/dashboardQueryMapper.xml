@@ -1,0 +1,524 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Dashboard">
+
+    <!-- Product Dashboard Result Map -->
+    <resultMap id="productDashboardResultMap" type="map">
+        <id property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="description" column="description"/>
+        <result property="material" column="material"/>
+        <result property="origin" column="origin"/>
+        <result property="stockQuantity" column="stock_quantity"/>
+        <result property="categoryName" column="category_name"/>
+        <result property="artisanName" column="artisan_name"/>
+        <result property="locationCode" column="location_code"/>
+        <result property="currencyCode" column="currency_code"/>
+        <result property="price" column="price"/>
+        <result property="stockStatus" column="stock_status"/>
+    </resultMap>
+
+    <!-- Sales Dashboard Result Map -->
+    <resultMap id="salesDashboardResultMap" type="map">
+        <id property="entityId" column="entity_id"/>
+        <result property="entityName" column="entity_name"/>
+        <result property="totalOrders" column="total_orders"/>
+        <result property="totalItemsSold" column="total_items_sold"/>
+        <result property="totalRevenue" column="total_revenue"/>
+    </resultMap>
+
+    <!-- Customer Profile Result Map -->
+    <resultMap id="customerProfileResultMap" type="map">
+        <id property="customerId" column="customer_id"/>
+        <result property="customerName" column="customer_name"/>
+        <result property="totalOrders" column="total_orders"/>
+        <result property="totalItemsPurchased" column="total_items_purchased"/>
+        <result property="totalSpent" column="total_spent"/>
+        <result property="lastPurchaseDate" column="last_purchase_date"/>
+        <result property="itemsInCart" column="items_in_cart"/>
+        <result property="cartValue" column="cart_value"/>
+    </resultMap>
+
+    <!-- Category Analysis Result Map -->
+    <resultMap id="categoryAnalysisResultMap" type="map">
+        <id property="categoryId" column="category_id"/>
+        <result property="categoryName" column="category_name"/>
+        <result property="totalProducts" column="total_products"/>
+        <result property="totalStock" column="total_stock"/>
+        <result property="totalSales" column="total_sales"/>
+        <result property="totalItemsSold" column="total_items_sold"/>
+        <result property="totalRevenue" column="total_revenue"/>
+        <result property="averagePrice" column="average_price"/>
+    </resultMap>
+
+    <!-- Price Analysis Result Map -->
+    <resultMap id="priceAnalysisResultMap" type="map">
+        <id property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="locationCode" column="location_code"/>
+        <result property="currencyCode" column="currency_code"/>
+        <result property="price" column="price"/>
+        <result property="avgPrice" column="avg_price"/>
+        <result property="maxPrice" column="max_price"/>
+        <result property="minPrice" column="min_price"/>
+    </resultMap>
+
+    <!-- Order Analysis Result Map -->
+    <resultMap id="orderAnalysisResultMap" type="map">
+        <result property="orderDate" column="order_date"/>
+        <result property="totalOrders" column="total_orders"/>
+        <result property="uniqueCustomers" column="unique_customers"/>
+        <result property="totalItemsSold" column="total_items_sold"/>
+        <result property="totalRevenue" column="total_revenue"/>
+        <result property="averageOrderValue" column="average_order_value"/>
+    </resultMap>
+
+    <!-- Product Overview Dashboard Query -->
+    <select id="getProductOverview" resultMap="productDashboardResultMap">
+        SELECT 
+            p.id as product_id,
+            p.name as product_name,
+            p.description,
+            p.material,
+            p.origin,
+            p.stock_quantity,
+            c.category_name,
+            a.artisan_name,
+            pp.location_code,
+            pp.currency_code,
+            pp.price,
+            CASE 
+                WHEN p.stock_quantity = 0 THEN 'Out of Stock'
+                WHEN p.stock_quantity &lt; 5 THEN 'Low Stock'
+                ELSE 'In Stock'
+            END as stock_status
+        FROM hm_product p
+        LEFT JOIN hm_category c ON p.category_id = c.id
+        LEFT JOIN hm_artisan a ON p.artisan_id = a.id
+        LEFT JOIN hm_product_price pp ON p.id = pp.product_id
+        <where>
+            <if test="tenant != null">
+                p.tenant = #{tenant}
+            </if>
+            <if test="categoryId != null">
+                AND p.category_id = #{categoryId}
+            </if>
+            <if test="artisanId != null">
+                AND p.artisan_id = #{artisanId}
+            </if>
+            <if test="locationCode != null">
+                AND pp.location_code = #{locationCode}
+            </if>
+            <if test="currencyCode != null">
+                AND pp.currency_code = #{currencyCode}
+            </if>
+            <if test="stockStatus != null">
+                <choose>
+                    <when test="stockStatus == 'Out of Stock'">
+                        AND p.stock_quantity = 0
+                    </when>
+                    <when test="stockStatus == 'Low Stock'">
+                        AND p.stock_quantity > 0 AND p.stock_quantity &lt; 5
+                    </when>
+                    <when test="stockStatus == 'In Stock'">
+                        AND p.stock_quantity >= 5
+                    </when>
+                </choose>
+            </if>
+        </where>
+        ${orderby} ${pagination}
+    </select>
+
+    <!-- Product Overview Dashboard Count Query -->
+    <select id="getProductOverview-count" resultType="int">
+        SELECT COUNT(*)
+        FROM hm_product p
+        LEFT JOIN hm_category c ON p.category_id = c.id
+        LEFT JOIN hm_artisan a ON p.artisan_id = a.id
+        LEFT JOIN hm_product_price pp ON p.id = pp.product_id
+        <where>
+            <if test="tenant != null">
+                p.tenant = #{tenant}
+            </if>
+            <if test="categoryId != null">
+                AND p.category_id = #{categoryId}
+            </if>
+            <if test="artisanId != null">
+                AND p.artisan_id = #{artisanId}
+            </if>
+            <if test="locationCode != null">
+                AND pp.location_code = #{locationCode}
+            </if>
+            <if test="currencyCode != null">
+                AND pp.currency_code = #{currencyCode}
+            </if>
+            <if test="stockStatus != null">
+                <choose>
+                    <when test="stockStatus == 'Out of Stock'">
+                        AND p.stock_quantity = 0
+                    </when>
+                    <when test="stockStatus == 'Low Stock'">
+                        AND p.stock_quantity > 0 AND p.stock_quantity &lt; 5
+                    </when>
+                    <when test="stockStatus == 'In Stock'">
+                        AND p.stock_quantity >= 5
+                    </when>
+                </choose>
+            </if>
+        </where>
+    </select>
+
+    <!-- Sales by Product Dashboard Query -->
+    <select id="getSalesByProduct" resultMap="salesDashboardResultMap">
+        SELECT 
+            p.id as entity_id,
+            p.name as entity_name,
+            COUNT(oi.id) as total_orders,
+            SUM(oi.quantity) as total_items_sold,
+            SUM(oi.price * oi.quantity) as total_revenue
+        FROM hm_product p
+        LEFT JOIN hm_order_item oi ON p.id = oi.product_id
+        LEFT JOIN hm_orders o ON oi.order_id = o.id
+        <where>
+            <if test="tenant != null">
+                o.tenant = #{tenant}
+            </if>
+            <if test="startDate != null">
+                AND o.created_time >= #{startDate}
+            </if>
+            <if test="endDate != null">
+                AND o.created_time &lt;= #{endDate}
+            </if>
+            <if test="categoryId != null">
+                AND p.category_id = #{categoryId}
+            </if>
+        </where>
+        GROUP BY p.id, p.name
+        ${orderby} ${pagination}
+    </select>
+
+    <!-- Sales by Product Dashboard Count Query -->
+    <select id="getSalesByProduct-count" resultType="int">
+        SELECT COUNT(*) FROM (
+            SELECT p.id
+            FROM hm_product p
+            LEFT JOIN hm_order_item oi ON p.id = oi.product_id
+            LEFT JOIN hm_orders o ON oi.order_id = o.id
+            <where>
+                <if test="tenant != null">
+                    o.tenant = #{tenant}
+                </if>
+                <if test="startDate != null">
+                    AND o.created_time >= #{startDate}
+                </if>
+                <if test="endDate != null">
+                    AND o.created_time &lt;= #{endDate}
+                </if>
+                <if test="categoryId != null">
+                    AND p.category_id = #{categoryId}
+                </if>
+            </where>
+            GROUP BY p.id
+        ) AS count_table
+    </select>
+
+    <!-- Sales by Category Dashboard Query -->
+    <select id="getSalesByCategory" resultMap="salesDashboardResultMap">
+        SELECT 
+            c.id as entity_id,
+            c.category_name as entity_name,
+            COUNT(DISTINCT o.id) as total_orders,
+            SUM(oi.quantity) as total_items_sold,
+            SUM(oi.price * oi.quantity) as total_revenue
+        FROM hm_category c
+        LEFT JOIN hm_product p ON c.id = p.category_id
+        LEFT JOIN hm_order_item oi ON p.id = oi.product_id
+        LEFT JOIN hm_orders o ON oi.order_id = o.id
+        <where>
+            <if test="tenant != null">
+                o.tenant = #{tenant}
+            </if>
+            <if test="startDate != null">
+                AND o.created_time >= #{startDate}
+            </if>
+            <if test="endDate != null">
+                AND o.created_time &lt;= #{endDate}
+            </if>
+        </where>
+        GROUP BY c.id, c.category_name
+        ${orderby} ${pagination}
+    </select>
+
+    <!-- Sales by Category Dashboard Count Query -->
+    <select id="getSalesByCategory-count" resultType="int">
+        SELECT COUNT(*) FROM (
+            SELECT c.id
+            FROM hm_category c
+            LEFT JOIN hm_product p ON c.id = p.category_id
+            LEFT JOIN hm_order_item oi ON p.id = oi.product_id
+            LEFT JOIN hm_orders o ON oi.order_id = o.id
+            <where>
+                <if test="tenant != null">
+                    o.tenant = #{tenant}
+                </if>
+                <if test="startDate != null">
+                    AND o.created_time >= #{startDate}
+                </if>
+                <if test="endDate != null">
+                    AND o.created_time &lt;= #{endDate}
+                </if>
+            </where>
+            GROUP BY c.id
+        ) AS count_table
+    </select>
+
+    <!-- Customer Profile Dashboard Query -->
+    <select id="getCustomerProfile" resultMap="customerProfileResultMap">
+        SELECT 
+            c.id as customer_id,
+            c.name as customer_name,
+            COUNT(DISTINCT o.id) as total_orders,
+            SUM(oi.quantity) as total_items_purchased,
+            SUM(oi.price * oi.quantity) as total_spent,
+            MAX(o.created_time) as last_purchase_date,
+            (SELECT COUNT(DISTINCT ci.id) FROM hm_cart ct 
+             LEFT JOIN hm_cart_item ci ON ct.id = ci.cart_id 
+             WHERE ct.customer_id = c.id) as items_in_cart,
+            (SELECT SUM(pp.price * ci.quantity) FROM hm_cart ct 
+             LEFT JOIN hm_cart_item ci ON ct.id = ci.cart_id
+             LEFT JOIN hm_product p ON ci.product_id = p.id
+             LEFT JOIN hm_product_price pp ON p.id = pp.product_id 
+             WHERE ct.customer_id = c.id
+             AND pp.location_code = #{locationCode} 
+             AND pp.currency_code = #{currencyCode}) as cart_value
+        FROM hm_customer c
+        LEFT JOIN hm_orders o ON c.id = o.customer_id
+        LEFT JOIN hm_order_item oi ON o.id = oi.order_id
+        <where>
+            <if test="tenant != null">
+                c.tenant = #{tenant}
+            </if>
+            <if test="customerId != null">
+                AND c.id = #{customerId}
+            </if>
+        </where>
+        GROUP BY c.id, c.name
+        ${orderby} ${pagination}
+    </select>
+
+    <!-- Customer Profile Dashboard Count Query -->
+    <select id="getCustomerProfile-count" resultType="int">
+        SELECT COUNT(*) FROM (
+            SELECT c.id
+            FROM hm_customer c
+            <where>
+                <if test="tenant != null">
+                    c.tenant = #{tenant}
+                </if>
+                <if test="customerId != null">
+                    AND c.id = #{customerId}
+                </if>
+            </where>
+        ) AS count_table
+    </select>
+
+    <!-- Artisan Performance Dashboard Query -->
+    <select id="getArtisanPerformance" resultMap="salesDashboardResultMap">
+        SELECT 
+            a.id as entity_id,
+            a.artisan_name as entity_name,
+            COUNT(DISTINCT p.id) as total_products,
+            SUM(p.stock_quantity) as total_stock,
+            COUNT(DISTINCT oi.id) as total_orders,
+            SUM(oi.quantity) as total_items_sold,
+            SUM(oi.price * oi.quantity) as total_revenue
+        FROM hm_artisan a
+        LEFT JOIN hm_product p ON a.id = p.artisan_id
+        LEFT JOIN hm_order_item oi ON p.id = oi.product_id
+        LEFT JOIN hm_orders o ON oi.order_id = o.id
+        <where>
+            <if test="tenant != null">
+                a.tenant = #{tenant}
+            </if>
+            <if test="artisanId != null">
+                AND a.id = #{artisanId}
+            </if>
+            <if test="startDate != null">
+                AND o.created_time >= #{startDate}
+            </if>
+            <if test="endDate != null">
+                AND o.created_time &lt;= #{endDate}
+            </if>
+        </where>
+        GROUP BY a.id, a.artisan_name
+        ${orderby} ${pagination}
+    </select>
+
+    <!-- Artisan Performance Dashboard Count Query -->
+    <select id="getArtisanPerformance-count" resultType="int">
+        SELECT COUNT(*) FROM (
+            SELECT a.id
+            FROM hm_artisan a
+            <where>
+                <if test="tenant != null">
+                    a.tenant = #{tenant}
+                </if>
+                <if test="artisanId != null">
+                    AND a.id = #{artisanId}
+                </if>
+            </where>
+        ) AS count_table
+    </select>
+
+    <!-- Category Analysis Dashboard Query -->
+    <select id="getCategoryAnalysis" resultMap="categoryAnalysisResultMap">
+        SELECT 
+            c.id as category_id,
+            c.category_name,
+            COUNT(DISTINCT p.id) as total_products,
+            SUM(p.stock_quantity) as total_stock,
+            COUNT(DISTINCT oi.id) as total_sales,
+            SUM(oi.quantity) as total_items_sold,
+            SUM(oi.price * oi.quantity) as total_revenue,
+            AVG(pp.price) as average_price
+        FROM hm_category c
+        LEFT JOIN hm_product p ON c.id = p.category_id
+        LEFT JOIN hm_order_item oi ON p.id = oi.product_id
+        LEFT JOIN hm_orders o ON oi.order_id = o.id
+        LEFT JOIN hm_product_price pp ON p.id = pp.product_id
+        <where>
+            <if test="tenant != null">
+                c.tenant = #{tenant}
+            </if>
+            <if test="categoryId != null">
+                AND c.id = #{categoryId}
+            </if>
+            <if test="locationCode != null">
+                AND pp.location_code = #{locationCode}
+            </if>
+            <if test="currencyCode != null">
+                AND pp.currency_code = #{currencyCode}
+            </if>
+        </where>
+        GROUP BY c.id, c.category_name
+        ${orderby} ${pagination}
+    </select>
+
+    <!-- Category Analysis Dashboard Count Query -->
+    <select id="getCategoryAnalysis-count" resultType="int">
+        SELECT COUNT(*) FROM (
+            SELECT c.id
+            FROM hm_category c
+            <where>
+                <if test="tenant != null">
+                    c.tenant = #{tenant}
+                </if>
+                <if test="categoryId != null">
+                    AND c.id = #{categoryId}
+                </if>
+            </where>
+        ) AS count_table
+    </select>
+
+    <!-- Price Analysis Dashboard Query -->
+    <select id="getPriceAnalysis" resultMap="priceAnalysisResultMap">
+        SELECT 
+            p.id as product_id,
+            p.name as product_name,
+            pp.location_code,
+            pp.currency_code,
+            pp.price,
+            AVG(sub_pp.price) as avg_price,
+            MAX(sub_pp.price) as max_price,
+            MIN(sub_pp.price) as min_price
+        FROM hm_product p
+        JOIN hm_product_price pp ON p.id = pp.product_id
+        JOIN hm_product_price sub_pp ON p.id = sub_pp.product_id
+        <where>
+            <if test="tenant != null">
+                p.tenant = #{tenant}
+            </if>
+            <if test="productId != null">
+                AND p.id = #{productId}
+            </if>
+            <if test="locationCode != null">
+                AND pp.location_code = #{locationCode}
+            </if>
+            <if test="currencyCode != null">
+                AND pp.currency_code = #{currencyCode}
+            </if>
+        </where>
+        GROUP BY p.id, p.name, pp.location_code, pp.currency_code, pp.price
+        ${orderby} ${pagination}
+    </select>
+
+    <!-- Price Analysis Dashboard Count Query -->
+    <select id="getPriceAnalysis-count" resultType="int">
+        SELECT COUNT(*) FROM (
+            SELECT p.id, pp.location_code, pp.currency_code
+            FROM hm_product p
+            JOIN hm_product_price pp ON p.id = pp.product_id
+            <where>
+                <if test="tenant != null">
+                    p.tenant = #{tenant}
+                </if>
+                <if test="productId != null">
+                    AND p.id = #{productId}
+                </if>
+                <if test="locationCode != null">
+                    AND pp.location_code = #{locationCode}
+                </if>
+                <if test="currencyCode != null">
+                    AND pp.currency_code = #{currencyCode}
+                </if>
+            </where>
+            GROUP BY p.id, pp.location_code, pp.currency_code
+        ) AS count_table
+    </select>
+
+    <!-- Order Analysis Dashboard Query -->
+    <select id="getOrderAnalysis" resultMap="orderAnalysisResultMap">
+        SELECT 
+            DATE(o.created_time) as order_date,
+            COUNT(DISTINCT o.id) as total_orders,
+            COUNT(DISTINCT o.customer_id) as unique_customers,
+            SUM(oi.quantity) as total_items_sold,
+            SUM(oi.price * oi.quantity) as total_revenue,
+            AVG(oi.price * oi.quantity) as average_order_value
+        FROM hm_orders o
+        JOIN hm_order_item oi ON o.id = oi.order_id
+        <where>
+            <if test="tenant != null">
+                o.tenant = #{tenant}
+            </if>
+            <if test="startDate != null">
+                AND o.created_time >= #{startDate}
+            </if>
+            <if test="endDate != null">
+                AND o.created_time &lt;= #{endDate}
+            </if>
+        </where>
+        GROUP BY DATE(o.created_time)
+        ${orderby} ${pagination}
+    </select>
+
+    <!-- Order Analysis Dashboard Count Query -->
+    <select id="getOrderAnalysis-count" resultType="int">
+        SELECT COUNT(*) FROM (
+            SELECT DATE(o.created_time) as order_date
+            FROM hm_orders o
+            <where>
+                <if test="tenant != null">
+                    o.tenant = #{tenant}
+                </if>
+                <if test="startDate != null">
+                    AND o.created_time >= #{startDate}
+                </if>
+                <if test="endDate != null">
+                    AND o.created_time &lt;= #{endDate}
+                </if>
+            </where>
+            GROUP BY DATE(o.created_time)
+        ) AS count_table
+    </select>
+</mapper> 

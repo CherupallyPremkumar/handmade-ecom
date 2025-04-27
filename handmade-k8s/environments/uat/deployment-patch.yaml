@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: handmade-service
+spec:
+  replicas: 2
+  template:
+    spec:
+      containers:
+        - name: handmade-service
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "500m"
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "uat"
+            - name: JAVA_OPTS
+              value: "-Xmx1g -Xms512m"

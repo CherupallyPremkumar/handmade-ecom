@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>image-storage-api</module>
+        <module>image-storage-service</module>
+    </modules>
+    <parent>
+        <groupId>com.handmade.ecommerce</groupId>
+        <version>${revision}</version>
+        <artifactId>ecommerce-parent</artifactId>
+    </parent>
+
+    <groupId>com.handmade.ecommerce.image.storage</groupId>
+    <artifactId>image-storage-parent</artifactId>
+    <version>${revision}</version>
+
+
+    <properties>
+        <image.storage.version>${revision}</image.storage.version>
+        <image-storage.version>${revision}</image-storage.version>
+        <aws.sdk.version>2.24.12</aws.sdk.version>
+        <google.cloud.storage.version>2.32.0</google.cloud.storage.version>
+        <azure.storage.blob.version>12.24.1</azure.storage.blob.version>
+    </properties>
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>com.handmade.ecommerce.image.storage</groupId>
+            <artifactId>image-storage-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.handmade.ecommerce.image.storage</groupId>
+            <artifactId>image-storage-service</artifactId>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+</project> 

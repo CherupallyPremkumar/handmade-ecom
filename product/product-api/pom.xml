@@ -21,6 +21,11 @@
 			<artifactId>workflow-api</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>com.handmade.ecommerce.price</groupId>
+			<artifactId>price-dto</artifactId>
+			<version>${revision}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.chenile</groupId>
 			<artifactId>jpa-utils</artifactId>
 		</dependency>

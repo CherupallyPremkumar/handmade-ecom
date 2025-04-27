@@ -65,6 +65,15 @@
             <artifactId>h2</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.handmade.ecommerce.image.storage</groupId>
+            <artifactId>image-storage-service</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.handmade.ecommerce</groupId>
+            <artifactId>common-exception</artifactId>
+        </dependency>
 	</dependencies>
 
     <build>

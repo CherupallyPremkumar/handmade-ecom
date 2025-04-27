@@ -76,6 +76,7 @@ public class TenantConfiguration {
 		return new GenericExitAction<Tenant>();
 	}
 
+
 	@Bean
 	XmlFlowReader tenantFlowReader(@Qualifier("tenantFlowStore") STMFlowStoreImpl flowStore) throws Exception {
 		XmlFlowReader flowReader = new XmlFlowReader(flowStore);

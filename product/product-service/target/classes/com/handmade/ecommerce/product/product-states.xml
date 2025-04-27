@@ -7,36 +7,29 @@
 -->
 <states>
 	<event-information eventId="submit"
-					   meta-acls="product.editor,product.manager"
-					   meta-bodyType="com.handmade.ecommerce.product.payload.SubmitProductPayload"/>
+					   meta-bodyType="com.handmade.ecommerce.product.model.command.SubmitProductCommand"/>
 
 	<event-information eventId="approve"
-					   meta-acls="product.reviewer"
-					   meta-bodyType="com.handmade.ecommerce.product.payload.ApproveProductPayload"/>
+					   meta-bodyType="com.handmade.ecommerce.product.model.command.ApproveProductCommand"/>
 
 	<event-information eventId="reject"
-					   meta-acls="product.reviewer"
-					   meta-bodyType="com.handmade.ecommerce.product.payload.RejectProductPayload"/>
+					   meta-bodyType="com.handmade.ecommerce.product.model.command.RejectProductCommand"/>
 
 	<event-information eventId="edit"
-					   meta-acls="product.editor"
-					   meta-bodyType="com.handmade.ecommerce.product.payload.EditProductPayload"/>
+					   meta-bodyType="com.handmade.ecommerce.product.model.command.EditProductCommand"/>
 
 	<event-information eventId="outOfStock"
-					   meta-acls="product.manager"
-					   meta-bodyType="com.handmade.ecommerce.product.payload.MarkOutOfStockPayload"/>
+					   meta-bodyType="com.handmade.ecommerce.product.model.command.MarkOutOfStockPayload"/>
 
 	<event-information eventId="restock"
-					   meta-acls="product.manager"
-					   meta-bodyType="com.handmade.ecommerce.product.payload.RestockProductPayload"/>
+					   meta-bodyType="com.handmade.ecommerce.product.model.command.RestockProductPayload"/>
 
 	<event-information eventId="discontinue"
 					   meta-acls="product.admin"
 					   meta-bodyType="com.handmade.ecommerce.product.payload.DiscontinueProductPayload"/>
 	<default-transition-action componentName="productBaseTransitionAction"/>
     <add-state-tag tag="status" manualState="true"/>
-    <add-transition-tag tag="on-action" eventIdTag="id" newStateIdTag="move-to"
-                    meta-acls="test.premium"/>
+    <add-transition-tag tag="on-action" eventIdTag="id" newStateIdTag="move-to"/>
 
 	<flow id="ProductFlow" default="true">
 		<entry-action componentName="productEntryAction"/>
@@ -45,20 +38,28 @@
 
 		<status id="DRAFT" initialState="true">
 			<on-action id="submit" move-to="REVIEW"/>
+			<on-action id="edit" move-to="DRAFT"/>
 		</status>
 
 		<status id="REVIEW">
 			<on-action id="approve" move-to="ACTIVE"/>
 			<on-action id="reject" move-to="REJECTED"/>
+			<on-action id="edit" move-to="REVIEW"/>
 		</status>
 
 		<status id="ACTIVE">
 			<on-action id="outOfStock" move-to="OUT_OF_STOCK"/>
 			<on-action id="discontinue" move-to="DISCONTINUED"/>
+			<on-action id="edit" move-to="VALIDATE_STATE"/>
 		</status>
 
+		<auto-state id='VALIDATE_STOCK' componentName="validateProductStockService">
+			<on-action id="true" move-to="ACTIVE"/>
+			<on-action id="false" move-to="OUT_OF_STOCK"/>
+		</auto-state>
 		<status id="OUT_OF_STOCK">
 			<on-action id="restock" move-to="ACTIVE"/>
+			<on-action id="edit" move-to="DRAFT"/>
 		</status>
 
 		<status id="REJECTED">

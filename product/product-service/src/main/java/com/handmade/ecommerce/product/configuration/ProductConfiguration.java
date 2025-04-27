@@ -1,5 +1,7 @@
 package com.handmade.ecommerce.product.configuration;
 
+import com.handmade.ecommerce.product.model.service.ProductService;
+import com.handmade.ecommerce.product.service.impl.ProductServiceImpl;
 import org.chenile.stm.*;
 import org.chenile.stm.action.STMTransitionAction;
 import org.chenile.stm.impl.*;
@@ -28,7 +30,13 @@ import org.chenile.core.context.ChenileExchange;
 @Configuration
 public class ProductConfiguration {
 	private static final String FLOW_DEFINITION_FILE = "com/handmade/ecommerce/product/product-states.xml";
-	
+
+
+	@Bean
+	@Autowired
+	ProductService productService(STM<Product> productEntityStm, STMActionsInfoProvider productActionsInfoProvider, EntityStore<Product> productEntityStore){
+		return new ProductServiceImpl(productEntityStm,productActionsInfoProvider,productEntityStore);
+	}
 	@Bean BeanFactoryAdapter productBeanFactoryAdapter() {
 		return new SpringBeanFactoryAdapter();
 	}

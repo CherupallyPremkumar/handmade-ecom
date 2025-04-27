@@ -24,5 +24,9 @@
 			<groupId>org.chenile</groupId>
 			<artifactId>jpa-utils</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.handmade.ecommerce.artisan</groupId>
+			<artifactId>artisan-dto</artifactId>
+		</dependency>
 	</dependencies>
 </project>
