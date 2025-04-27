@@ -1,0 +1,708 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchchangelog-4.4.xsd">
+
+    <changeSet id="004-add-ecommerce-core-tables" author="handmade">
+        <!-- Payment Tables -->
+        <createTable tableName="hm_payment_method">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="customer_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="provider" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_number" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expiry_date" type="date"/>
+            <column name="is_default" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_active" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="bigint" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="hm_payment_transaction">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="order_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="payment_method_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="decimal(19,4)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="currency" type="varchar(3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="transaction_id" type="varchar(255)"/>
+            <column name="error_code" type="varchar(100)"/>
+            <column name="error_message" type="text"/>
+            <column name="created_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="bigint" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Inventory Management -->
+        <createTable tableName="hm_inventory">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="product_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="warehouse_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reserved_quantity" type="int" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="minimum_quantity" type="int" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="maximum_quantity" type="int"/>
+            <column name="reorder_point" type="int"/>
+            <column name="created_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="bigint" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="hm_warehouse">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_active" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="bigint" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Product Variants and Attributes -->
+        <createTable tableName="hm_product_variant">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="product_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sku" type="varchar(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="barcode" type="varchar(100)"/>
+            <column name="price_adjustment" type="decimal(19,4)" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="weight" type="decimal(10,2)"/>
+            <column name="is_active" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="bigint" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="hm_product_attribute">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_required" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_searchable" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="bigint" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="hm_product_variant_attribute">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="variant_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="attribute_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="value" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="bigint" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Shipping and Delivery -->
+        <createTable tableName="hm_shipping_method">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="carrier" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="service_code" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_active" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="bigint" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="hm_shipping_zone">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="country_code" type="varchar(2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="state_code" type="varchar(50)"/>
+            <column name="zip_code_pattern" type="varchar(100)"/>
+            <column name="created_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="bigint" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="hm_shipping_rate">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="shipping_method_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="shipping_zone_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="base_price" type="decimal(19,4)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="free_shipping_threshold" type="decimal(19,4)"/>
+            <column name="created_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="bigint" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Customer Address -->
+        <createTable tableName="hm_customer_address">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="customer_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address_type" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="street_address" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="street_address2" type="varchar(255)"/>
+            <column name="city" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="state" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="postal_code" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="country" type="varchar(2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_default" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_active" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="bigint" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Discount and Promotion -->
+        <createTable tableName="hm_discount">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="code" type="varchar(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="type" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="value" type="decimal(19,4)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="minimum_order_amount" type="decimal(19,4)"/>
+            <column name="maximum_discount_amount" type="decimal(19,4)"/>
+            <column name="usage_limit" type="int"/>
+            <column name="used_count" type="int" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_active" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="bigint" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Wishlist -->
+        <createTable tableName="hm_wishlist">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="customer_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="bigint" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Product Reviews -->
+        <createTable tableName="hm_product_review">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="product_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="customer_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="order_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rating" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="varchar(255)"/>
+            <column name="comment" type="text"/>
+            <column name="is_verified_purchase" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(20)" defaultValue="PENDING">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="bigint" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Supplier/Vendor -->
+        <createTable tableName="hm_supplier">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="contact_name" type="varchar(255)"/>
+            <column name="email" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone" type="varchar(50)"/>
+            <column name="address_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_active" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="bigint" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Return and Refund -->
+        <createTable tableName="hm_return_request">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="order_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="customer_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reason" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="refund_amount" type="decimal(19,4)"/>
+            <column name="refund_method" type="varchar(50)"/>
+            <column name="notes" type="text"/>
+            <column name="created_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="bigint" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="hm_return_item">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="return_request_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="order_item_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reason" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="condition" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="bigint" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Indexes -->
+        <createIndex indexName="idx_hm_payment_method_customer" tableName="hm_payment_method">
+            <column name="customer_id"/>
+        </createIndex>
+        <createIndex indexName="idx_hm_payment_transaction_order" tableName="hm_payment_transaction">
+            <column name="order_id"/>
+        </createIndex>
+        <createIndex indexName="idx_hm_inventory_product" tableName="hm_inventory">
+            <column name="product_id"/>
+        </createIndex>
+        <createIndex indexName="idx_hm_inventory_warehouse" tableName="hm_inventory">
+            <column name="warehouse_id"/>
+        </createIndex>
+        <createIndex indexName="idx_hm_product_variant_product" tableName="hm_product_variant">
+            <column name="product_id"/>
+        </createIndex>
+        <createIndex indexName="idx_hm_product_variant_sku" tableName="hm_product_variant">
+            <column name="sku"/>
+        </createIndex>
+        <createIndex indexName="idx_hm_shipping_rate_method" tableName="hm_shipping_rate">
+            <column name="shipping_method_id"/>
+        </createIndex>
+        <createIndex indexName="idx_hm_shipping_rate_zone" tableName="hm_shipping_rate">
+            <column name="shipping_zone_id"/>
+        </createIndex>
+        <createIndex indexName="idx_hm_customer_address_customer" tableName="hm_customer_address">
+            <column name="customer_id"/>
+        </createIndex>
+        <createIndex indexName="idx_hm_discount_code" tableName="hm_discount">
+            <column name="code"/>
+        </createIndex>
+        <createIndex indexName="idx_hm_wishlist_customer" tableName="hm_wishlist">
+            <column name="customer_id"/>
+        </createIndex>
+        <createIndex indexName="idx_hm_product_review_product" tableName="hm_product_review">
+            <column name="product_id"/>
+        </createIndex>
+        <createIndex indexName="idx_hm_return_request_order" tableName="hm_return_request">
+            <column name="order_id"/>
+        </createIndex>
+        <createIndex indexName="idx_hm_return_item_return" tableName="hm_return_item">
+            <column name="return_request_id"/>
+        </createIndex>
+
+        <!-- Foreign Keys -->
+        <addForeignKeyConstraint baseTableName="hm_payment_method"
+                                baseColumnNames="customer_id"
+                                constraintName="fk_hm_payment_method_customer"
+                                referencedTableName="hm_customer"
+                                referencedColumnNames="id"
+                                onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="hm_payment_transaction"
+                                baseColumnNames="order_id"
+                                constraintName="fk_hm_payment_transaction_order"
+                                referencedTableName="hm_order"
+                                referencedColumnNames="id"
+                                onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="hm_payment_transaction"
+                                baseColumnNames="payment_method_id"
+                                constraintName="fk_hm_payment_transaction_payment_method"
+                                referencedTableName="hm_payment_method"
+                                referencedColumnNames="id"
+                                onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="hm_inventory"
+                                baseColumnNames="product_id"
+                                constraintName="fk_hm_inventory_product"
+                                referencedTableName="hm_product"
+                                referencedColumnNames="id"
+                                onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="hm_inventory"
+                                baseColumnNames="warehouse_id"
+                                constraintName="fk_hm_inventory_warehouse"
+                                referencedTableName="hm_warehouse"
+                                referencedColumnNames="id"
+                                onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="hm_product_variant"
+                                baseColumnNames="product_id"
+                                constraintName="fk_hm_product_variant_product"
+                                referencedTableName="hm_product"
+                                referencedColumnNames="id"
+                                onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="hm_product_variant_attribute"
+                                baseColumnNames="variant_id"
+                                constraintName="fk_hm_product_variant_attribute_variant"
+                                referencedTableName="hm_product_variant"
+                                referencedColumnNames="id"
+                                onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="hm_product_variant_attribute"
+                                baseColumnNames="attribute_id"
+                                constraintName="fk_hm_product_variant_attribute_attribute"
+                                referencedTableName="hm_product_attribute"
+                                referencedColumnNames="id"
+                                onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="hm_shipping_rate"
+                                baseColumnNames="shipping_method_id"
+                                constraintName="fk_hm_shipping_rate_method"
+                                referencedTableName="hm_shipping_method"
+                                referencedColumnNames="id"
+                                onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="hm_shipping_rate"
+                                baseColumnNames="shipping_zone_id"
+                                constraintName="fk_hm_shipping_rate_zone"
+                                referencedTableName="hm_shipping_zone"
+                                referencedColumnNames="id"
+                                onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="hm_customer_address"
+                                baseColumnNames="customer_id"
+                                constraintName="fk_hm_customer_address_customer"
+                                referencedTableName="hm_customer"
+                                referencedColumnNames="id"
+                                onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="hm_wishlist"
+                                baseColumnNames="customer_id"
+                                constraintName="fk_hm_wishlist_customer"
+                                referencedTableName="hm_customer"
+                                referencedColumnNames="id"
+                                onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="hm_wishlist"
+                                baseColumnNames="product_id"
+                                constraintName="fk_hm_wishlist_product"
+                                referencedTableName="hm_product"
+                                referencedColumnNames="id"
+                                onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="hm_product_review"
+                                baseColumnNames="product_id"
+                                constraintName="fk_hm_product_review_product"
+                                referencedTableName="hm_product"
+                                referencedColumnNames="id"
+                                onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="hm_product_review"
+                                baseColumnNames="customer_id"
+                                constraintName="fk_hm_product_review_customer"
+                                referencedTableName="hm_customer"
+                                referencedColumnNames="id"
+                                onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="hm_product_review"
+                                baseColumnNames="order_id"
+                                constraintName="fk_hm_product_review_order"
+                                referencedTableName="hm_order"
+                                referencedColumnNames="id"
+                                onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="hm_return_request"
+                                baseColumnNames="order_id"
+                                constraintName="fk_hm_return_request_order"
+                                referencedTableName="hm_order"
+                                referencedColumnNames="id"
+                                onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="hm_return_request"
+                                baseColumnNames="customer_id"
+                                constraintName="fk_hm_return_request_customer"
+                                referencedTableName="hm_customer"
+                                referencedColumnNames="id"
+                                onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="hm_return_item"
+                                baseColumnNames="return_request_id"
+                                constraintName="fk_hm_return_item_return_request"
+                                referencedTableName="hm_return_request"
+                                referencedColumnNames="id"
+                                onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="hm_return_item"
+                                baseColumnNames="order_item_id"
+                                constraintName="fk_hm_return_item_order_item"
+                                referencedTableName="hm_order_item"
+                                referencedColumnNames="id"
+                                onDelete="CASCADE"/>
+    </changeSet>
+</databaseChangeLog> 
