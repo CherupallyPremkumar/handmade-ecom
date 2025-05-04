@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: order-service
+  profiles:
+    include:
+      - rabbitmq
+# Import RabbitMQ configuration from core module
+# This will use the application-rabbitmq.yml file in the core module

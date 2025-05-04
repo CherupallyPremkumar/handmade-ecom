@@ -1,0 +1,30 @@
+[build]
+builder = "nixpacks"
+buildCommand = "mvn clean install -DskipTests"
+
+[deploy]
+startCommand = "java -jar core/target/core-1.0.1-SNAPSHOT.jar"
+healthcheckPath = "/actuator/health"
+healthcheckTimeout = 100
+restartPolicyType = "on-failure"
+restartPolicyMaxRetries = 3
+
+[deploy.env]
+SPRING_PROFILES_ACTIVE = "prod"
+SERVER_PORT = "8080"
+
+# Database Configuration
+DB_URL = "postgresql://${PGHOST}:${PGPORT}/${PGDATABASE}"
+DB_USERNAME = "${PGUSER}"
+DB_PASSWORD = "${PGPASSWORD}"
+
+# Redis Configuration
+REDIS_HOST = "${REDIS_HOST}"
+REDIS_PORT = "${REDIS_PORT}"
+REDIS_PASSWORD = "${REDIS_PASSWORD}"
+
+# RabbitMQ Configuration
+RABBITMQ_HOST = "${RABBITMQ_HOST}"
+RABBITMQ_PORT = "${RABBITMQ_PORT}"
+RABBITMQ_USERNAME = "${RABBITMQ_USERNAME}"
+RABBITMQ_PASSWORD = "${RABBITMQ_PASSWORD}" 

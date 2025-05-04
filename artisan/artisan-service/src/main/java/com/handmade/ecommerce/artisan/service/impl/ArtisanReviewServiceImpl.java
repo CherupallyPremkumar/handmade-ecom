@@ -4,9 +4,10 @@ import com.handmade.ecommerce.artisan.configuration.dao.ArtisanRepository;
 import com.handmade.ecommerce.artisan.configuration.dao.ArtisanReviewRepository;
 import com.handmade.ecommerce.artisan.model.Artisan;
 import com.handmade.ecommerce.artisan.model.ArtisanReview;
-import com.handmade.ecommerce.artisan.service.ArtisanReviewService;
-import com.handmade.ecommerce.core.exception.ResourceNotFoundException;
-import com.handmade.ecommerce.core.exception.ValidationException;
+import com.handmade.ecommerce.artisan.model.service.ArtisanReviewService;
+
+import com.handmade.ecommerce.common.exception.ResourceNotFoundException;
+import com.handmade.ecommerce.common.exception.ValidationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -32,7 +33,7 @@ public class ArtisanReviewServiceImpl implements ArtisanReviewService {
         log.info("Creating review for artisan: {}", artisanId);
         
         Artisan artisan = artisanRepository.findById(artisanId)
-            .orElseThrow(() -> new ResourceNotFoundException("Artisan not found with id: " + artisanId));
+            .orElseThrow(() -> new ResourceNotFoundException("Artisan not found with id: " , artisanId));
         
         validateReview(review);
         
@@ -59,7 +60,7 @@ public class ArtisanReviewServiceImpl implements ArtisanReviewService {
         log.info("Updating review with id: {}", reviewId);
         
         ArtisanReview existingReview = reviewRepository.findById(reviewId)
-            .orElseThrow(() -> new ResourceNotFoundException("Review not found with id: " + reviewId));
+            .orElseThrow(() -> new ResourceNotFoundException("Review not found with id: " , reviewId));
         
         validateReview(review);
         
@@ -77,7 +78,7 @@ public class ArtisanReviewServiceImpl implements ArtisanReviewService {
         log.info("Deleting review with id: {}", reviewId);
         
         if (!reviewRepository.existsById(reviewId)) {
-            throw new ResourceNotFoundException("Review not found with id: " + reviewId);
+            throw new ResourceNotFoundException("Review not found with id: " , reviewId);
         }
         
         reviewRepository.deleteById(reviewId);
@@ -89,7 +90,7 @@ public class ArtisanReviewServiceImpl implements ArtisanReviewService {
         log.info("Getting reviews for artisan: {}", artisanId);
         
         if (!artisanRepository.existsById(artisanId)) {
-            throw new ResourceNotFoundException("Artisan not found with id: " + artisanId);
+            throw new ResourceNotFoundException("Artisan not found with id: " , artisanId);
         }
         
         return reviewRepository.findByArtisanIdAndPublicAndApproved(artisanId, pageable);
@@ -115,7 +116,7 @@ public class ArtisanReviewServiceImpl implements ArtisanReviewService {
         log.info("Adding response to review: {}", reviewId);
         
         ArtisanReview review = reviewRepository.findById(reviewId)
-            .orElseThrow(() -> new ResourceNotFoundException("Review not found with id: " + reviewId));
+            .orElseThrow(() -> new ResourceNotFoundException("Review not found with id: " , reviewId));
         
         review.addArtisanResponse(response);
         return reviewRepository.save(review);
@@ -127,7 +128,7 @@ public class ArtisanReviewServiceImpl implements ArtisanReviewService {
         log.info("Marking review as helpful: {}", reviewId);
         
         ArtisanReview review = reviewRepository.findById(reviewId)
-            .orElseThrow(() -> new ResourceNotFoundException("Review not found with id: " + reviewId));
+            .orElseThrow(() -> new ResourceNotFoundException("Review not found with id: " , reviewId));
         
         review.incrementHelpfulVotes();
         reviewRepository.save(review);
@@ -139,7 +140,7 @@ public class ArtisanReviewServiceImpl implements ArtisanReviewService {
         log.info("Marking review as unhelpful: {}", reviewId);
         
         ArtisanReview review = reviewRepository.findById(reviewId)
-            .orElseThrow(() -> new ResourceNotFoundException("Review not found with id: " + reviewId));
+            .orElseThrow(() -> new ResourceNotFoundException("Review not found with id: " , reviewId));
         
         review.incrementUnhelpfulVotes();
         reviewRepository.save(review);
@@ -151,7 +152,7 @@ public class ArtisanReviewServiceImpl implements ArtisanReviewService {
         log.info("Updating review status: {} to: {}", reviewId, status);
         
         ArtisanReview review = reviewRepository.findById(reviewId)
-            .orElseThrow(() -> new ResourceNotFoundException("Review not found with id: " + reviewId));
+            .orElseThrow(() -> new ResourceNotFoundException("Review not found with id: " ,reviewId));
         
         if (!isValidStatus(status)) {
             throw new ValidationException("Invalid status: " + status);
@@ -174,7 +175,7 @@ public class ArtisanReviewServiceImpl implements ArtisanReviewService {
         log.info("Calculating average rating for artisan: {}", artisanId);
         
         if (!artisanRepository.existsById(artisanId)) {
-            throw new ResourceNotFoundException("Artisan not found with id: " + artisanId);
+            throw new ResourceNotFoundException("Artisan not found with id: " , artisanId);
         }
         
         return reviewRepository.calculateAverageRating(artisanId);
@@ -186,7 +187,7 @@ public class ArtisanReviewServiceImpl implements ArtisanReviewService {
         log.info("Getting review count for artisan: {}", artisanId);
         
         if (!artisanRepository.existsById(artisanId)) {
-            throw new ResourceNotFoundException("Artisan not found with id: " + artisanId);
+            throw new ResourceNotFoundException("Artisan not found with id: " , artisanId);
         }
         
         return reviewRepository.countReviewsByArtisanId(artisanId);

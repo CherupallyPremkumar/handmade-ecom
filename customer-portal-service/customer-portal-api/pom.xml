@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.handmade.ecommerce.customerportal</groupId>
+		<artifactId>customer-portal-parent</artifactId>
+		<version>${revision}</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<artifactId>customer-portal-api</artifactId>
+	<packaging>jar</packaging>
+
+	<description>Customer Portal API Model and Interfaces</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.chenile</groupId>
+			<artifactId>workflow-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.chenile</groupId>
+			<artifactId>jpa-utils</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.handmade.ecommerce.customerportal</groupId>
+			<artifactId>customer-portal-dto</artifactId>
+		</dependency>
+	</dependencies>
+</project> 

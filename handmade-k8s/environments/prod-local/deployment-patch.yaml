@@ -17,6 +17,6 @@ spec:
               cpu: "500m"
           env:
             - name: SPRING_PROFILES_ACTIVE
-              value: "prod"
+              value: "prod-local"
             - name: JAVA_OPTS
               value: "-Xmx512m -Xms256m"

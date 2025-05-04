@@ -16,11 +16,12 @@
         <module>product</module>
         <module>price</module>
         <module>core</module>
-       <module>customer</module>
-       <module>payment</module>
+        <module>customer</module>
+        <module>payment</module>
         <module>return</module>
-       <module>shipping</module>
-       <module>artisan</module>
+        <module>shipping</module>
+        <module>artisan</module>
+        <module>notification</module>
         <module>read</module>
         <module>build</module>
         <module>common-exception</module>
@@ -47,6 +48,11 @@
             <dependency>
                 <groupId>com.handmade.ecommerce</groupId>
                 <artifactId>common-exception</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.handmade.ecommerce</groupId>
+                <artifactId>notification-service</artifactId>
                 <version>${revision}</version>
             </dependency>
         </dependencies>

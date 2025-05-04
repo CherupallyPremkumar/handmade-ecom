@@ -2,7 +2,7 @@ package com.handmade.ecommerce.artisan.service.impl;
 
 import com.handmade.ecommerce.artisan.configuration.dao.ArtisanRepository;
 import com.handmade.ecommerce.artisan.model.Artisan;
-import com.handmade.ecommerce.artisan.service.ArtisanService;
+import com.handmade.ecommerce.artisan.model.service.ArtisanService;
 
 import jakarta.annotation.PostConstruct;
 import org.chenile.stm.STM;

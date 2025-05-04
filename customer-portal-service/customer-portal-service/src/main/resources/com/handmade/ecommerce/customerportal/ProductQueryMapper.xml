@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handmade.ecommerce.customerportal.dao.ProductQueryDao">
+
+    <!-- Optimized Non-Text Search Query (uses indexes better) -->
+    <select id="findProductsNonTextSearch" resultMap="com.handmade.ecommerce.customerportal.dao.CustomerPortalDao.ProductResult">
+        /* Optimized query with LATERAL JOIN for better performance */
+        SELECT p.id, p.name, p.description, p.price, p.currency_code,
+               p.available_quantity, p.status, p.created_time, 
+               p_metrics.average_rating, p_metrics.review_count,
+               a.id as artisan_id, a.name as artisan_name,
+               a.profile_image_url as artisan_profile_image,
+               p_images.image_urls
+        FROM hm_product p
+        JOIN hm_artisan a ON p.artisan_id = a.id
+        /* Lateral join for metrics aggregation - calculated once per product */
+        LEFT JOIN LATERAL (
+            SELECT 
+                COALESCE(AVG(r.rating), 0) as average_rating,
+                COUNT(r.id) as review_count
+            FROM hm_product_review r
+            WHERE r.product_id = p.id
+        ) p_metrics ON true
+        /* Lateral join for image aggregation - calculated once per product */
+        LEFT JOIN LATERAL (
+            SELECT STRING_AGG(i.image_url, ',') as image_urls
+            FROM hm_product_image i
+            WHERE i.product_id = p.id
+        ) p_images ON true
+        WHERE p.status = 'ACTIVE'
+        AND p.tenant_id = #{tenantId}
+        <if test="minPrice != null">
+            AND p.price >= #{minPrice}
+        </if>
+        <if test="maxPrice != null">
+            AND p.price <= #{maxPrice}
+        </if>
+        <choose>
+            <when test="sortBy == 'price_asc'">
+                ORDER BY p.price ASC
+            </when>
+            <when test="sortBy == 'price_desc'">
+                ORDER BY p.price DESC
+            </when>
+            <when test="sortBy == 'newest'">
+                ORDER BY p.created_time DESC
+            </when>
+            <when test="sortBy == 'popular'">
+                ORDER BY p_metrics.average_rating DESC, p_metrics.review_count DESC
+            </when>
+            <otherwise>
+                ORDER BY p.created_time DESC
+            </otherwise>
+        </choose>
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <!-- Batch Product Retrieval by IDs -->
+    <select id="getProductsByIds" resultMap="com.handmade.ecommerce.customerportal.dao.CustomerPortalDao.ProductResult">
+        /* Optimized batch retrieval with array parameter */
+        SELECT p.id, p.name, p.description, p.price, p.currency_code,
+               p.available_quantity, p.status, p.created_time, 
+               COALESCE(AVG(r.rating), 0) as average_rating,
+               COUNT(r.id) as review_count,
+               a.id as artisan_id, a.name as artisan_name,
+               a.profile_image_url as artisan_profile_image,
+               (SELECT STRING_AGG(i.image_url, ',') FROM hm_product_image i WHERE i.product_id = p.id) as image_urls
+        FROM hm_product p
+        JOIN hm_artisan a ON p.artisan_id = a.id
+        LEFT JOIN hm_product_review r ON p.id = r.product_id
+        WHERE p.tenant_id = #{tenantId}
+        /* Use ANY operator with array for efficient lookup */
+        AND p.id = ANY(ARRAY[
+        <foreach item="id" collection="productIds" separator=",">
+            #{id}
+        </foreach>
+        ]::varchar[])
+        GROUP BY p.id, a.id
+    </select>
+
+    <!-- Get Recently Viewed Product IDs (just IDs for efficiency) -->
+    <select id="getRecentlyViewedProductIds" resultType="string">
+        /* Efficient query that only returns IDs */
+        SELECT product_id
+        FROM hm_product_view_history
+        WHERE tenant_id = #{tenantId}
+        AND customer_id = #{customerId}
+        ORDER BY viewed_at DESC
+        LIMIT #{limit}
+    </select>
+
+    <!-- Track Product View (writes to history table) -->
+    <insert id="trackProductView">
+        /* Optimized UPSERT using ON CONFLICT for better performance */
+        INSERT INTO hm_product_view_history
+        (tenant_id, customer_id, product_id, viewed_at, view_count)
+        VALUES (#{tenantId}, #{customerId}, #{productId}, NOW(), 1)
+        ON CONFLICT (tenant_id, customer_id, product_id)
+        DO UPDATE SET 
+            viewed_at = NOW(),
+            view_count = hm_product_view_history.view_count + 1
+    </insert>
+
+    <!-- Get Product Counts By Category (efficient aggregation) -->
+    <select id="getProductCountsByCategory" resultType="map">
+        /* Efficient aggregation query with materialized counts */
+        SELECT 
+            c.id AS category_id,
+            c.name AS category_name,
+            COUNT(DISTINCT p.id) AS product_count
+        FROM hm_category c
+        LEFT JOIN hm_product_category pc ON c.id = pc.category_id
+        LEFT JOIN hm_product p ON pc.product_id = p.id AND p.status = 'ACTIVE' AND p.tenant_id = #{tenantId}
+        WHERE c.tenant_id = #{tenantId}
+        GROUP BY c.id, c.name
+    </select>
+
+    <!-- Find Similar Products (more efficient algorithm) -->
+    <select id="findSimilarProducts" resultMap="com.handmade.ecommerce.customerportal.dao.CustomerPortalDao.ProductResult">
+        /* Optimized similarity search using WITH clause for better readability and performance */
+        WITH product_categories AS (
+            /* Get categories of the specified product */
+            SELECT pc.category_id
+            FROM hm_product_category pc
+            WHERE pc.product_id = #{productId}
+        ),
+        product_attributes AS (
+            /* Get attributes of the specified product */
+            SELECT pa.attribute_key, pa.attribute_value
+            FROM hm_product_attribute pa
+            WHERE pa.product_id = #{productId}
+        ),
+        candidate_products AS (
+            /* Find products sharing categories with the target product */
+            SELECT 
+                p.id,
+                /* Calculate similarity score based on shared categories and attributes */
+                (
+                    /* Category match score */
+                    (SELECT COUNT(*) FROM hm_product_category pc2 
+                     WHERE pc2.product_id = p.id AND pc2.category_id IN (SELECT category_id FROM product_categories)) +
+                    /* Attribute match score */
+                    (SELECT COUNT(*) FROM hm_product_attribute pa2 
+                     WHERE pa2.product_id = p.id AND EXISTS (
+                         SELECT 1 FROM product_attributes pa1 
+                         WHERE pa1.attribute_key = pa2.attribute_key AND pa1.attribute_value = pa2.attribute_value
+                     )) +
+                    /* Price similarity (inverse of price difference percentage) */
+                    CASE WHEN ABS(p.price - (SELECT price FROM hm_product WHERE id = #{productId})) < 0.01 THEN 3
+                         WHEN ABS(p.price - (SELECT price FROM hm_product WHERE id = #{productId})) / 
+                              NULLIF((SELECT price FROM hm_product WHERE id = #{productId}), 0) < 0.1 THEN 2
+                         WHEN ABS(p.price - (SELECT price FROM hm_product WHERE id = #{productId})) / 
+                              NULLIF((SELECT price FROM hm_product WHERE id = #{productId}), 0) < 0.25 THEN 1
+                         ELSE 0 END
+                ) as similarity_score
+            FROM hm_product p
+            JOIN hm_product_category pc ON p.id = pc.product_id
+            WHERE p.tenant_id = #{tenantId}
+            AND p.status = 'ACTIVE'
+            AND p.id != #{productId}
+            AND pc.category_id IN (SELECT category_id FROM product_categories)
+            GROUP BY p.id
+            /* Only keep products with some similarity */
+            HAVING COUNT(DISTINCT pc.category_id) > 0
+        ),
+        ranked_products AS (
+            /* Rank products by similarity score */
+            SELECT 
+                cp.id,
+                cp.similarity_score,
+                ROW_NUMBER() OVER (ORDER BY cp.similarity_score DESC, 
+                                  (SELECT AVG(r.rating) FROM hm_product_review r WHERE r.product_id = cp.id) DESC) as rank
+            FROM candidate_products cp
+        )
+        
+        /* Final query to get product details for the top similar products */
+        SELECT p.id, p.name, p.description, p.price, p.currency_code,
+               p.available_quantity, p.status, p.created_time, 
+               COALESCE(AVG(r.rating), 0) as average_rating,
+               COUNT(r.id) as review_count,
+               a.id as artisan_id, a.name as artisan_name,
+               a.profile_image_url as artisan_profile_image,
+               (SELECT STRING_AGG(i.image_url, ',') FROM hm_product_image i WHERE i.product_id = p.id) as image_urls
+        FROM hm_product p
+        JOIN ranked_products rp ON p.id = rp.id
+        JOIN hm_artisan a ON p.artisan_id = a.id
+        LEFT JOIN hm_product_review r ON p.id = r.product_id
+        WHERE rp.rank <= #{limit}
+        GROUP BY p.id, a.id, rp.similarity_score, rp.rank
+        ORDER BY rp.rank
+    </select>
+</mapper> 

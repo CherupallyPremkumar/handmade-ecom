@@ -62,6 +62,16 @@
             <artifactId>h2</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- RabbitMQ dependency -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+        <!-- Notification service dependency -->
+        <dependency>
+            <groupId>com.handmade.ecommerce</groupId>
+            <artifactId>notification-service</artifactId>
+        </dependency>
 	</dependencies>
 
     <build>

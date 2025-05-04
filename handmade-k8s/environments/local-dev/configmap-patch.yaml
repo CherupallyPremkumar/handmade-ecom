@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: handmade-config
+data:
+  application.yml: |
+    spring:
+      datasource:
+        url: jdbc:postgresql://localhost:5432/handmade_dev
+        username: postgres
+        password: postgres
+        hikari:
+          maximum-pool-size: 5
+      
+      # Redis configuration for Docker Compose
+      redis:
+        host: localhost
+        port: 6379
+      
+      # RabbitMQ configuration for Docker Compose
+      rabbitmq:
+        host: localhost
+        port: 5672
+        username: handmade
+        password: handmade
+        virtual-host: handmade_vhost
+      
+      # Cache configuration
+      cache:
+        type: redis
+      
+      jpa:
+        show-sql: true
+        hibernate:
+          ddl-auto: validate
+      
+      # Development-specific settings
+      profiles:
+        active: dev
+        
+    logging:
+      level:
+        root: INFO
+        com.handmade.ecommerce: DEBUG
+        org.springframework.cache: DEBUG
+        org.springframework.data.redis: DEBUG
+        org.springframework.amqp: DEBUG
+
+    # Dev-specific application configuration
+    handmade:
+      features:
+        enable-dev-endpoints: true
+        skip-authentication: true

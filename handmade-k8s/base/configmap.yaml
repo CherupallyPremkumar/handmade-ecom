@@ -3,24 +3,23 @@ kind: ConfigMap
 metadata:
   name: handmade-config
 data:
-  application.yml: |
-    spring:
-      application:
-        name: handmade-service
-      datasource:
-        url: jdbc:postgresql://postgres:5432/handmade
-        username: ${DB_USERNAME}
-        password: ${DB_PASSWORD}
-      jpa:
-        hibernate:
-          ddl-auto: validate
-        show-sql: false
-      redis:
-        host: redis
-        port: 6379
-    server:
-      port: 8080
-    logging:
-      level:
-        root: INFO
-        com.handmade.ecommerce: INFO
+  # Application configuration
+  app_name: "Handmade E-commerce"
+  app_version: "1.0.0"
+
+  # Redis configuration
+  redis_host: "redis-service"
+  redis_port: "6379"
+
+  # RabbitMQ configuration
+  rabbitmq_host: "rabbitmq-service"
+  rabbitmq_port: "5672"
+  rabbitmq_username: "guest"
+
+  # Database configuration
+  db_url: "jdbc:postgresql://postgres-service:5432/handmade"
+  db_username: "postgres"
+
+  # Logging configuration
+  log_level: "INFO"
+  log_pattern: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"

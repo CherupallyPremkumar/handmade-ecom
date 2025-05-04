@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: notification-service
+  profiles:
+    include:
+      - rabbitmq
+
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:handmade}
+    password: ${RABBITMQ_PASSWORD:handmade}
+    virtual-host: ${RABBITMQ_VIRTUAL_HOST:handmade_vhost}
+    listener:
+      simple:
+        concurrency: 5
+        max-concurrency: 10
+        prefetch: 1
+        default-requeue-rejected: false
+        retry:
+          enabled: true
+          initial-interval: 1000
+          max-attempts: 3
+          multiplier: 1.5
+          max-interval: 10000
+
+# Custom application configuration
+handmade:
+  rabbitmq:
+    notification-exchange: handmade.notification.exchange
+    notification-queue: handmade.notification.queue
+    notification-routing-key: notification.delivery
+
+    order-exchange: handmade.order.exchange
+    order-notification-queue: handmade.order.notification.queue
+    order-created-routing-key: order.created
+    order-updated-routing-key: order.status.updated
+
+    shipping-exchange: handmade.shipping.exchange
+    shipping-notification-queue: handmade.shipping.notification.queue
+    shipment-created-routing-key: shipment.created
+    shipment-updated-routing-key: shipment.updated
+
+    return-exchange: handmade.return.exchange
+    return-notification-queue: handmade.return.notification.queue
+    return-requested-routing-key: return.requested
+    return-completed-routing-key: return.completed
+
+logging:
+  level:
+    root: INFO
+    com.handmade.ecommerce.notification: DEBUG
+    org.springframework.amqp: INFO

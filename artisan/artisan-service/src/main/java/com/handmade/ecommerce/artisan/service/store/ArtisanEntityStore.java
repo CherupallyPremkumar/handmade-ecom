@@ -7,8 +7,10 @@ import org.chenile.base.exception.NotFoundException;
 import com.handmade.ecommerce.artisan.configuration.dao.ArtisanRepository;
 import java.util.Optional;
 
+
 public class ArtisanEntityStore implements EntityStore<Artisan>{
-    @Autowired private ArtisanRepository artisanRepository;
+	@Autowired
+	private ArtisanRepository artisanRepository;
 
 	@Override
 	public void store(Artisan entity) {

@@ -1,0 +1,83 @@
+version: '3.8'
+
+services:
+  # Application service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: handmade-app
+    depends_on:
+      - redis
+      - rabbitmq
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_REDIS_HOST=redis
+      - SPRING_REDIS_PORT=6379
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - SPRING_RABBITMQ_PORT=5672
+      - SPRING_RABBITMQ_USERNAME=handmade
+      - SPRING_RABBITMQ_PASSWORD=handmade
+      - SPRING_RABBITMQ_VIRTUAL_HOST=handmade_vhost
+      - SPRING_PROFILES_ACTIVE=dev,local
+      - JAVA_OPTS=-Xms256m -Xmx512m -XX:+UseG1GC
+    networks:
+      - handmade-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Redis service
+  redis:
+    image: redis:7.0-alpine
+    container_name: handmade-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: ["redis-server", "--appendonly", "yes"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - handmade-network
+    restart: unless-stopped
+
+  # RabbitMQ service
+  rabbitmq:
+    image: rabbitmq:3.11-management-alpine
+    container_name: handmade-rabbitmq
+    ports:
+      - "5672:5672"   # AMQP protocol port
+      - "15672:15672" # Management UI port
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=handmade
+      - RABBITMQ_DEFAULT_PASS=handmade
+      - RABBITMQ_DEFAULT_VHOST=handmade_vhost
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - handmade-network
+    restart: unless-stopped
+
+volumes:
+  redis-data:
+    driver: local
+  rabbitmq-data:
+    driver: local
+
+networks:
+  handmade-network:
+    driver: bridge 

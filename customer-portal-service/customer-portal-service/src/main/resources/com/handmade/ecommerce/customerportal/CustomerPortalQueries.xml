@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handmade.ecommerce.customerportal.dao.CustomerPortalDao">
+
+    <!-- Product Search Query -->
+    <select id="searchProducts" resultMap="ProductResult">
+        SELECT p.id, p.name, p.description, p.price, p.currency_code,
+               p.available_quantity, p.status, p.created_time, 
+               COALESCE(AVG(r.rating), 0) as average_rating,
+               COUNT(r.id) as review_count,
+               a.id as artisan_id, a.name as artisan_name,
+               a.profile_image_url as artisan_profile_image,
+               (SELECT STRING_AGG(i.image_url, ',') FROM hm_product_image i WHERE i.product_id = p.id) as image_urls
+        FROM hm_product p
+        JOIN hm_artisan a ON p.artisan_id = a.id
+        LEFT JOIN hm_product_review r ON p.id = r.product_id
+        WHERE p.status = 'ACTIVE'
+        AND p.tenant_id = #{tenantId}
+        <if test="searchTerm != null and searchTerm != ''">
+            AND (LOWER(p.name) LIKE LOWER(CONCAT('%', #{searchTerm}, '%')) 
+                OR LOWER(p.description) LIKE LOWER(CONCAT('%', #{searchTerm}, '%')))
+        </if>
+        <if test="minPrice != null">
+            AND p.price >= #{minPrice}
+        </if>
+        <if test="maxPrice != null">
+            AND p.price <= #{maxPrice}
+        </if>
+        GROUP BY p.id, a.id
+        <choose>
+            <when test="sortBy == 'price_asc'">
+                ORDER BY p.price ASC
+            </when>
+            <when test="sortBy == 'price_desc'">
+                ORDER BY p.price DESC
+            </when>
+            <when test="sortBy == 'newest'">
+                ORDER BY p.created_time DESC
+            </when>
+            <when test="sortBy == 'popular'">
+                ORDER BY average_rating DESC, review_count DESC
+            </when>
+            <otherwise>
+                ORDER BY p.created_time DESC
+            </otherwise>
+        </choose>
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <!-- Products By Category Query -->
+    <select id="getProductsByCategory" resultMap="ProductResult">
+        SELECT p.id, p.name, p.description, p.price, p.currency_code,
+               p.available_quantity, p.status, p.created_time, 
+               COALESCE(AVG(r.rating), 0) as average_rating,
+               COUNT(r.id) as review_count,
+               a.id as artisan_id, a.name as artisan_name,
+               a.profile_image_url as artisan_profile_image,
+               (SELECT STRING_AGG(i.image_url, ',') FROM hm_product_image i WHERE i.product_id = p.id) as image_urls
+        FROM hm_product p
+        JOIN hm_product_category pc ON p.id = pc.product_id
+        JOIN hm_category c ON pc.category_id = c.id
+        JOIN hm_artisan a ON p.artisan_id = a.id
+        LEFT JOIN hm_product_review r ON p.id = r.product_id
+        WHERE p.status = 'ACTIVE'
+        AND p.tenant_id = #{tenantId}
+        AND c.id = #{categoryId}
+        GROUP BY p.id, a.id
+        <choose>
+            <when test="sortBy == 'price_asc'">
+                ORDER BY p.price ASC
+            </when>
+            <when test="sortBy == 'price_desc'">
+                ORDER BY p.price DESC
+            </when>
+            <when test="sortBy == 'newest'">
+                ORDER BY p.created_time DESC
+            </when>
+            <otherwise>
+                ORDER BY p.created_time DESC
+            </otherwise>
+        </choose>
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <!-- Products By Artisan Query -->
+    <select id="getProductsByArtisan" resultMap="ProductResult">
+        SELECT p.id, p.name, p.description, p.price, p.currency_code,
+               p.available_quantity, p.status, p.created_time, 
+               COALESCE(AVG(r.rating), 0) as average_rating,
+               COUNT(r.id) as review_count,
+               a.id as artisan_id, a.name as artisan_name,
+               a.profile_image_url as artisan_profile_image,
+               (SELECT STRING_AGG(i.image_url, ',') FROM hm_product_image i WHERE i.product_id = p.id) as image_urls
+        FROM hm_product p
+        JOIN hm_artisan a ON p.artisan_id = a.id
+        LEFT JOIN hm_product_review r ON p.id = r.product_id
+        WHERE p.status = 'ACTIVE'
+        AND p.tenant_id = #{tenantId}
+        AND a.id = #{artisanId}
+        GROUP BY p.id, a.id
+        ORDER BY p.created_time DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <!-- Artisan Profile Query -->
+    <select id="getArtisanProfile" resultMap="ArtisanProfileResult">
+        SELECT a.id, a.name, a.bio, a.profile_image_url,
+               COALESCE(AVG(r.rating), 0) as average_rating,
+               COUNT(DISTINCT o.id) as completed_order_count,
+               (SELECT STRING_AGG(s.specialty, ',') FROM hm_artisan_specialty s WHERE s.artisan_id = a.id) as specialties
+        FROM hm_artisan a
+        LEFT JOIN hm_product p ON a.id = p.artisan_id
+        LEFT JOIN hm_product_review r ON p.id = r.product_id
+        LEFT JOIN hm_order o ON p.id = o.product_id AND o.status = 'COMPLETED'
+        WHERE a.id = #{artisanId}
+        AND a.tenant_id = #{tenantId}
+        GROUP BY a.id
+    </select>
+
+    <!-- Customer Order History Query -->
+    <select id="getCustomerOrders" resultMap="CustomerOrderResult">
+        SELECT o.id, o.order_number, o.status, o.created_time as order_date,
+               o.estimated_delivery_date, o.total_amount, o.currency_code,
+               COUNT(oi.id) as item_count,
+               s.tracking_number, s.status as shipping_status,
+               p.status as payment_status
+        FROM hm_order o
+        JOIN hm_order_item oi ON o.id = oi.order_id
+        LEFT JOIN hm_shipping s ON o.id = s.order_id
+        LEFT JOIN hm_payment p ON o.id = p.order_id
+        WHERE o.customer_id = #{customerId}
+        AND o.tenant_id = #{tenantId}
+        GROUP BY o.id, s.id, p.id
+        ORDER BY o.created_time DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <!-- Product Details Query -->
+    <select id="getProductDetails" resultMap="ProductDetailResult">
+        SELECT p.id, p.name, p.description, p.price, p.currency_code,
+               p.available_quantity, p.status, p.created_time, 
+               a.id as artisan_id, a.name as artisan_name,
+               a.profile_image_url as artisan_profile_image,
+               (SELECT JSON_AGG(
+                   json_build_object(
+                       'id', r.id,
+                       'rating', r.rating,
+                       'comment', r.comment,
+                       'customerName', c.name,
+                       'createdTime', r.created_time
+                   )
+               ) FROM hm_product_review r
+               JOIN hm_customer c ON r.customer_id = c.id
+               WHERE r.product_id = p.id) as reviews,
+               (SELECT JSON_AGG(
+                   json_build_object(
+                       'id', i.id,
+                       'imageUrl', i.image_url,
+                       'isMain', i.is_main
+                   )
+               ) FROM hm_product_image i
+               WHERE i.product_id = p.id) as images,
+               (SELECT JSON_AGG(
+                   json_build_object(
+                       'id', c.id,
+                       'name', c.name
+                   )
+               ) FROM hm_category c
+               JOIN hm_product_category pc ON c.id = pc.category_id
+               WHERE pc.product_id = p.id) as categories,
+               (SELECT JSON_AGG(
+                   json_build_object(
+                       'key', a.attribute_key,
+                       'value', a.attribute_value
+                   )
+               ) FROM hm_product_attribute a
+               WHERE a.product_id = p.id) as attributes
+        FROM hm_product p
+        JOIN hm_artisan a ON p.artisan_id = a.id
+        WHERE p.id = #{productId}
+        AND p.tenant_id = #{tenantId}
+    </select>
+    
+    <!-- Featured Products Query -->
+    <select id="getFeaturedProducts" resultMap="ProductResult">
+        SELECT p.id, p.name, p.description, p.price, p.currency_code,
+               p.available_quantity, p.status, p.created_time, 
+               COALESCE(AVG(r.rating), 0) as average_rating,
+               COUNT(r.id) as review_count,
+               a.id as artisan_id, a.name as artisan_name,
+               a.profile_image_url as artisan_profile_image,
+               (SELECT STRING_AGG(i.image_url, ',') FROM hm_product_image i WHERE i.product_id = p.id) as image_urls
+        FROM hm_product p
+        JOIN hm_artisan a ON p.artisan_id = a.id
+        LEFT JOIN hm_product_review r ON p.id = r.product_id
+        JOIN hm_featured_product fp ON p.id = fp.product_id
+        WHERE p.status = 'ACTIVE'
+        AND p.tenant_id = #{tenantId}
+        GROUP BY p.id, a.id
+        ORDER BY fp.display_order ASC
+        LIMIT #{limit}
+    </select>
+    
+    <!-- Categories with Products Count Query -->
+    <select id="getCategories" resultMap="CategoryResult">
+        SELECT c.id, c.name, c.description, c.image_url,
+               COUNT(DISTINCT pc.product_id) as product_count
+        FROM hm_category c
+        LEFT JOIN hm_product_category pc ON c.id = pc.category_id
+        LEFT JOIN hm_product p ON pc.product_id = p.id AND p.status = 'ACTIVE'
+        WHERE c.tenant_id = #{tenantId}
+        GROUP BY c.id
+        ORDER BY c.name ASC
+    </select>
+    
+    <!-- Related Products Query -->
+    <select id="getRelatedProducts" resultMap="ProductResult">
+        SELECT p.id, p.name, p.description, p.price, p.currency_code,
+               p.available_quantity, p.status, p.created_time, 
+               COALESCE(AVG(r.rating), 0) as average_rating,
+               COUNT(r.id) as review_count,
+               a.id as artisan_id, a.name as artisan_name,
+               a.profile_image_url as artisan_profile_image,
+               (SELECT STRING_AGG(i.image_url, ',') FROM hm_product_image i WHERE i.product_id = p.id) as image_urls
+        FROM hm_product p
+        JOIN hm_product_category pc1 ON p.id = pc1.product_id
+        JOIN hm_artisan a ON p.artisan_id = a.id
+        LEFT JOIN hm_product_review r ON p.id = r.product_id
+        WHERE p.status = 'ACTIVE'
+        AND p.tenant_id = #{tenantId}
+        AND p.id != #{productId}
+        AND pc1.category_id IN (
+            SELECT pc2.category_id 
+            FROM hm_product_category pc2 
+            WHERE pc2.product_id = #{productId}
+        )
+        GROUP BY p.id, a.id
+        ORDER BY average_rating DESC
+        LIMIT #{limit}
+    </select>
+
+    <!-- Result Maps -->
+    <resultMap id="ProductResult" type="com.handmade.ecommerce.customerportal.model.ProductView">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="description" column="description"/>
+        <result property="price" column="price"/>
+        <result property="currencyCode" column="currency_code"/>
+        <result property="availableQuantity" column="available_quantity"/>
+        <result property="status" column="status"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="averageRating" column="average_rating"/>
+        <result property="reviewCount" column="review_count"/>
+        <result property="artisanId" column="artisan_id"/>
+        <result property="artisanName" column="artisan_name"/>
+        <result property="artisanProfileImage" column="artisan_profile_image"/>
+        <result property="imageUrls" column="image_urls"/>
+    </resultMap>
+    
+    <resultMap id="ProductDetailResult" type="com.handmade.ecommerce.customerportal.model.ProductDetail" extends="ProductResult">
+        <result property="reviews" column="reviews" jdbcType="OTHER" typeHandler="com.handmade.ecommerce.customerportal.dao.JsonTypeHandler"/>
+        <result property="images" column="images" jdbcType="OTHER" typeHandler="com.handmade.ecommerce.customerportal.dao.JsonTypeHandler"/>
+        <result property="categories" column="categories" jdbcType="OTHER" typeHandler="com.handmade.ecommerce.customerportal.dao.JsonTypeHandler"/>
+        <result property="attributes" column="attributes" jdbcType="OTHER" typeHandler="com.handmade.ecommerce.customerportal.dao.JsonTypeHandler"/>
+    </resultMap>
+    
+    <resultMap id="ArtisanProfileResult" type="com.handmade.ecommerce.customerportal.model.ArtisanProfile">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="bio" column="bio"/>
+        <result property="profileImageUrl" column="profile_image_url"/>
+        <result property="averageRating" column="average_rating"/>
+        <result property="completedOrderCount" column="completed_order_count"/>
+        <result property="specialties" column="specialties"/>
+    </resultMap>
+    
+    <resultMap id="CustomerOrderResult" type="com.handmade.ecommerce.customerportal.model.CustomerOrder">
+        <id property="id" column="id"/>
+        <result property="orderNumber" column="order_number"/>
+        <result property="status" column="status"/>
+        <result property="orderDate" column="order_date"/>
+        <result property="estimatedDeliveryDate" column="estimated_delivery_date"/>
+        <result property="totalAmount" column="total_amount"/>
+        <result property="currencyCode" column="currency_code"/>
+        <result property="itemCount" column="item_count"/>
+        <result property="trackingNumber" column="tracking_number"/>
+        <result property="shippingStatus" column="shipping_status"/>
+        <result property="paymentStatus" column="payment_status"/>
+    </resultMap>
+    
+    <resultMap id="CategoryResult" type="com.handmade.ecommerce.customerportal.model.Category">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="description" column="description"/>
+        <result property="imageUrl" column="image_url"/>
+        <result property="productCount" column="product_count"/>
+    </resultMap>
+</mapper> 

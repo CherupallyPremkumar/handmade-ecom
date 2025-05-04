@@ -18,10 +18,6 @@ import com.handmade.ecommerce.artisan.service.store.ArtisanEntityStore;
 @Component
 public class ActivateArtisanAction implements STMTransitionAction<Artisan> {
 
-
-
-
-
     @Override
     public void doTransition(Artisan artisan, Object payload, State startState, String eventId, State endState, STMInternalTransitionInvoker<?> stm, Transition transition) throws Exception {
         ActivateArtisanPayload artisanPayload= (ActivateArtisanPayload) payload;

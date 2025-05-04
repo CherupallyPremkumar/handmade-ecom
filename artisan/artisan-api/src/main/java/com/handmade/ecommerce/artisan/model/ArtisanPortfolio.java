@@ -1,15 +1,8 @@
 package com.handmade.ecommerce.artisan.model;
 
-import com.handmade.ecommerce.core.model.BaseEntity;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import org.chenile.jpautils.entity.BaseJpaEntity;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;

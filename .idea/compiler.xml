@@ -11,24 +11,35 @@
         <module name="price-service" />
         <module name="order-api" />
         <module name="payment-api" />
+        <module name="tenant-dto" />
+        <module name="notification-service" />
         <module name="artisan-service" />
         <module name="payment-service" />
         <module name="shipping-api" />
         <module name="artisan-api" />
+        <module name="artisan-dto" />
         <module name="category-api" />
         <module name="return-api" />
         <module name="read-query-service" />
         <module name="cart-service" />
+        <module name="price-dto" />
         <module name="category-service" />
+        <module name="cart-dto" />
+        <module name="customer-portal-service" />
         <module name="customer-service" />
+        <module name="common-exception" />
+        <module name="image-storage-service" />
         <module name="product-service" />
         <module name="price-api" />
         <module name="build-package" />
         <module name="core" />
         <module name="customer-api" />
+        <module name="customer-portal-dto" />
         <module name="return-service" />
+        <module name="customer-portal-api" />
         <module name="product-api" />
         <module name="order-service" />
+        <module name="image-storage-api" />
         <module name="cart-api" />
         <module name="shipping-service" />
       </profile>
@@ -48,22 +59,29 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="artisan-api" options="-parameters" />
+      <module name="artisan-dto" options="-parameters" />
       <module name="artisan-parent" options="-parameters" />
       <module name="artisan-service" options="-parameters" />
       <module name="build-package" options="-parameters" />
       <module name="build-parent" options="-parameters" />
       <module name="cart-api" options="-parameters" />
+      <module name="cart-dto" options="-parameters" />
       <module name="cart-parent" options="-parameters" />
       <module name="cart-service" options="-parameters" />
       <module name="category-api" options="-parameters" />
       <module name="category-parent" options="-parameters" />
       <module name="category-service" options="-parameters" />
+      <module name="common-exception" options="-parameters" />
       <module name="core" options="-parameters" />
       <module name="core-api" options="-parameters" />
       <module name="core-parent" options="-parameters" />
       <module name="core-service" options="-parameters" />
       <module name="customer-api" options="-parameters" />
       <module name="customer-parent" options="-parameters" />
+      <module name="customer-portal-api" options="-parameters" />
+      <module name="customer-portal-dto" options="-parameters" />
+      <module name="customer-portal-parent" options="-parameters" />
+      <module name="customer-portal-service" options="-parameters" />
       <module name="customer-service" options="-parameters" />
       <module name="database" options="-parameters" />
       <module name="database-api" options="-parameters" />
@@ -71,6 +89,11 @@
       <module name="database-parent (1) (com.handmade.ecommerce.database)" options="-parameters" />
       <module name="database-service" options="-parameters" />
       <module name="ecommerce-parent" options="-parameters" />
+      <module name="handmade-k8s" options="-parameters" />
+      <module name="image-storage" options="-parameters" />
+      <module name="image-storage-api" options="-parameters" />
+      <module name="image-storage-service" options="-parameters" />
+      <module name="notification-service" options="-parameters" />
       <module name="order-api" options="-parameters" />
       <module name="order-parent" options="-parameters" />
       <module name="order-service" options="-parameters" />
@@ -78,6 +101,7 @@
       <module name="payment-parent" options="-parameters" />
       <module name="payment-service" options="-parameters" />
       <module name="price-api" options="-parameters" />
+      <module name="price-dto" options="-parameters" />
       <module name="price-parent" options="-parameters" />
       <module name="price-service" options="-parameters" />
       <module name="product-api" options="-parameters" />
@@ -92,6 +116,7 @@
       <module name="shipping-parent" options="-parameters" />
       <module name="shipping-service" options="-parameters" />
       <module name="tenant-api" options="-parameters" />
+      <module name="tenant-dto" options="-parameters" />
       <module name="tenant-parent" options="-parameters" />
       <module name="tenant-service" options="-parameters" />
     </option>

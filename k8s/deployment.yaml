@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: handmade-ecommerce
+  labels:
+    app: handmade-ecommerce
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: handmade-ecommerce
+  template:
+    metadata:
+      labels:
+        app: handmade-ecommerce
+    spec:
+      containers:
+        - name: handmade-ecommerce
+          image: handmade-ecommerce:latest
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "prod"
+            - name: JAVA_OPTS
+              value: "-Xms512m -Xmx1024m -XX:+UseG1GC"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: handmade-ecommerce
+spec:
+  selector:
+    app: handmade-ecommerce
+  ports:
+    - port: 80
+      targetPort: 8080
+  type: LoadBalancer

@@ -1,6 +1,6 @@
 package com.handmade.ecommerce.artisan.configuration.controller;
 
-import com.handmade.ecommerce.artisan.service.ArtisanImageService;
+import com.handmade.ecommerce.artisan.model.service.ArtisanImageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;

@@ -1,6 +1,6 @@
 package com.handmade.ecommerce.artisan.service.impl;
 
-import com.handmade.ecommerce.artisan.service.ArtisanImageService;
+import com.handmade.ecommerce.artisan.model.service.ArtisanImageService;
 import com.handmade.ecommerce.image.api.service.ImageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j

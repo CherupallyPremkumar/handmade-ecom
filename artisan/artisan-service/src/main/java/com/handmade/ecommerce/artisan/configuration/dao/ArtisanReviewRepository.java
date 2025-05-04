@@ -71,4 +71,7 @@ public interface ArtisanReviewRepository extends JpaRepository<ArtisanReview, St
      */
     @Query("SELECT COUNT(r) FROM ArtisanReview r WHERE r.artisan.id = :artisanId AND r.status = 'APPROVED'")
     Long countReviewsByArtisanId(@Param("artisanId") String artisanId);
+
+    @Query("SELECT r FROM ArtisanReview r WHERE r.artisan.id = :artisanId AND r.reviewerId = :reviewerId")
+    Optional<ArtisanReview> findByArtisanIdAndReviewerId(@Param("artisanId") String artisanId, @Param("reviewerId") String reviewerId);
 }

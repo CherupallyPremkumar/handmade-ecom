@@ -29,6 +29,59 @@ spec:
               value: "prod"
             - name: JAVA_OPTS
               value: "-Xmx2g -Xms1g -XX:+UseG1GC -XX:MaxGCPauseMillis=200"
+            # Redis configuration
+            - name: REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: handmade-config
+                  key: redis_host
+            - name: REDIS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: handmade-config
+                  key: redis_port
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: handmade-secrets
+                  key: redis_password
+            # RabbitMQ configuration
+            - name: RABBITMQ_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: handmade-config
+                  key: rabbitmq_host
+            - name: RABBITMQ_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: handmade-config
+                  key: rabbitmq_port
+            - name: RABBITMQ_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: handmade-config
+                  key: rabbitmq_username
+            - name: RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: handmade-secrets
+                  key: rabbitmq_password
+            # Database configuration
+            - name: DB_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: handmade-config
+                  key: db_url
+            - name: DB_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: handmade-config
+                  key: db_username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: handmade-secrets
+                  key: db_password
           livenessProbe:
             httpGet:
               path: /actuator/health

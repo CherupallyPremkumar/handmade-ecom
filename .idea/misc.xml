@@ -18,8 +18,11 @@
         <option value="$PROJECT_DIR$/build/build-package/pom.xml" />
         <option value="$PROJECT_DIR$/read/pom.xml" />
         <option value="$PROJECT_DIR$/artisan/pom.xml" />
-        <option value="$PROJECT_DIR$/tenant/pom.xml" />
-        <option value="$PROJECT_DIR$/category/pom.xml" />
+        <option value="$PROJECT_DIR$/category/category-service/pom.xml" />
+        <option value="$PROJECT_DIR$/price/price-dto/pom.xml" />
+        <option value="$PROJECT_DIR$/artisan/artisan-dto/pom.xml" />
+        <option value="$PROJECT_DIR$/image-storage/pom.xml" />
+        <option value="$PROJECT_DIR$/customer-portal-service/pom.xml" />
       </list>
     </option>
   </component>

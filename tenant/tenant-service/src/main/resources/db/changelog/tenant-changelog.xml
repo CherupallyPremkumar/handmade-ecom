@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <!-- Create Tenant Table -->
+    <changeSet id="1" author="handmade">
+        <createTable tableName="hm_tenant">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="created_time" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="varchar(255)"/>
+            <column name="last_modified_time" type="timestamp"/>
+            <column name="last_modified_by" type="varchar(255)"/>
+            <column name="sla_late" type="boolean" defaultValueBoolean="false"/>
+            <column name="sla_red_date" type="timestamp"/>
+            <column name="sla_tending_late" type="boolean" defaultValueBoolean="false"/>
+            <column name="sla_yellow_date" type="timestamp"/>
+            <column name="state_entry_time" type="timestamp"/>
+            <column name="version" type="bigint" defaultValueNumeric="0"/>
+            <column name="tenant_name" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="base_currency" type="varchar(3)" defaultValue="USD"/>
+            <column name="status" type="varchar(50)" defaultValue="OPENED"/>
+            <column name="state_id" type="varchar(50)" defaultValue="OPENED"/>
+            <column name="state_name" type="varchar(50)" defaultValue="OPENED"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Create Tenant Configuration Table -->
+    <changeSet id="2" author="handmade">
+        <createTable tableName="hm_tenant_configuration">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="created_time" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="varchar(255)"/>
+            <column name="last_modified_time" type="timestamp"/>
+            <column name="last_modified_by" type="varchar(255)"/>
+            <column name="version" type="bigint" defaultValueNumeric="0"/>
+            <column name="tenant_id" type="varchar(36)">
+                <constraints nullable="false" foreignKeyName="fk_tenant_config_tenant" references="hm_tenant(id)"/>
+            </column>
+            <column name="config_key" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="config_value" type="text"/>
+            <column name="data_type" type="varchar(50)" defaultValue="STRING"/>
+            <column name="description" type="varchar(1000)"/>
+            <column name="is_encrypted" type="boolean" defaultValueBoolean="false"/>
+            <column name="is_active" type="boolean" defaultValueBoolean="true"/>
+            <column name="category" type="varchar(255)"/>
+        </createTable>
+        
+        <!-- Add unique constraint for tenant_id + config_key -->
+        <addUniqueConstraint 
+            tableName="hm_tenant_configuration" 
+            columnNames="tenant_id, config_key"
+            constraintName="uk_tenant_config_key"/>
+    </changeSet>
+    
+    <!-- Create indexes -->
+    <changeSet id="3" author="handmade">
+        <createIndex indexName="idx_tenant_status" tableName="hm_tenant">
+            <column name="status"/>
+        </createIndex>
+        <createIndex indexName="idx_tenant_name" tableName="hm_tenant">
+            <column name="tenant_name"/>
+        </createIndex>
+        <createIndex indexName="idx_tenant_config_key" tableName="hm_tenant_configuration">
+            <column name="tenant_id"/>
+            <column name="config_key"/>
+        </createIndex>
+        <createIndex indexName="idx_tenant_config_category" tableName="hm_tenant_configuration">
+            <column name="tenant_id"/>
+            <column name="category"/>
+        </createIndex>
+    </changeSet>
+    
+    <!-- Insert default tenant -->
+    <changeSet id="4" author="handmade">
+        <insert tableName="hm_tenant">
+            <column name="id" value="00000000-0000-0000-0000-000000000001"/>
+            <column name="created_time" valueDate="CURRENT_TIMESTAMP"/>
+            <column name="created_by" value="system"/>
+            <column name="tenant_name" value="Default Tenant"/>
+            <column name="base_currency" value="USD"/>
+            <column name="status" value="ACTIVE"/>
+            <column name="state_id" value="ACTIVE"/>
+            <column name="state_name" value="ACTIVE"/>
+            <column name="state_entry_time" valueDate="CURRENT_TIMESTAMP"/>
+        </insert>
+    </changeSet>
+    
+    <!-- Insert default configurations -->
+    <changeSet id="5" author="handmade">
+        <insert tableName="hm_tenant_configuration">
+            <column name="id" value="00000000-0000-0000-0000-000000000001"/>
+            <column name="created_time" valueDate="CURRENT_TIMESTAMP"/>
+            <column name="created_by" value="system"/>
+            <column name="tenant_id" value="00000000-0000-0000-0000-000000000001"/>
+            <column name="config_key" value="max_products"/>
+            <column name="config_value" value="1000"/>
+            <column name="data_type" value="INTEGER"/>
+            <column name="description" value="Maximum number of products allowed"/>
+            <column name="category" value="limits"/>
+        </insert>
+        <insert tableName="hm_tenant_configuration">
+            <column name="id" value="00000000-0000-0000-0000-000000000002"/>
+            <column name="created_time" valueDate="CURRENT_TIMESTAMP"/>
+            <column name="created_by" value="system"/>
+            <column name="tenant_id" value="00000000-0000-0000-0000-000000000001"/>
+            <column name="config_key" value="theme_color"/>
+            <column name="config_value" value="#3366cc"/>
+            <column name="data_type" value="STRING"/>
+            <column name="description" value="Primary theme color"/>
+            <column name="category" value="appearance"/>
+        </insert>
+        <insert tableName="hm_tenant_configuration">
+            <column name="id" value="00000000-0000-0000-0000-000000000003"/>
+            <column name="created_time" valueDate="CURRENT_TIMESTAMP"/>
+            <column name="created_by" value="system"/>
+            <column name="tenant_id" value="00000000-0000-0000-0000-000000000001"/>
+            <column name="config_key" value="allow_guest_checkout"/>
+            <column name="config_value" value="true"/>
+            <column name="data_type" value="BOOLEAN"/>
+            <column name="description" value="Allow checkout without registration"/>
+            <column name="category" value="checkout"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog> 

@@ -2,6 +2,7 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/artisan/artisan-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/artisan/artisan-dto/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/artisan/artisan-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/artisan/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/artisan/src/main/resources" charset="UTF-8" />
@@ -9,6 +10,7 @@
     <file url="file://$PROJECT_DIR$/build/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/build/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cart/cart-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cart/cart-dto/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cart/cart-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cart/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cart/src/main/resources" charset="UTF-8" />
@@ -16,10 +18,16 @@
     <file url="file://$PROJECT_DIR$/category/category-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/category/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/category/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/common-exception/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/core/core-api/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/core/core-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/core/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/core/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/customer-portal-service/customer-portal-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/customer-portal-service/customer-portal-dto/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/customer-portal-service/customer-portal-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/customer-portal-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/customer-portal-service/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/customer/customer-api/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/customer/customer-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/customer/src/main/java" charset="UTF-8" />
@@ -28,6 +36,12 @@
     <file url="file://$PROJECT_DIR$/database/database-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/database/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/database/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/handmade-k8s/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/image-storage/image-storage-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/image-storage/image-storage-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/image-storage/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/image-storage/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/notification/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/order/order-api/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/order/order-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/order/src/main/java" charset="UTF-8" />
@@ -37,6 +51,7 @@
     <file url="file://$PROJECT_DIR$/payment/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/payment/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/price/price-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/price/price-dto/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/price/price-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/price/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/price/src/main/resources" charset="UTF-8" />
@@ -58,6 +73,7 @@
     <file url="file://$PROJECT_DIR$/tenant/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tenant/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tenant/tenant-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tenant/tenant-dto/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tenant/tenant-service/src/main/java" charset="UTF-8" />
   </component>
 </project>

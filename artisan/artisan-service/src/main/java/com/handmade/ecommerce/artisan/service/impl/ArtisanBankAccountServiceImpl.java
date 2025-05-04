@@ -4,7 +4,8 @@ import com.handmade.ecommerce.artisan.configuration.dao.ArtisanBankAccountReposi
 import com.handmade.ecommerce.artisan.configuration.dao.ArtisanRepository;
 import com.handmade.ecommerce.artisan.model.Artisan;
 import com.handmade.ecommerce.artisan.model.ArtisanBankAccount;
-import com.handmade.ecommerce.artisan.service.ArtisanBankAccountService;
+import com.handmade.ecommerce.artisan.model.service.ArtisanBankAccountService;
+import com.handmade.ecommerce.artisan.model.service.ArtisanWorkingHoursService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -23,6 +24,8 @@ public class ArtisanBankAccountServiceImpl implements ArtisanBankAccountService 
 
     private final ArtisanBankAccountRepository bankAccountRepository;
     private final ArtisanRepository artisanRepository;
+
+    private ArtisanWorkingHoursService artisanWorkingHoursService;
     
     // Cache for artisan bank accounts
     private final Map<String, List<ArtisanBankAccount>> artisanAccountsCache = new ConcurrentHashMap<>();

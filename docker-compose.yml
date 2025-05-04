@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  # Redis service
+  redis:
+    image: redis:7.0-alpine
+    container_name: handmade-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: ["redis-server", "--appendonly", "yes"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - handmade-network
+    restart: unless-stopped
+
+  # RabbitMQ service
+  rabbitmq:
+    image: rabbitmq:3.11-management-alpine
+    container_name: handmade-rabbitmq
+    ports:
+      - "5672:5672"   # AMQP protocol port
+      - "15672:15672" # Management UI port
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=handmade
+      - RABBITMQ_DEFAULT_PASS=handmade
+      - RABBITMQ_DEFAULT_VHOST=handmade_vhost
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - handmade-network
+    restart: unless-stopped
+
+volumes:
+  redis-data:
+    driver: local
+  rabbitmq-data:
+    driver: local
+
+networks:
+  handmade-network:
+    driver: bridge 

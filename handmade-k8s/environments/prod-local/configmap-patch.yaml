@@ -6,7 +6,7 @@ data:
   application.yml: |
     spring:
       datasource:
-        url: jdbc:postgresql://localhost:5432/handmade_prod
+        url: jdbc:sql://localhost:5432/handmade_prod
       jpa:
         show-sql: false
     logging:

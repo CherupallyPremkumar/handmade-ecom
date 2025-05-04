@@ -14,7 +14,7 @@ configMapGenerator:
   - name: handmade-config
     behavior: merge
     literals:
-      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_PROFILES_ACTIVE=prod-local
       - LOGGING_LEVEL_ROOT=WARN
       - LOGGING_LEVEL_COM_HANDMADE_ECOMMERCE=INFO
 

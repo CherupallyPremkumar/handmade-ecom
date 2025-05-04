@@ -6,7 +6,8 @@
 	<modules>
 		<module>tenant-api</module>
 		<module>tenant-service</module>
-	</modules>
+        <module>tenant-dto</module>
+    </modules>
 	<parent>
 		<groupId>com.handmade.ecommerce</groupId>
 		<version>${revision}</version>

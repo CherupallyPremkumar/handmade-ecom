@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: handmade-service
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - name: handmade-service
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "200m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "dev,local"
+            - name: JAVA_OPTS
+              value: "-Xms256m -Xmx512m -XX:+UseG1GC -Dspring.config.location=classpath:/,classpath:/config/,file:./config/"
+          # Use host network for local debugging
+          args:
+            - "--spring.profiles.active=dev,local"
+            - "--logging.level.com.handmade.ecommerce=DEBUG"

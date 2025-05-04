@@ -2,7 +2,7 @@ package com.handmade.ecommerce.artisan.service.impl;
 
 import com.handmade.ecommerce.artisan.configuration.dao.ArtisanRepository;
 import com.handmade.ecommerce.artisan.model.Artisan;
-import com.handmade.ecommerce.artisan.service.ArtisanSkillService;
+import com.handmade.ecommerce.artisan.model.service.ArtisanSkillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

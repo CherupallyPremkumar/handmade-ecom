@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/artisan/artisan-api/artisan-api.iml" filepath="$PROJECT_DIR$/artisan/artisan-api/artisan-api.iml" />
       <module fileurl="file://$PROJECT_DIR$/product/product-api/product-api.iml" filepath="$PROJECT_DIR$/product/product-api/product-api.iml" />
     </modules>
   </component>

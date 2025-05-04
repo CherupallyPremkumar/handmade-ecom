@@ -6,6 +6,10 @@ resources:
   - service.yaml
   - configmap.yaml
   - secret.yaml
+  - redis-deployment.yaml
+  - redis-service.yaml
+  - rabbitmq-deployment.yaml
+  - rabbitmq-service.yaml
 
 commonLabels:
   app.kubernetes.io/name: handmade-service
